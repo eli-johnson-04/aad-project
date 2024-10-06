@@ -1,4 +1,5 @@
 # Algorithm and Analysis 1
+
 ## Problem S1 
 Given the heights *h~1~, ..., h~n~*, where *h~i~ $\ge$ h~j~* for all *i $\lt$ j*, and the base widths *w~1~, ..., w~n~* of *n* paintings, along with the width *W* of the display platform, find an arrangement of the paintings on platforms that minimizes the total height.\
 *(Note: The heights of the paintings form a monotonically non-increasing sequence, as in EXAMPLE 1.)*
@@ -26,3 +27,15 @@ Track *W* and *cost* (initialized to 0). Begin a new row with *w(r)* = 0. Keep a
 
 ## Analysis 1
 [insert analysis here]
+
+## Question 1
+Give an input example showing that Algorithm 1 does not always solve Problem G. 
+
+#### Problem G (Generic Problem)
+Given the heights *h~1~, ..., h~n~* and the base widths *w~1, ..., w~n~* of *n* paintings, along with the width *W* of the display platform, find an arrangement of the paintings on platforms that minimizes the total height. 
+
+## Question 2
+Give an input example showing that Algorithm 1 does not always solve Problem S2.
+
+#### Problem S2
+Given the heights *h~1~, ..., h~n~*, where there exists a *k* such that for all *i $\lt$ j $\le$ k*, *h~i~ $\ge$ h~j~*, and for all *k $\le$ i $\lt$ j*, *h~i~ $\le$ h~j~*, and the base widths *w~1~, ..., w~n~* of *n* paintings, along with the width *W* of the display platform, find an arrangement of the paintings on platforms that minimizes the total height.\
