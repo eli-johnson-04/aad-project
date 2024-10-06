@@ -15,7 +15,14 @@ Given the heights *h~1~, ..., h~n~*, where *h~i~ $\ge$ h~j~* for all *i $\lt$ j*
 *cost* = 21 + 16 + 5 = 42
 
 ## Algorithm 1
-[insert algorithm here]
+Track *W* and *cost* (initialized to 0). Begin a new row with *w(r)* = 0. Keep a counter for each row, tracking the number of paintings in that row, intialized to 0 for each new row. Repeat the following for each painting *i*: 
+- If *w(r)* + *w(i)* $\le$ *W*:
+    - Add painting *i* to row *r*. Increment the counter for row *r*.
+    - If *i* is the first painting in the row:
+        - Add *h(i)* to *cost*. 
+    - Delete painting *i*.
+- Otherwise:
+    - Store the number of paintings for the row, then reset the counter to 0. Begin a new row.
 
 ## Analysis 1
 [insert analysis here]

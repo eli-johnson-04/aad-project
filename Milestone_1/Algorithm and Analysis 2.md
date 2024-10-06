@@ -15,7 +15,22 @@ Given the heights *h~1~, ..., h~n~*, where there exists a *k* such that for all 
 *cost* = 12 + 7 + 11 = 30
 
 ## Algorithm 2
-[insert algorithm here]
+Track *W* and *cost* (initialized to 0) and begin iterating for a new row with *w(r)* = 0. Keep a counter for each row, tracking the number of paintings in that row., intialized to 0 for each new row. Repeat the following for each painting *i*:
+- Maintain the height of the previous painting, *prevH*, initialized to *h(0)* (painting 0). 
+    - If *w(r)* + *w(i) $\le$ W*:
+        - If *i* is the first painting in the row:
+            - Add *h(i)* to *cost*. 
+        - If *!minimumFound*:
+            - If *h(i) $\le$ prevH* OR *h(i) == h(i+1)*:
+                - Add painting *i* to row. Increment the counter for that row. Set *prevH = h(i)*.
+            - Otherwise if *h(i) $\lt$ h(i+1)*:
+                - Mark *minimumFound* as true. Store the counter, place *i* in a new row, then reset counter to 1. Set *prevH = h(i)*.
+        - Otherwise if minimumFound:
+            - If *h(i) $\gt$ prevH* OR *h(i) == h(i+1)*:
+                - Add painting *i* to row. Increment the counter for that row. Set *prevH = h(i)*.
+        - Delete painting *i*.
+    - Otherwise:
+        - Store the counter for the current row, then reset it to 0. Begin a new row. Set *prevH = h(i)*.
 
 ## Analysis 2
 [insert analysis here]
