@@ -19,7 +19,34 @@ def program1(n: int, W: int, heights: List[int], widths: List[int]) -> Tuple[int
     # Add you code here
     ############################
 
-    return 0, 0, [] # replace with your code
+    rows = [] # store list of integers, each index is number of items on row
+
+    i = 0 # track index
+    rowW = 0 # track current row width
+    currRow = 0 # track number of items in row
+    total_height = 0 # track total height
+
+    while i < n:
+        if rowW + widths[i] <= W: # if row width plus next item width <= max allowed width
+            currRow += 1 # add item to row counter
+            if currRow == 1: # if this is the first item in the row
+                total_height += heights[i] # add current height to total height
+
+            rowW += widths[i] # add current width to total row width
+
+            i += 1 # increment index
+        else: # if row width plus next item width > max allowed width
+            # row is full, move to next row
+            rows.append(currRow) # document current row length
+            currRow = 0 # reset current row length
+            rowW = 0 # reset current row width
+            continue # test current index again
+
+    else: # once all items are tested
+        rows.append(currRow) # add final row length to list
+
+
+    return len(rows), total_height, rows # replace with your code
 
 
 if __name__ == '__main__':
