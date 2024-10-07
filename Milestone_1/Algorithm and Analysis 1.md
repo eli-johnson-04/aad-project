@@ -41,19 +41,29 @@ Due to the nature of a sequence $P$ of $n$ paintings, whose heights are monotoni
 Given the heights $h_1, \cdots, h_n$ and the base widths $w_1, \cdots, w_n$ of $n$ paintings, along with the width $W$ of the display platform, find an arrangement of the paintings on platforms that minimizes the total height. 
 
 ### Solution:
-Consider the sequence $P$ of $n$ paintings, with heights $h_i = [1, 3, 4, 2, 4]$ and widths $w_i = [1, 1, 1, 1, 1]$, with $W = 2$. Algorithm 1 can only choose two paintings, and they must stay in order. So, for heights, algorithm one selects the following:
-- $Platform_1 = [1, 3];$
-- $Platform_2 = [4, 2];$
-- $Platform_3 = [4];$
-- $cost = 4 + 4 + 3 = 11$
+Consider the sequence $P$ of $n$ paintings, with heights $h_i = [2, 3, 1, 4, 3]$ and widths $w_i = [1, 1, 1, 1, 1]$, with $W = 2$. Algorithm 1 chooses as many paintings as can fit in a row while maintaining their original order. So, in this example, algorithm one selects the following:
+- $Platform_1 = [2, 3];$
+- $Platform_2 = [1, 4];$
+- $Platform_3 = [3];$
+- $cost = 3 + 4 + 3 = 10$
 
-Due to the order of the paintings three rows are necessary, but the total cost is not minimized. Any output with $W=2$ would yield 3 rows, but Algorithm 1 produces a total cost of 11. If the same paintings were used in the monotically non-increasing order of Problem S1, Algorithm 1's output would have been: 
-- $Platform_1 = [4, 4];$
+Due to the unsorted nature of the paintings' heights, the total height would be incorrectly documented as 6, since cost of each row is decided by the first painting's height ($2 + 1 + 3$). However, the true total height of the display would be 10, the maximum height of each row.
+
+The optimal solution for this setup actually has a height of 8. This arrangement keeps the paintings in order but reduces the total height of all paintings by 2.
+- $Platform_1 = [2, 3];$
+- $Platform_2 = [1];$
+- $Platform_3 = [4, 3];$
+- $cost = 3 + 1 + 4 = 8$
+
+Hence, Algorithm 1 does not always produce a minimum-cost solution for Problem G. 
+
+Consider the sequence $P'$, a permutation of $P$ with paintings in decreasing order of height: $h_i = [4, 3, 3, 2, 1]$ and $w_i = [1, 1, 1, 1, 1]$. Then the solution produced by Algorithm 1 is the following:
+- $Platform_1 = [4, 3];$
 - $Platform_2 = [3, 2];$
 - $Platform_3 = [1];$
 - $cost = 4 + 3 + 1 = 8$
 
-Hence, Algorithm 1 does not always produce a minimum-cost solution for Problem G. 
+Because this permutation adheres to the required ordering of Algorithm 1, it produces the arrangement of rows with minimum height.
 
 ## Question 2 
 ### Give an input example showing that Algorithm 1 does not always solve Problem S2.
