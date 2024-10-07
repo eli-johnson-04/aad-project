@@ -18,20 +18,20 @@ $cost = 12 + 7 + 11 = 30$
 ## Algorithm 2
 Track $W$ and $cost$ (initialized to $0$) and begin iterating for a new row with $w(r) = 0$. In the list of paintings, Repeat the following for each painting $p_i$:
 - Maintain the height of the previous painting, $prevH$, initialized to $h_0$ (painting $p_0$). 
-    - If $w(r) + w_i \leq W$:
-        - If $p_i$ is the first painting in the row:
+    - If $h_i < h_{i+1}$:
+        - Mark $minimumFound$ as true.
+    - If $w(r_i) + w_i \leq W$:
+        - If $p_i$ is the first painting in current row $r_i$:
             - Add $h_i$ to $cost$. 
         - If $!minimumFound$:
             - If $(h_i \leq prevH) \lor (h_i == h_{i+1})$:
-                - Add $p_i$ to row. Set $prevH = h_i$.
-            - Otherwise if $h_i < h_{i+1}$:
-                - Mark $minimumFound$ as true, and place $p_i$ in a new row. Set $prevH = h_i$.
+                - Add $p_i$ to $r_i$. Set $prevH = h_i$.
         - Otherwise if $minimumFound$:
-            - If $(h_i > prevH) \lor (h_i == h_{i+1})$:
-                - Add $p_i$ to row. Set $prevH = h_i$.
+            - If $(h_i \geq prevH) \lor (h_i == h_{i+1})$:
+                - Add $p_i$ to $r_i$. Set $prevH = h_i$.
         - Delete painting $p_i$ from the list.
     - Otherwise:
-        - Begin a new row. Set $prevH = h_i$.
+        - Begin a new row, and place $p_i$ first. Set $prevH = h_i$. Delete $p_i$ from the list.
 
 ## Correctness Analysis 2
 [insert analysis here]
