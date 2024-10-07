@@ -9,6 +9,7 @@ This repository contains coursework for *COP4533: Algorithms Abstraction and Des
 
 - [Elijah Johnson](https://github.com/eli-johnson-04)
 - [Patrick Kallenbach](https://github.com/PatrickKallenbach)
+- [Nicholas Lindner](https://github.com/NicholasLindner)
 
 ### Usage Restrictions:
 1. This code is not open-source and is not available for general use, modification, or distribution.
@@ -28,4 +29,4 @@ This repository is made visible for demonstration of coding skills and project e
 
 For more information on the UF Honor Code, please refer to the [University of Florida Student Honor Code and Student Conduct Code Regulation](https://sccr.dso.ufl.edu/policies/student-honor-code-student-conduct-code/).
 
-© 2024 Elijah Johnson, Patrick Kallenbach. All Rights Reserved.
+© 2024 Elijah Johnson, Patrick Kallenbach, Nicholas Lindner. All Rights Reserved.
