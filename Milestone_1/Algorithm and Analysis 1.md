@@ -53,10 +53,25 @@ Due to the order of the paintings three rows are necessary, but the total cost i
 - $Platform_3 = [1];$
 - $cost = 4 + 3 + 1 = 8$
 
-Hence, Algorithm 1 does not always solve Problem G. 
+Hence, Algorithm 1 does not always produce a minimum-cost solution for Problem G. 
 
 ## Question 2 
 ### Give an input example showing that Algorithm 1 does not always solve Problem S2.
 
-#### Problem S2
+### Problem S2
 Given the heights $h_1, \cdots, h_n$, where $\exists k$ such that $\forall i < j \leq k, h_i \geq h_j$, and $\forall k \leq i < j, h_i \leq h_j$, and the base widths $w_1, \cdots, w_n$ of $n$ paintings, along with the width $W$ of the display platform, find an arrangement of the paintings on platforms that minimizes the total height.
+
+### Solution: 
+Consider a Problem S2 instance where $h_i = [4, 2, 1, 2, 4]$, and $w_i = [1, 1, 1, 1, 1]$, with $W = 2$. Algorithm 1's output is as follows: 
+- $Platform_1 = [4, 2];$
+- $Platform_2 = [1, 2];$
+- $Platform_3 = [4];$
+- $cost = 4 + 2 + 4 = 10$
+
+If the same paintings were used in a Problem S1 instance, where $h_i = [4, 4, 2, 2, 1]$, and all $w_i$ values remain the same, Algorithm 1's output would have been: 
+- $Platform_1 = [4, 4];$
+- $Platform_2 = [2, 2];$
+- $Platform_3 = [1];$
+- $cost = 4 + 2 + 1 = 7$
+
+This demonstrates that Algorithm 1 does not always produce a minimum-cost solution for instances of Problem S2. 
