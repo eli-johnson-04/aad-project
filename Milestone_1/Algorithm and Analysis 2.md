@@ -16,22 +16,22 @@ $Platform_3 = [s_5 \cdots s_7];$\
 $cost = 12 + 7 + 11 = 30$
 
 ## Algorithm 2
-Track $W$ and $cost$ (initialized to $0$) and begin iterating for a new row with $w(r) = 0$. Keep a counter for each row, tracking the number of paintings in that row, intialized to $0$ for each new row. Repeat the following for each painting $i$:
-- Maintain the height of the previous painting, $prevH$, initialized to $h(0)$ (painting $0$). 
-    - If $w(r) + w(i) \leq W$:
-        - If $i$ is the first painting in the row:
-            - Add $h(i)$ to $cost$. 
+Track $W$ and $cost$ (initialized to $0$) and begin iterating for a new row with $w(r) = 0$. Keep a counter for each row, tracking the number of paintings in that row, intialized to $0$ for each new row. In the list of paintings, Repeat the following for each painting $p_i$:
+- Maintain the height of the previous painting, $prevH$, initialized to $h_0$ (painting $p_0$). 
+    - If $w(r) + w_i \leq W$:
+        - If $p_i$ is the first painting in the row:
+            - Add $h_i$ to $cost$. 
         - If $!minimumFound$:
-            - If $h(i) \leq prevH$ OR $h(i) == h(i+1)$:
-                - Add painting $i$ to row. Increment the counter for that row. Set $prevH = h(i)$.
-            - Otherwise if $h(i) < h(i+1)$:
-                - Mark $minimumFound$ as true. Store the counter, place $i$ in a new row, then reset counter to $1$. Set $prevH = h(i)$.
+            - If $(h_i \leq prevH) \lor (h_i == h_{i+1})$:
+                - Add $p_i$ to row. Increment the counter for that row. Set $prevH = h_i$.
+            - Otherwise if $h_i < h_{i+1}$:
+                - Mark $minimumFound$ as true. Store the counter, place $p_i$ in a new row, then reset counter to $1$. Set $prevH = h_i$.
         - Otherwise if $minimumFound$:
-            - If $h(i) > prevH$ OR $h(i) == h(i+1)$:
-                - Add painting $i$ to row. Increment the counter for that row. Set $prevH = h(i)$.
-        - Delete painting $i$.
+            - If $(h_i > prevH) \lor (h_i == h_{i+1})$:
+                - Add $p_i$ to row. Increment the counter for that row. Set $prevH = h_i$.
+        - Delete painting $p_i$ from the list.
     - Otherwise:
-        - Store the counter for the current row, then reset it to $0$. Begin a new row. Set $prevH = h(i)$.
+        - Store the counter for the current row, then reset it to $0$. Begin a new row. Set $prevH = h_i$.
 
 ## Analysis 2
 [insert analysis here]
