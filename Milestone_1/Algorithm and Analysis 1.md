@@ -26,7 +26,7 @@ Track $W$ and $cost$ (initialized to $0$). Begin a new row with weight $w(r) = 0
     - Begin a new row.
 
 ## Correctness Analysis 1
-Consider the sequence $P$ of $n$ paintings, whose heights $H = [h_1, h_2, \cdots, h_n]$ are monotonically non-increasing. We will prove that the above greedy algorithm is correct and satisfies the following conditions:
+Consider the sequence $P$ of $n$ paintings, whose heights $h_i = [h_1, h_2, \cdots, h_n]$ are monotonically non-increasing. We will prove that the above greedy algorithm is correct and satisfies the following conditions:
 - The combined weights of a row $w(r_j) \leq W$.
 - For $r$ rows, the total cost $\sum_{0}^{j=r} h_j$, where $h_j$ is the first and tallest painting in a row, is minimized.
 
@@ -37,8 +37,23 @@ Due to the nature of a sequence $P$ of $n$ paintings, whose heights are monotoni
 ## Question 1
 ### Give an input example showing that Algorithm 1 does not always solve Problem G. 
 
-#### Problem G (Generic Problem)
+### Problem G (Generic Problem)
 Given the heights $h_1, \cdots, h_n$ and the base widths $w_1, \cdots, w_n$ of $n$ paintings, along with the width $W$ of the display platform, find an arrangement of the paintings on platforms that minimizes the total height. 
+
+### Solution:
+Consider the sequence $P$ of $n$ paintings, with heights $h_i = [1, 3, 4, 2, 4]$ and widths $w_i = [1, 1, 1, 1, 1]$, with $W = 2$. Algorithm 1 can only choose two paintings, and they must stay in order. So, for heights, algorithm one selects the following:
+- $Platform_1 = [1, 3];$
+- $Platform_2 = [4, 2];$
+- $Platform_3 = [4];$
+- $cost = 4 + 4 + 3 = 11$
+
+Due to the order of the paintings three rows are necessary, but the total cost is not minimized. Any output with $W=2$ would yield 3 rows, but Algorithm 1 produces a total cost of 11. If the same paintings were used in the monotically non-increasing order of Problem S1, Algorithm 1's output would have been: 
+- $Platform_1 = [4, 4];$
+- $Platform_2 = [3, 2];$
+- $Platform_3 = [1];$
+- $cost = 4 + 3 + 1 = 8$
+
+Hence, Algorithm 1 does not always solve Problem G. 
 
 ## Question 2 
 ### Give an input example showing that Algorithm 1 does not always solve Problem S2.

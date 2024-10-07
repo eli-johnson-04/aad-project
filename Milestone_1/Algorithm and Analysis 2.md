@@ -1,8 +1,8 @@
 # Algorithm and Analysis 2
 
 ## Problem S2
-Given the heights $h_1, \cdots, h_n$, where $\exists k$ such that $\forall i < j \leq k, h_i \geq h_j$, and $\forall k \leq i < j, h_i \leq h_j$, and the base widths $w_1, \cdots, w_n$ of $n$ paintings, along with the width $W$ of the display platform, find an arrangement of the paintings on platforms that minimizes the total height.\
-(Note: The heights of the paintings follow a unimodal function with a single local minimum, as in EXAMPLE 3.) 
+### Given the heights $h_1, \cdots, h_n$, where $\exists k$ such that $\forall i < j \leq k, h_i \geq h_j$, and $\forall k \leq i < j, h_i \leq h_j$, and the base widths $w_1, \cdots, w_n$ of $n$ paintings, along with the width $W$ of the display platform, find an arrangement of the paintings on platforms that minimizes the total height.
+#### (Note: The heights of the paintings follow a unimodal function with a single local minimum, as in EXAMPLE 3.) 
 
 ### Example 3
 $n = 7, W = 10$\
