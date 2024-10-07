@@ -1,8 +1,8 @@
 # Algorithm and Analysis 1
 
 ## Problem S1 
-Given the heights $h_1, \cdots, h_n$, where $h_i \geq h_j, \forall i < j$, and the base widths $w_1, \cdots, w_n$ of $n$ paintings, along with the width $W$ of the display platform, find an arrangement of the paintings on platforms that minimizes the total height.\
-(Note: The heights of the paintings form a monotonically non-increasing sequence, as in EXAMPLE 1.)
+### Given the heights $h_1, \cdots, h_n$, where $h_i \geq h_j, \forall i < j$, and the base widths $w_1, \cdots, w_n$ of $n$ paintings, along with the width $W$ of the display platform, find an arrangement of the paintings on platforms that minimizes the total height.
+#### (Note: The heights of the paintings form a monotonically non-increasing sequence, as in EXAMPLE 1.)
 
 ### Example 1
 $n = 7, W = 10$\
@@ -35,13 +35,13 @@ Due to the nature of a sequence $P$ of $n$ paintings, whose heights are monotoni
 *Pf:* If paintings are selected in such a way that they maximize the number of paintings per row, then the height of the tallest painting in each row will be minimized. If there exists space in a row for a painting $p_i$, meaning $w(r) + w_i \leq W$, then placing it in the row will minimize the cost of the next row, since $h_{i-1} \geq h_i$. If $p_i$ must be placed in a new row, then it will be the shortest possible painting that can be placed there. Therefore, since the greedy algorithm chooses at least the tallest painting that fits in a row, it will maximize the number of paintings per row, minimize the total number of rows, and therefore minimize the total cost. The shortest possible painting will be chosen to be placed first in each row. 
 
 ## Question 1
-Give an input example showing that Algorithm 1 does not always solve Problem G. 
+### Give an input example showing that Algorithm 1 does not always solve Problem G. 
 
 #### Problem G (Generic Problem)
 Given the heights $h_1, \cdots, h_n$ and the base widths $w_1, \cdots, w_n$ of $n$ paintings, along with the width $W$ of the display platform, find an arrangement of the paintings on platforms that minimizes the total height. 
 
 ## Question 2 
-Give an input example showing that Algorithm 1 does not always solve Problem S2.
+### Give an input example showing that Algorithm 1 does not always solve Problem S2.
 
 #### Problem S2
 Given the heights $h_1, \cdots, h_n$, where $\exists k$ such that $\forall i < j \leq k, h_i \geq h_j$, and $\forall k \leq i < j, h_i \leq h_j$, and the base widths $w_1, \cdots, w_n$ of $n$ paintings, along with the width $W$ of the display platform, find an arrangement of the paintings on platforms that minimizes the total height.
