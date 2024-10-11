@@ -65,7 +65,7 @@ if __name__ == '__main__':
     # Change SIZE_MULTIPLES for the number of multiples of 1000 to be used in sizes.
     SIZE_MULTIPLES = 5
     # Change TEST_AVERAGING to get the average time of n tests
-    TEST_AVERAGING = 5
+    NUM_TEST_AVERAGES = 5
 
     # Generate the list of sizes, set the default width. 
     sizes = [number * 1000 for number in range(1, SIZE_MULTIPLES + 1, 1)]
@@ -92,11 +92,17 @@ if __name__ == '__main__':
             widths = [random.randint(1, 10) for _ in range(n)]
 
             # Time the run.
-            start_time = time.perf_counter()
-            output = program1(n, W, set_, widths)
-            end_time = time.perf_counter()
+            times = []
+            for i in range(NUM_TEST_AVERAGES):
+                start_time = time.perf_counter()
+                output = program2(n, W, set_, widths)
+                end_time = time.perf_counter()
+                times.append(end_time - start_time)
 
-            elapsed_time = end_time - start_time
+            # Get the average running time. 
+            avg = 0
+            avg += (time for _ in times)
+            avg /= NUM_TEST_AVERAGES
 
             # Print the output of the program1 run. 
             #print(output[0])
@@ -105,6 +111,6 @@ if __name__ == '__main__':
             #    print(i)
 
             # Write the size and elapsed time to the csv. 
-            writer.writerow([n, elapsed_time])
+            writer.writerow([n, avg])
         
         print("Program 1 test complete. Check for output1.csv in program1.py directory.")
