@@ -36,7 +36,7 @@ def program2(n: int, W: int, heights: List[int], widths: List[int]) -> Tuple[int
             if not minimum_found:                    
                 
                 # Proceed if the current painting's height is <= the previous, or if it is equal to the height of the next
-                if (heights[i] <= prev_height) or (heights[i] == heights[i + 1]):
+                if (heights[i] <= prev_height) or (i < n - 1 and heights[i] == heights[i + 1]):
 
                     # Add 1 to the row counter, increase by the width of the current painting, 
                     # and set the previous height to the current painting's height. 
