@@ -131,9 +131,7 @@ if __name__ == '__main__':
                 times.append(end_time - start_time)
 
             # Get the average running time. 
-            avg = 0
-            avg += (time for _ in times)
-            avg /= NUM_TEST_AVERAGES
+            avg = sum(times) / NUM_TEST_AVERAGES
 
             # Print the output of the program2 run. 
             #print(output[0])
