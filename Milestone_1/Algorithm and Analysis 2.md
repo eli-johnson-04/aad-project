@@ -20,7 +20,7 @@ $cost = 12 + 7 + 11 = 30$
 - Let $cost$ represent the total height of the platforms, initialized to $cost = 0$.
 - Let $w(r_j)$ represent the width of the current row, initialized to $w(r) = 0$. 
 - Maintain the height of the previous painting, $prevH$, initialized to $h_0$ (painting $p_0$). 
-- Keep track of the paintings in the current row. 
+- Keep track of the paintings in the current row, and of the total number of rows. 
 
 In the list of paintings, Repeat the following for each painting $p_i$:
 - If $w(r_j) + w_i \leq W$:
@@ -33,14 +33,14 @@ In the list of paintings, Repeat the following for each painting $p_i$:
         - If $(h_i \geq prevH) \lor (h_i == h_{i+1})$, and $p_i$ is not the last painting:
             - Add $p_i$ to $r_j$ and update $w(r_j)$. Set $prevH = h_i$.
     - Proceed to the next painting. 
-- Otherwise:
+- Otherwise if $r_j$ is full or there are no paintings left:
     - If $minimumFound$:
-        - Add the last painting in the row to $cost$. 
+        - Add the *last* painting in $r_j$ to $cost$. 
     - Otherwise:
-        - Add the first painting in the row to $cost$.
-    - Add the number of elements in the current row to the list of rows to be returned, and clear the current row. 
+        - Add the *first* painting in $r_j$ to $cost$.
+    - Record $r_j$'s length and continue.
 
-Return the number of rows, the total $cost$, and the list of rows containing each platform's lengths. 
+Return the number of rows, the total $cost$, and the list containing each platform's lengths. 
 
 ## Correctness Analysis 2
 [insert analysis here]
