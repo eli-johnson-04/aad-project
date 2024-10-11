@@ -100,10 +100,10 @@ if __name__ == '__main__':
 
     # Generate a list from the specified size down to 1.
     for size in sizes:
-        mid_point = size // 2
+        minimum = random.randint(1, size)
 
         # Create a parabolic set of heights, as in Problem S2.
-        set = [i for i in range(mid_point, 0, -1)] + [i for i in range(2, mid_point + 1)]
+        set = [random.randint(1, 1000) for i in range(minimum, 0, -1)] + [random.randint(1, 1000) for i in range(2, size - minimum + 1)]
         
         # Add one element to the end to fix the midpoint chop. 
         set.append(set[-1] + 1)
