@@ -36,7 +36,7 @@ def program2(n: int, W: int, heights: List[int], widths: List[int]) -> Tuple[int
             if not minimum_found:                    
                 
                 # Proceed if the current painting's height is <= the previous, or if it is equal to the height of the next
-                if (heights[i] <= prev_height) or (heights[i] == heights[i + 1]):
+                if (heights[i] <= prev_height) or (i < n - 1 and heights[i] == heights[i + 1]):
 
                     # Add 1 to the row counter, increase by the width of the current painting, 
                     # and set the previous height to the current painting's height. 
@@ -90,6 +90,8 @@ def program2(n: int, W: int, heights: List[int], widths: List[int]) -> Tuple[int
 if __name__ == '__main__':
     # Change SIZE_MULTIPLES for the number of multiples of 1000 to be used in sizes.
     SIZE_MULTIPLES = 5
+    # Change TEST_AVERAGING to get the average time of n tests
+    NUM_TEST_AVERAGES = 5
 
     # Generate the list of sizes, set the default width. 
     sizes = [number * 1000 for number in range(1, SIZE_MULTIPLES + 1, 1)]
@@ -100,13 +102,10 @@ if __name__ == '__main__':
 
     # Generate a list from the specified size down to 1.
     for size in sizes:
-        mid_point = size // 2
+        minimum = random.randint(1, size - 1)
 
         # Create a parabolic set of heights, as in Problem S2.
-        set = [i for i in range(mid_point, 0, -1)] + [i for i in range(2, mid_point + 1)]
-        
-        # Add one element to the end to fix the midpoint chop. 
-        set.append(set[-1] + 1)
+        set = sorted([random.randint(1, 1000) for i in range(minimum)], reverse=True) + sorted([random.randint(1, 1000) for i in range(size - minimum)])
 
         sets.append(set)
     
@@ -124,11 +123,17 @@ if __name__ == '__main__':
             widths = [random.randint(1, 10) for _ in range(n)]
 
             # Time the run.
-            start_time = time.perf_counter()
-            output = program2(n, W, set_, widths)
-            end_time = time.perf_counter()
+            times = []
+            for i in range(NUM_TEST_AVERAGES):
+                start_time = time.perf_counter()
+                output = program2(n, W, set_, widths)
+                end_time = time.perf_counter()
+                times.append(end_time - start_time)
 
-            elapsed_time = end_time - start_time
+            # Get the average running time. 
+            avg = 0
+            avg += (time for _ in times)
+            avg /= NUM_TEST_AVERAGES
 
             # Print the output of the program2 run. 
             #print(output[0])
@@ -137,6 +142,6 @@ if __name__ == '__main__':
             #    print(i)
 
             # Write the size and elapsed time to the csv. 
-            writer.writerow([n, elapsed_time])
+            writer.writerow([n, avg])
         
         print("Program 2 test complete. Check for output2.csv in program2.py directory.")

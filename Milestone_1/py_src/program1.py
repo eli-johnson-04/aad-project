@@ -64,6 +64,8 @@ def program1(n: int, W: int, heights: List[int], widths: List[int]) -> Tuple[int
 if __name__ == '__main__':
     # Change SIZE_MULTIPLES for the number of multiples of 1000 to be used in sizes.
     SIZE_MULTIPLES = 5
+    # Change TEST_AVERAGING to get the average time of n tests
+    TEST_AVERAGING = 5
 
     # Generate the list of sizes, set the default width. 
     sizes = [number * 1000 for number in range(1, SIZE_MULTIPLES + 1, 1)]
@@ -74,7 +76,7 @@ if __name__ == '__main__':
 
     # Generate a list from the specified size down to 1
     for size in sizes:
-        sets.append([x for x in range(size, 0, -1)])
+        sets.append(sorted([random.randint(1, 1000) for x in range(size, 0, -1)], reverse=True))
     
     # Open the output file.
     with open("output1.csv", mode = 'w', encoding = 'utf-8', newline = '') as out:
