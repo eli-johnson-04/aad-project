@@ -42,5 +42,8 @@ In the list of paintings, Repeat the following for each painting $p_i$:
 
 Return the number of rows, the total $cost$, and the list containing each platform's lengths. 
 
+## Time Complexity Analysis 2
+Algorithm 2 has a time coplexity of O(n). This is because algorithm 2 completes only one pass through the list of paintings, meaning that if the list contains n items, the algorithm will execute n operations. So as the input size increases, the time required to process the list grows proportionally. This is linear growth.
+
 ## Correctness Analysis 2
 [insert analysis here]
