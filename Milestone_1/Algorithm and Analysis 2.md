@@ -23,7 +23,7 @@ $cost = 12 + 7 + 11 = 30$
 - Keep track of the paintings in the current row, and of the total number of rows. 
 
 In the list of paintings, Repeat the following for each painting $p_i$:
-- If $w(r_j) + w_i \leq W$:
+- If $w(r_j) + w(p_i) \leq W$:
     - If $!minimumFound$:
         - If $(h_i \leq prevH) \lor (h_i == h_{i+1})$:
             - Add $p_i$ to $r_j$ and update $w(r_j)$. Set $prevH = h_i$.

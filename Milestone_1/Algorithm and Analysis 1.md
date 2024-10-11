@@ -23,7 +23,7 @@ $cost = 21 + 16 + 5 = 42$
 - Keep track of the paintings in the current row, and of the total number of rows. 
 
 In the list of paintings, repeat the following for each painting $i$: 
-- If $w(r_j) + w(i) \leq W$:
+- If $w(r_j) + w(p_i) \leq W$:
     - Add painting $p_i$ to row $r_j$, and update $w(r_j)$.
     - Proceed to the next painting. 
 - Otherwise if the row is full or there are no paintings left:
