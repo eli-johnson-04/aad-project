@@ -41,6 +41,9 @@ Due to the nature of a sequence $P$ of $n$ paintings, whose heights are monotoni
 
 *Pf:* If paintings are selected in such a way that they maximize the number of paintings per row, then the height of the tallest painting in each row will be minimized. If there exists space in a row for a painting $p_i$ in a row $r_j$, meaning $w(r_j) + w_i \leq W$, then placing it in the row will minimize the cost of the next row, since $h_{i-1} \geq h_i$. If $p_i$ must be placed in a new row, then it will be the shortest possible painting that can be placed there. Therefore, since the greedy algorithm chooses at least the tallest painting that fits in a row, it will maximize the number of paintings per row, minimize the total number of rows, and therefore minimize the total cost. The shortest possible painting will be chosen to be placed first in each row. 
 
+## Time Complexity Analysis 1
+Algorithm 1 has a time coplexity of O(n). This is because algorithm 1 requires and executes only 1 iteration through the list of paintings provided in the input. This means that the time it takes for the algorithm execute scales linearly with the number of paintings inputted.
+
 ## Question 1
 ### Give an input example showing that Algorithm 1 does not always solve Problem G. 
 
