@@ -90,6 +90,8 @@ def program2(n: int, W: int, heights: List[int], widths: List[int]) -> Tuple[int
 if __name__ == '__main__':
     # Change SIZE_MULTIPLES for the number of multiples of 1000 to be used in sizes.
     SIZE_MULTIPLES = 5
+    # Change TEST_AVERAGING to get the average time of n tests
+    TEST_AVERAGING = 5
 
     # Generate the list of sizes, set the default width. 
     sizes = [number * 1000 for number in range(1, SIZE_MULTIPLES + 1, 1)]
@@ -125,10 +127,13 @@ if __name__ == '__main__':
 
             # Time the run.
             start_time = time.perf_counter()
-            output = program2(n, W, set_, widths)
+
+            for i in range(TEST_AVERAGING):
+                output = program2(n, W, set_, widths)
+
             end_time = time.perf_counter()
 
-            elapsed_time = end_time - start_time
+            elapsed_time = (end_time - start_time) / TEST_AVERAGING
 
             # Print the output of the program2 run. 
             #print(output[0])
