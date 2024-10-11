@@ -98,9 +98,17 @@ if __name__ == '__main__':
 
     print("Number of paintings to be used for Program 2 run: " + str(sizes))
 
-    # Generate a list from the specified size down to 1
+    # Generate a list from the specified size down to 1.
     for size in sizes:
-        sets.append([x for x in range(size, 0, -1)])
+        mid_point = size // 2
+
+        # Create a parabolic set of heights, as in Problem S2.
+        set = [i for i in range(mid_point, 0, -1)] + [i for i in range(2, mid_point + 1)]
+        
+        # Add one element to the end to fix the midpoint chop. 
+        set.append(set[-1] + 1)
+
+        sets.append(set)
     
     # Open the output file.
     with open("output2.csv", mode = 'w', encoding = 'utf-8', newline = '') as out:
