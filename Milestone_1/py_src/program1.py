@@ -95,14 +95,12 @@ if __name__ == '__main__':
             times = []
             for i in range(NUM_TEST_AVERAGES):
                 start_time = time.perf_counter()
-                output = program2(n, W, set_, widths)
+                output = program1(n, W, set_, widths)
                 end_time = time.perf_counter()
                 times.append(end_time - start_time)
 
             # Get the average running time. 
-            avg = 0
-            avg += (time for _ in times)
-            avg /= NUM_TEST_AVERAGES
+            avg = sum(times) / NUM_TEST_AVERAGES
 
             # Print the output of the program1 run. 
             #print(output[0])
