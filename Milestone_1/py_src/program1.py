@@ -21,30 +21,41 @@ def program1(n: int, W: int, heights: List[int], widths: List[int]) -> Tuple[int
 
     rows = [] # store list of integers, each index is number of items on row
 
-    i = 0 # track index
-    rowW = 0 # track current row width
-    currRow = 0 # track number of items in row
-    total_height = 0 # track total height
+    i = 0            # Painting index
+    rowW = 0         # Current row width
+    currRow = []     # Current row contents
+    total_height = 0 # Total height
 
+    # Iterate through every painting. 
     while i < n:
-        if rowW + widths[i] <= W: # if row width plus next item width <= max allowed width
-            currRow += 1 # add item to row counter
-            if currRow == 1: # if this is the first item in the row
-                total_height += heights[i] # add current height to total height
 
-            rowW += widths[i] # add current width to total row width
+        # Check if the row has space for the painting.
+        if rowW + widths[i] <= W: 
 
-            i += 1 # increment index
-        else: # if row width plus next item width > max allowed width
-            # row is full, move to next row
-            rows.append(currRow) # document current row length
-            currRow = 0 # reset current row length
-            rowW = 0 # reset current row width
-            continue # test current index again
+            # Add the height of painting i to the current row. 
+            currRow.append(heights[i])
 
-    else: # once all items are tested
-        rows.append(currRow) # add final row length to list
+            # Add painting i's width to current row width. 
+            rowW += widths[i]
 
+            # Proceed to next painting
+            i += 1
+
+        # If the painting does not fit, the row is full. Move to the next row. 
+        else: 
+
+            # The first painting in every row is the tallest. 
+            total_height += currRow[0]
+
+            # Document the current row length, clear it and reset its width, and continue. 
+            rows.append(len(currRow))
+            currRow.clear()
+            rowW = 0
+            continue
+
+    # Once all paintings have been checked, add the last row and its height. 
+    total_height += currRow[0]
+    rows.append(len(currRow))
 
     return len(rows), total_height, rows # replace with your code
 

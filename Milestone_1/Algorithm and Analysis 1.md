@@ -16,14 +16,21 @@ $Platform_3 = [s_6 \cdots s_7];$\
 $cost = 21 + 16 + 5 = 42$
 
 ## Algorithm 1: Greedy Solution
-Track $W$ and $cost$ (initialized to $0$). Begin a new row with weight $w(r) = 0$. In the list of paintings, repeat the following for each painting $i$: 
-- If $w(r) + w(i) \leq W$:
-    - Add painting $p_i$ to row $r$.
-    - If $p_i$ is the first painting in the row:
-        - Add $h_i$ to $cost$. 
-    - Delete painting $p_i$ from the list.
-- Otherwise:
-    - Begin a new row.
+- Let $W$ represent max row width. 
+- Let $cost$ represent the total height of the platforms, initialized to $cost = 0$.
+- Let $w(r_j)$ represent the width of the current row, initialized to $w(r) = 0$. 
+- Maintain the height of the previous painting, $prevH$, initialized to $h_0$ (painting $p_0$). 
+- Keep track of the paintings in the current row, and of the total number of rows. 
+
+In the list of paintings, repeat the following for each painting $i$: 
+- If $w(r_j) + w(i) \leq W$:
+    - Add painting $p_i$ to row $r_j$, and update $w(r_j)$.
+    - Proceed to the next painting. 
+- Otherwise if the row is full or there are no paintings left:
+    - Add the height of the first painting in $r_j$ to $cost$, as it is the tallest. 
+    - Record $r_j$'s length and continue. 
+
+Return the number of rows, the total $cost$, and the list containing each platform's lengths. 
 
 ## Correctness Analysis 1
 Consider the sequence $P$ of $n$ paintings, whose heights $h_i = [h_1, h_2, \cdots, h_n]$ are monotonically non-increasing. We will prove that the above greedy algorithm is correct and satisfies the following conditions:
