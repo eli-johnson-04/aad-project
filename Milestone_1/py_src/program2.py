@@ -20,66 +20,59 @@ def program2(n: int, W: int, heights: List[int], widths: List[int]) -> Tuple[int
     ############################
     rows = []                 # num of items on each row
     i = 0                     # index
-    cur_row_width = 0         # current row's width
     curr_row = []             # heights in the current row
     total_height = 0          # total height (cost)
-    prev_height = heights[0]  # previous painting's height, initialized to height of first painting
     minimum_found = False
+    min_index = 0             # the index of the minimum element
 
-    # Iterate through every painting. 
+    top_rows = []             # items in top rows (used during process)
+    bottom_rows = []          # items in bottom rows (used during process)
+    top_row_width = 0         # current width of top row process
+    bottom_row_width = 0      # total width of bottom row process
+
     while i < n:
-        
-        # Check if the row has space for the painting. 
-        if cur_row_width + widths[i] <= W:
+        if not minimum_found: # run until minimum has been found
+            if top_row_width + widths[i] <= W: # if current item fits within row
+                curr_row.append(heights[i]) # add to row
+                top_row_width += widths[i] # add painting width to total
 
-            # Proceed if the local minimum has not been found. 
-            if not minimum_found:                    
+            else: # if painting does not fit in row
+                top_rows.append(curr_row[:]) # add copy of current row to top rows list
+                curr_row.clear() # clear current row
+                top_row_width = 0 # set top_row_width to 0 to test with new row values
+                i -= 1 # test current painting again
                 
-                # Proceed if the current painting's height is <= the previous, or if it is equal to the height of the next
-                if (heights[i] <= prev_height) or (i < n - 1 and heights[i] == heights[i + 1]):
+            if heights[i + 1] > heights[i]: # if next painting is wider than current painting
+                top_rows.append(curr_row[:]) # add current row to list
+                curr_row.clear() # clear current row
+                min_index = i # document current index
+                minimum_found = True # mark minimum found
 
-                    # Add 1 to the row counter, increase by the width of the current painting, 
-                    # and set the previous height to the current painting's height. 
-                    curr_row.append(heights[i])
-                    cur_row_width += widths[i]
-                    prev_height = heights[i]
+            i += 1 # test next element
 
-                # Instead, if there is a next painting and the next painting is taller, mark minimum_found as true
-                # and handle the painting. 
-                elif (i < n - 1 and heights[i] <  heights [i + 1]):
-                    minimum_found = True
+        else: # once minimum is found, approach from right side going left
+            # -(i - min_index) counts -1, -2, -3, ... until it reaches -min_index
+            if bottom_row_width + widths[-(i - min_index)] <= W: # if current painting fits on row
+                curr_row.insert(0, heights[-(i - min_index)]) # add current painting to beginning of row
+                bottom_row_width += widths[-(i - min_index)] # update bottom row width
+            else: # if painting does not fit on row...
+                bottom_rows.insert(0, curr_row[:]) # add on top of bottom rows
+                curr_row.clear() # clear current row
+                bottom_row_width = 0 # clear bottom orw width
+                i -= 1 # test current painting again
 
-                    # Add 1 to the row counter, increase by the width of the current painting, 
-                    # and set the previous height to the current painting's height. 
-                    curr_row.append(heights[i])
-                    cur_row_width += widths[i]
-                    prev_height = heights[i]
-            
-            # Behavior changes if minimum is found, current height must be greater than previous or equal 
-            # to next if next exists.
-            else:
-                if heights[i] >= prev_height or (i < n - 1 and heights[i] == heights[i + 1]):
-                    curr_row.append(heights[i])
-                    cur_row_width += widths[i]
-                    prev_height = heights[i]
+            i += 1 # test next element
+    else:
+        bottom_rows.insert(0, curr_row[:]) # if last item has been tested, add current row to bottom rows
 
-            # Next painting.
-            i += 1
+    # if top_rows and bottom_rows both have elements, neither width is 0 (last row is full), and both rows can legally combine...
+    if top_rows and bottom_rows and not (top_row_width == 0) and not (bottom_row_width == 0) and top_row_width + bottom_row_width <= W:
+        # count rows of top_rows and bottom_rows, combining last row of top_rows with first row in bottom_rows
+        rows = [len(curr_row) for curr_row in top_rows[:-1]] + [len(top_rows) + len(bottom_rows[0])] + [len(curr_row) for curr_row in bottom_rows[1:]]
+    else:
+        # count rows of top_rows and bottom_rows and combine to rows
+        rows = [len(curr_row) for curr_row in top_rows] + [len(curr_row) for curr_row in bottom_rows]
 
-        # If the current painting will not fit, handle the row. 
-        else:
-            # if minimum is not found, the element at the beginning is the tallest, otherwise it is at the end. 
-            total_height += curr_row[0] if not minimum_found else curr_row[-1]
-
-            # Append the length of the current row to rows, clear the current row, and reset its width.
-            rows.append(len(curr_row))
-            curr_row.clear()
-            cur_row_width = 0
-
-    # Upon completion, add the remaining row if its length > 0, and handle the height of the row.
-    if len(curr_row) > 0:
-        total_height += curr_row[0] if not minimum_found else curr_row[-1]
-        rows.append(len(curr_row))
 
     ############################
 
@@ -89,12 +82,12 @@ def program2(n: int, W: int, heights: List[int], widths: List[int]) -> Tuple[int
 
 if __name__ == '__main__':
     # Change SIZE_MULTIPLES for the number of multiples of 1000 to be used in sizes.
-    SIZE_MULTIPLES = 5
+    SIZE_MULTIPLES = 1
     # Change TEST_AVERAGING to get the average time of n tests
-    NUM_TEST_AVERAGES = 5
+    NUM_TEST_AVERAGES = 1
 
     # Generate the list of sizes, set the default width. 
-    sizes = [number * 1000 for number in range(1, SIZE_MULTIPLES + 1, 1)]
+    sizes = [number * 10 for number in range(1, SIZE_MULTIPLES + 1, 1)]
     W = 10
     sets = []
 
@@ -120,7 +113,7 @@ if __name__ == '__main__':
 
             # Get the length, and generate a corresponding list of random integers, 1-10. 
             n = len(set_)
-            widths = [random.randint(1, 10) for _ in range(n)]
+            widths = [random.randint(1, 5) for _ in range(n)]
 
             # Time the run.
             times = []
