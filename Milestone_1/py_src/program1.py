@@ -1,4 +1,5 @@
 from typing import List, Tuple
+import csv, random, time
 
 def program1(n: int, W: int, heights: List[int], widths: List[int]) -> Tuple[int, int, List[int]]:
     """
@@ -61,14 +62,47 @@ def program1(n: int, W: int, heights: List[int], widths: List[int]) -> Tuple[int
 
 
 if __name__ == '__main__':
-    n, W = map(int, input().split())
-    heights = list(map(int, input().split()))
-    widths = list(map(int, input().split()))
+    # Change SIZE_MULTIPLES for the number of multiples of 1000 to be used in sizes.
+    SIZE_MULTIPLES = 5
 
-    m, total_height, num_paintings = program1(n, W, heights, widths)
+    # Generate the list of sizes, set the default width. 
+    sizes = [number * 1000 for number in range(1, SIZE_MULTIPLES + 1, 1)]
+    W = 10
+    sets = []
 
-    print(m)
-    print(total_height)
-    for i in num_paintings:
-        print(i)
+    print("Number of paintings to be used for Program 1 run: " + str(sizes))
+
+    # Generate a list from the specified size down to 1
+    for size in sizes:
+        sets.append([x for x in range(size, 0, -1)])
     
+    # Open the output file.
+    with open("output1.csv", mode = 'w', encoding = 'utf-8', newline = '') as out:
+        
+        # Create the writer object.
+        writer = csv.writer(out, delimiter = ',')
+
+        # Run a test for every set. Write this data to the csv. 
+        for set_ in sets:
+
+            # Get the length, and generate a corresponding list of random integers, 1-10. 
+            n = len(set_)
+            widths = [random.randint(1, 10) for _ in range(n)]
+
+            # Time the run.
+            start_time = time.perf_counter()
+            output = program1(n, W, set_, widths)
+            end_time = time.perf_counter()
+
+            elapsed_time = end_time - start_time
+
+            # Print the output of the program1 run. 
+            #print(output[0])
+            #print(output[1])
+            #for i in output[2]:
+            #    print(i)
+
+            # Write the size and elapsed time to the csv. 
+            writer.writerow([n, elapsed_time])
+        
+        print("Program 1 test complete. Check for output1.csv in program1.py directory.")
