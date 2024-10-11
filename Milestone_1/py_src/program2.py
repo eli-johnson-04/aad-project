@@ -22,7 +22,7 @@ def program2(n: int, W: int, heights: List[int], widths: List[int]) -> Tuple[int
     cur_row_width = 0         # current row's width
     curr_row = []             # heights in the current row
     total_height = 0          # total height (cost)
-    prev_height = heights[0]  # previous painting's height
+    prev_height = heights[0]  # previous painting's height, initialized to height of first painting
     minimum_found = False
 
     # Iterate through every painting. 
@@ -56,7 +56,8 @@ def program2(n: int, W: int, heights: List[int], widths: List[int]) -> Tuple[int
             
             # Behavior changes if minimum is found, current height must be greater than previous or equal 
             # to next if next exists.
-            elif heights[i] >= prev_height or (i < n - 1 and heights[i] == heights[i + 1]):
+            else:
+                if heights[i] >= prev_height or (i < n - 1 and heights[i] == heights[i + 1]):
                     curr_row.append(heights[i])
                     cur_row_width += widths[i]
                     prev_height = heights[i]
@@ -80,7 +81,7 @@ def program2(n: int, W: int, heights: List[int], widths: List[int]) -> Tuple[int
         rows.append(len(curr_row))
 
     ############################
-    
+
     return len(rows), total_height, rows
 
 

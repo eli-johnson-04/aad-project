@@ -16,22 +16,31 @@ $Platform_3 = [s_5 \cdots s_7];$\
 $cost = 12 + 7 + 11 = 30$
 
 ## Algorithm 2
-Track $W$ and $cost$ (initialized to $0$) and begin iterating for a new row with $w(r) = 0$. In the list of paintings, Repeat the following for each painting $p_i$:
+- Let $W$ represent max row width. 
+- Let $cost$ represent the total height of the platforms, initialized to $cost = 0$.
+- Let $w(r_j)$ represent the width of the current row, initialized to $w(r) = 0$. 
 - Maintain the height of the previous painting, $prevH$, initialized to $h_0$ (painting $p_0$). 
-    - If $h_i < h_{i+1}$:
-        - Mark $minimumFound$ as true.
-    - If $w(r_i) + w_i \leq W$:
-        - If $p_i$ is the first painting in current row $r_i$:
-            - Add $h_i$ to $cost$. 
-        - If $!minimumFound$:
-            - If $(h_i \leq prevH) \lor (h_i == h_{i+1})$:
-                - Add $p_i$ to $r_i$. Set $prevH = h_i$.
-        - Otherwise if $minimumFound$:
-            - If $(h_i \geq prevH) \lor (h_i == h_{i+1})$:
-                - Add $p_i$ to $r_i$. Set $prevH = h_i$.
-        - Delete painting $p_i$ from the list.
+- Keep track of the paintings in the current row. 
+
+In the list of paintings, Repeat the following for each painting $p_i$:
+- If $w(r_j) + w_i \leq W$:
+    - If $!minimumFound$:
+        - If $(h_i \leq prevH) \lor (h_i == h_{i+1})$:
+            - Add $p_i$ to $r_j$ and update $w(r_j)$. Set $prevH = h_i$.
+        - Otherwise if $p_i$ is not the last painting, and $h_i < h_{i+1}$:
+            - Set $minimumFound = T$. Add $p_i$ to $r_j$ and update $w(r_j)$. Set $prevH = h_i$.
+    - Otherwise if $minimumFound$:
+        - If $(h_i \geq prevH) \lor (h_i == h_{i+1})$, and $p_i$ is not the last painting:
+            - Add $p_i$ to $r_j$ and update $w(r_j)$. Set $prevH = h_i$.
+    - Proceed to the next painting. 
+- Otherwise:
+    - If $minimumFound$:
+        - Add the last painting in the row to $cost$. 
     - Otherwise:
-        - Begin a new row, and place $p_i$ first. Set $prevH = h_i$. Delete $p_i$ from the list.
+        - Add the first painting in the row to $cost$.
+    - Add the number of elements in the current row to the list of rows to be returned, and clear the current row. 
+
+Return the number of rows, the total $cost$, and the list of rows containing each platform's lengths. 
 
 ## Correctness Analysis 2
 [insert analysis here]
