@@ -1,3 +1,4 @@
+### Elijah Johnson, Patrick Kallenbach, Nicholas Lindner
 # Algorithm and Analysis 2
 
 ## Problem S2
@@ -42,23 +43,23 @@ In the list of paintings, Repeat the following for each painting $p_i$:
 
 Return the number of rows, the total $cost$, and the list containing each platform's lengths. 
 
-## Time Complexity Analysis 2
-Algorithm 2 has a time coplexity of O(n). This is because algorithm 2 completes only one pass through the list of paintings, meaning that if the list contains n items, the algorithm will execute n operations. So as the input size increases, the time required to process the list grows proportionally. This means that the growth is linear.
+## Analysis 2
+### Time Complexity
+Algorithm 2 has a time complexity of $O(n)$. Algorithm 2 proceeds through the list of paintings only one time, performing a few $O(1)$ checks and operations on each painting. However, each painting must be checked and will be checked only once, terminating when the last painting in the list is reached, so the total running time is $O(n)$.
 
-## Correctness Analysis 2
-Consider a sequence P of n paintings with heights h = h[h1, h2, h3, ...., hn] and widths w = [w1, w2, w3, ...., wn], where there exists a point j such that for all i < j  <= k, hi >= hj and for all k <= i < j, hi <= hj. The heights of the paintings follow a unimodal function with a single local minimum. The goal is to find an arrangement of the paintings on platforms that minimizes the
-total height.
+### Correctness
+Consider the sequence $P$ of $n$ paintings with heights $h_i = [h_1, h_2, \cdots, h_n]$ and widths $w_i = [w_1, w_2, \cdots, w_n]$, where $\exists k$ such that $\forall i < j \leq k, h_i \geq h_j$, and $\forall k \leq i < j, h_i \leq h_j$. The heights of the paintings follow a unimodal function with a single local minimum, where the goal is to find an arrangement of the paintings on platforms that minimizes the total height. The total height is equal to the sum of the heights of the tallest painting in every platform. 
 
 We will prove that the above greedy algorithm is correct and satisfies the following conditions:
 1. The combined widths of a row $w(r_j) \leq W$.
 2. For $r$ rows, the total cost $\sum_{0}^{j=r} h_j$, where $h_j$ is the first and tallest painting in a row, is minimized.
 
-In this particular problem, the heights of the paintings are not strictly decreasing. This means that the sequence P is has a unimodal nature, where the paintings' heights decrease to a local minimum, and then increases and repeats this pattern. Because of this, the first painting in a row may not always have the largest height, so strategically placing paintings on rows to capitalize on this pattern is important. 
+In this problem, the heights of the paintings are not strictly decreasing. This means that the sequence $P$ has a unimodal nature, where the paintings' heights decrease to a single local minimum, then increase again. As such, the first painting in a row may not always have the largest height, so it is important that paintings are placed strategically upon their rows to capitalize on the pattern.  
 
-The maximum width constraint is guarenteed to be respected in the above algorithm because for each iteration, there is a check to make sure that the current painting's width plus the current painting's height is less than or equal to the maximum allowed width (W). If it is, then the painting can be added to the row. Otherwise, a new row must be started, and the current painting is added to it. Doing so ensures that w(rj) <= W.
+The maximum width constraint is guaranteed to be respected in the above algorithm because for each iteration, there is a check to make sure that for the $i$'th painting, $w_i$ plus the current width of the current row $w(r_j)$ is less than or equal to the maximum allowed width $W$. If so, then the painting can be added to the row. Otherwise, a new row must be started, and $p_i$ is added to it. Doing so ensures that $w(r_j) \leq W$.
 
 Pf:
-In order to minimize the total cost $\sum_{j=1}^{r} h_j$, our algorithm maximizes the number of paintings in each row of the platform. Before the local minimum height (i <= k), the paintings' heights must be strictly decreasing due to the unimodality of the sequence, so adding more paintings to the current row will never increase the row's height. After the local minimum height is processed (i >= k), the heights of the paintings have to be strictly increasing, meaning that only the last painting in the row has an effect on the row's height. Therefore, the algorithm provides a platform that is optimally arranged, which keeps the total cost of the platform at a minimum.
+In order to minimize the total cost $\sum_{j=1}^{r} h_j$, our algorithm maximizes the number of paintings in each row of the platform. Before the local minimum height $i \leq k$, the paintings' heights must be strictly decreasing due to unimodality, so adding more paintings to the current row will never increase the row's height. After the local minimum height is found $i \geq k$, the heights of the paintings must be strictly increasing, meaning that only the last painting in the row has an effect on the row's height. Therefore, the algorithm provides a platform that is optimally arranged, minimizing the total cost of the platform.
 
 The paintings are processed in two phases: handling the top rows before the local minimum, and handling the bottom rows after the local minimum is found. While the decreasing phase runs, the top rows are filled by adding the current painting to the row as long as the row's width is less than the maximum allowed width. This guarantees that top rows are as full as possible, minimizing cost since all taller paintings will be placed before shorter ones. If a new row must be created, height minimization still occurs since the new row will begin with the shortest painting processed up until that point in the algorithm.
 
