@@ -46,4 +46,22 @@ Return the number of rows, the total $cost$, and the list containing each platfo
 Algorithm 2 has a time coplexity of O(n). This is because algorithm 2 completes only one pass through the list of paintings, meaning that if the list contains n items, the algorithm will execute n operations. So as the input size increases, the time required to process the list grows proportionally. This means that the growth is linear.
 
 ## Correctness Analysis 2
-[insert analysis here]
+Consider a sequence P of n paintings with heights h = h[h1, h2, h3, ...., hn] and widths w = [w1, w2, w3, ...., wn], where there exists a point j such that for all i < j  <= k, hi >= hj and for all k <= i < j, hi <= hj. The heights of the paintings follow a unimodal function with a single local minimum. The goal is to find an arrangement of the paintings on platforms that minimizes the
+total height.
+
+We will prove that the above greedy algorithm is correct and satisfies the following conditions:
+1. The combined widths of a row $w(r_j) \leq W$.
+2. For $r$ rows, the total cost $\sum_{0}^{j=r} h_j$, where $h_j$ is the first and tallest painting in a row, is minimized.
+
+In this particular problem, the heights of the paintings are not strictly decreasing. This means that the sequence P is has a unimodal nature, where the paintings' heights decrease to a local minimum, and then increases and repeats this pattern. Because of this, the first painting in a row may not always have the largest height, so strategically placing paintings on rows to capitalize on this pattern is important. 
+
+The maximum width constraint is guarenteed to be respected in the above algorithm because for each iteration, there is a check to make sure that the current painting's width plus the current painting's height is less than or equal to the maximum allowed width (W). If it is, then the painting can be added to the row. Otherwise, a new row must be started, and the current painting is added to it. Doing so ensures that w(rj) <= W.
+
+Pf:
+In order to minimize the total cost $\sum_{j=1}^{r} h_j$, our algorithm maximizes the number of paintings in each row of the platform. Before the local minimum height (i <= k), the paintings' heights must be strictly decreasing due to the unimodality of the sequence, so adding more paintings to the current row will never increase the row's height. After the local minimum height is processed (i >= k), the heights of the paintings have to be strictly increasing, meaning that only the last painting in the row has an effect on the row's height. Therefore, the algorithm provides a platform that is optimally arranged, which keeps the total cost of the platform at a minimum.
+
+The paintings are processed in two phases: handling the top rows before the local minimum, and handling the bottom rows after the local minimum is found. While the decreasing phase runs, the top rows are filled by adding the current painting to the row as long as the row's width is less than the maximum allowed width. This guarantees that top rows are as full as possible, minimizing cost since all taller paintings will be placed before shorter ones. If a new row must be created, height minimization still occurs since the new row will begin with the shortest painting processed up until that point in the algorithm.
+
+When a local minimum is found, the algorithm begins to process the bottom rows from right to left, adding paintings to the current row so that the paintings are increasing in size as they move from right to left, until the current painting cannot fit onto the row. Then, a new bottom row begins, starting with the next avaialbe painting. This minimizes the height of each new row in the increasing sequence.
+
+Finally, if the last row of the top rows and the first row of the bottom rows can be combined without exceeding W, they are merged to further reduce the number of rows. This ensures that the overall height is minimized by reducing the number of row transitions. By using this greedy strategy to maximize the number of paintings per row while managing the transitions between decreasing and increasing phases, the algorithm minimizes the total number of rows and the total height, achieving an optimal solution.
