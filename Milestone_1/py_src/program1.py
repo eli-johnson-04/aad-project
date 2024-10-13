@@ -84,6 +84,9 @@ if __name__ == '__main__':
         # Create the writer object.
         writer = csv.writer(out, delimiter = ',')
 
+        # Section Labels
+        writer.writerow(["Input Size", "Execution Time"])
+
         # Run a test for every set. Write this data to the csv. 
         for set_ in sets:
 

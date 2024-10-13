@@ -91,9 +91,9 @@ def program2(n: int, W: int, heights: List[int], widths: List[int]) -> Tuple[int
 
 if __name__ == '__main__':
     # Change SIZE_MULTIPLES for the number of multiples of 1000 to be used in sizes.
-    SIZE_MULTIPLES = 1
+    SIZE_MULTIPLES = 5
     # Change TEST_AVERAGING to get the average time of n tests
-    NUM_TEST_AVERAGES = 1
+    NUM_TEST_AVERAGES = 5
 
     # widths = [5, 5, 3, 3, 4, 2, 2, 5, 2, 5, 3, 3, 3, 5, 5, 4, 3, 4, 1, 3]
     # heights = [9, 8, 8, 8, 7, 7, 6, 6, 6, 5, 4, 3, 2, 1, 1, 4, 6, 7, 8, 10]
@@ -102,7 +102,7 @@ if __name__ == '__main__':
     # program2(n, W, heights, widths)
 
     # Generate the list of sizes, set the default width. 
-    sizes = [number * 10 for number in range(1, SIZE_MULTIPLES + 1, 1)]
+    sizes = [number * 1000 for number in range(1, SIZE_MULTIPLES + 1, 1)]
     W = 10
     sets = []
 
@@ -114,16 +114,20 @@ if __name__ == '__main__':
         # Create the writer object.
         writer = csv.writer(out, delimiter = ',')
 
+        # Section Labels
+        writer.writerow(["Input Size", "Execution Time"])
+
         # Run a test for every set. Write this data to the csv. 
         for size in sizes:
             minimum = random.randint(1, size - 1)
 
-            # Create a parabolic set of heights, as in Problem S2.
-            set = sorted([random.randint(1, 10) for i in range(minimum)], reverse=True) + sorted([random.randint(1, 10) for i in range(size - minimum)])
+            # Create a parabolic set of heights, as in Problem S2. The minimum will always be a single value of 1.
+            set = (sorted([random.randint(2, 1000) for i in range(minimum)], reverse=True) + [1] +
+                    sorted([random.randint(2, 1000) for i in range(size - minimum - 1)]))
 
             # Get the length, and generate a corresponding list of random integers, 1-10. 
             n = len(set)
-            widths = [random.randint(1, 5) for _ in range(n)]
+            widths = [random.randint(1, 10) for _ in range(n)]
 
             # Time the run.
             times = []
