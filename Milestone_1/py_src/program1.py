@@ -22,22 +22,22 @@ def program1(n: int, W: int, heights: List[int], widths: List[int]) -> Tuple[int
 
     rows = [] # store list of integers, each index is number of items on row
 
-    i = 0            # Painting index
-    rowW = 0         # Current row width
-    currRow = []     # Current row contents
-    total_height = 0 # Total height
+    i = 0               # Painting index
+    curr_row_width = 0  # Current row width
+    curr_row = []       # Current row contents
+    total_height = 0    # Total height
 
     # Iterate through every painting. 
     while i < n:
 
         # Check if the row has space for the painting.
-        if rowW + widths[i] <= W: 
+        if curr_row_width + widths[i] <= W: 
 
             # Add the height of painting i to the current row. 
-            currRow.append(heights[i])
+            curr_row.append(heights[i])
 
             # Add painting i's width to current row width. 
-            rowW += widths[i]
+            curr_row_width += widths[i]
 
             # Proceed to next painting
             i += 1
@@ -46,26 +46,29 @@ def program1(n: int, W: int, heights: List[int], widths: List[int]) -> Tuple[int
         else: 
 
             # The first painting in every row is the tallest. 
-            total_height += currRow[0]
+            total_height += curr_row[0]
 
             # Document the current row length, clear it and reset its width, and continue. 
-            rows.append(len(currRow))
-            currRow.clear()
-            rowW = 0
+            rows.append(len(curr_row))
+            curr_row.clear()
+            curr_row_width = 0
             continue
 
     # Once all paintings have been checked, add the last row and its height. 
-    total_height += currRow[0]
-    rows.append(len(currRow))
+    total_height += curr_row[0]
+    rows.append(len(curr_row))
 
     return len(rows), total_height, rows # replace with your code
 
 
 if __name__ == '__main__':
     # Change SIZE_MULTIPLES for the number of multiples of 1000 to be used in sizes.
-    SIZE_MULTIPLES = 5
+    SIZE_MULTIPLES = 12
     # Change TEST_AVERAGING to get the average time of n tests
     NUM_TEST_AVERAGES = 5
+
+    # Name of output file. 
+    outFile = "../output1.csv"
 
     # Generate the list of sizes, set the default width. 
     sizes = [number * 1000 for number in range(1, SIZE_MULTIPLES + 1, 1)]
@@ -79,7 +82,7 @@ if __name__ == '__main__':
         sets.append(sorted([random.randint(1, 1000) for x in range(size, 0, -1)], reverse=True))
     
     # Open the output file.
-    with open("output1.csv", mode = 'w', encoding = 'utf-8', newline = '') as out:
+    with open(outFile, mode = 'w', encoding = 'utf-8', newline = '') as out:
         
         # Create the writer object.
         writer = csv.writer(out, delimiter = ',')
@@ -114,4 +117,4 @@ if __name__ == '__main__':
             # Write the size and elapsed time to the csv. 
             writer.writerow([n, avg])
         
-        print("Program 1 test complete. Check for output1.csv in program1.py directory.")
+        print("Program 1 test complete. Check for output1.csv in program1.py parent directory.")

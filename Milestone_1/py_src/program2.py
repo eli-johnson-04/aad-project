@@ -18,7 +18,7 @@ def program2(n: int, W: int, heights: List[int], widths: List[int]) -> Tuple[int
     List[int]: number of paintings on each platform
     """
     ############################
-    rows = []                  # num of items on each row
+    rows = []                  # Number of items in each row
     i = 0                      # index
     curr_row = []              # heights in the current row
     total_height = 0           # total height (cost)
@@ -32,68 +32,117 @@ def program2(n: int, W: int, heights: List[int], widths: List[int]) -> Tuple[int
     top_row_temp_height = 0    # stores height of last row in top_rows
     bottom_row_temp_height = 0 # stores height of last row in bottom_rows
 
+    # Iterate through every painting. 
     while i < n:
-        if not minimum_found: # run until minimum has been found
-            if top_row_width + widths[i] <= W: # if current item fits within row
-                curr_row.append(heights[i]) # add to row
-                if top_row_width == 0: # if painting is the first in the row
-                    total_height += heights[i] # add height to total
-                    top_row_temp_height = heights[i] # store height of current row
-                    # top_row_temp_height will store height of final row in top_rows by the end
-                top_row_width += widths[i] # add painting width to total
 
-            else: # if painting does not fit in row
-                top_rows.append(curr_row[:]) # add copy of current row to top rows list
-                curr_row.clear() # clear current row
-                top_row_width = 0 # set top_row_width to 0 to test with new row values
-                i -= 1 # test current painting again
+        # Add paintings to rows in top_rows until minimum has been found. 
+        if not minimum_found:
+
+            # If painting i fits in the current row, add it. 
+            if top_row_width + widths[i] <= W:
+                curr_row.append(heights[i])
+
+                # If the added painting is the first in the row, add its height to cost, and update the last row's height. 
+                if top_row_width == 0:
+                    total_height += heights[i]
+                    top_row_temp_height = heights[i]
+
+                # Update the width of the current row. 
+                top_row_width += widths[i]
+
+            # Otherwise, if the painting does not fit, the row is full. Move to the next row. 
+            else:
+
+                # Create a copy of the current row and add it to top_rows. Clear current, and re-test the current painting. 
+                top_rows.append(curr_row[:])
+                curr_row.clear()
+                top_row_width = 0 
+                continue
                 
-            if heights[i + 1] > heights[i]: # if next painting is wider than current painting
-                top_rows.append(curr_row[:]) # add current row to list
-                curr_row.clear() # clear current row
-                min_index = i # document current index
-                minimum_found = True # mark minimum found
+            # Check if the minimum has been found. The next painting should be taller than the current. 
+            if heights[i + 1] > heights[i]:
 
-            i += 1 # test next element
+                # Add the current row to top_rows, clear current, and mark minimumFound as true. 
+                top_rows.append(curr_row[:])
+                curr_row.clear()
+                min_index = i
+                minimum_found = True
 
-        else: # once minimum is found, approach from right side going left
-            # -(i - min_index) counts -1, -2, -3, ... until it reaches -min_index
-            if bottom_row_width + widths[-(i - min_index)] <= W: # if current painting fits on row
-                curr_row.insert(0, heights[-(i - min_index)]) # add current painting to beginning of row
-                if bottom_row_width == 0: # if first item in row
-                    total_height += heights[-(i - min_index)] # add current height to total
-                    bottom_row_temp_height = heights[-(i - min_index)] # store height of most recent row
-                bottom_row_width += widths[-(i - min_index)] # update bottom row width
-            else: # if painting does not fit on row...
-                bottom_rows.insert(0, curr_row[:]) # add on top of bottom rows
-                curr_row.clear() # clear current row
-                bottom_row_width = 0 # clear bottom orw width
-                i -= 1 # test current painting again
+            # Proceed to next painting. 
+            i += 1
 
-            i += 1 # test next element
+        # Once the min_index has been found, traverse the list from end -> min_index (right -> left)
+        else: 
+            
+            # Check if the current painting (from the right) fits, add it to the current row. 
+            # NOTE: -(i - min_index) counts -1, -2, -3, ... until it reaches -min_index
+            if bottom_row_width + widths[-(i - min_index)] <= W: 
+                curr_row.insert(0, heights[-(i - min_index)])
+
+                # If the painting is the first added to a bottom row, then it is the tallest. 
+                # Add its height and store it as the height of the most recent bottom row. 
+                if bottom_row_width == 0:
+                    total_height += heights[-(i - min_index)]
+                    bottom_row_temp_height = heights[-(i - min_index)]
+
+                # Update the width of the current bottom row. 
+                bottom_row_width += widths[-(i - min_index)]
+
+            # Otherwise, if the painting does not fit, the row is full. Move to the next row. 
+            else:
+
+                # Add the current row to the beginning of bottom_rows. Clear the current row, and re-test the current painting. 
+                bottom_rows.insert(0, curr_row[:])
+                curr_row.clear()
+                bottom_row_width = 0
+                continue
+            
+            # Proceed to next painting. 
+            i += 1
+
+    # When there are no more paintings, add the current row to the beginning of bottom_rows. 
+    bottom_rows.insert(0, curr_row[:])
+
+    # To combine the last row of top_rows and the last row of bottom_rows, three conditions must be satisfied:
+    #   The rows must exist.
+    #   Neither row may have a width equal to zero. 
+    #   The sum of their widths must not exceed W. 
+    rows_exist = top_rows and bottom_rows
+    nonzero_widths = (not top_row_width == 0) and (not bottom_row_width == 0)
+    sum_less_than_w = top_row_width + bottom_row_width <= W
+
+    if rows_exist and nonzero_widths and sum_less_than_w:
+
+        # Set rows equal to the list of the length of every row in top_rows, 
+        # plus the combined lengths of the last in top_rows and the first in bottom_rows, 
+        # plus the lengths of rows in bottom_rows.
+        rows = ([len(row) for row in top_rows[:-1]] + 
+                    [len(top_rows[-1]) + len(bottom_rows[0])] + 
+                    [len(row) for row in bottom_rows[1:]])
+        
+        # Between the two merged rows, subtract the lesser row height from the total. 
+        total_height -= min(top_row_temp_height, bottom_row_temp_height)
+
+    # Otherwise, merge the top rows and the bottom rows together. 
     else:
-        bottom_rows.insert(0, curr_row[:]) # if last item has been tested, add current row to bottom rows
 
-    # if top_rows and bottom_rows both have elements, neither width is 0 (last row is full), and both rows can legally combine...
-    if top_rows and bottom_rows and not (top_row_width == 0) and not (bottom_row_width == 0) and top_row_width + bottom_row_width <= W:
-        # count rows of top_rows and bottom_rows, combining last row of top_rows with first row in bottom_rows
-        rows = [len(curr_row) for curr_row in top_rows[:-1]] + [len(top_rows[-1]) + len(bottom_rows[0])] + [len(curr_row) for curr_row in bottom_rows[1:]]
-        total_height -= min(top_row_temp_height, bottom_row_temp_height) # remove smaller height of merged rows from total
-    else:
-        # count rows of top_rows and bottom_rows and combine to rows
-        rows = [len(curr_row) for curr_row in top_rows] + [len(curr_row) for curr_row in bottom_rows]
+        # Set rows equal to the list of the length of every row in top_rows, plus the length of every row in bottom_rows. 
+        rows = [len(row) for row in top_rows] + [len(row) for row in bottom_rows]
 
     ############################
 
+    # Return the number of rows, the total cost, and the number of paintings in each row. 
     return len(rows), total_height, rows
-
 
 
 if __name__ == '__main__':
     # Change SIZE_MULTIPLES for the number of multiples of 1000 to be used in sizes.
-    SIZE_MULTIPLES = 5
-    # Change TEST_AVERAGING to get the average time of n tests
+    SIZE_MULTIPLES = 12
+    # Change TEST_AVERAGING to get the average time of n tests.
     NUM_TEST_AVERAGES = 5
+
+    # Name of output file. 
+    outFile = "../output2.csv"
 
     # widths = [5, 5, 3, 3, 4, 2, 2, 5, 2, 5, 3, 3, 3, 5, 5, 4, 3, 4, 1, 3]
     # heights = [9, 8, 8, 8, 7, 7, 6, 6, 6, 5, 4, 3, 2, 1, 1, 4, 6, 7, 8, 10]
@@ -109,7 +158,7 @@ if __name__ == '__main__':
     print("Number of paintings to be used for Program 2 run: " + str(sizes))
 
     # Open the output file.
-    with open("output2.csv", mode = 'w', encoding = 'utf-8', newline = '') as out:
+    with open(outFile, mode = 'w', encoding = 'utf-8', newline = '') as out:
         
         # Create the writer object.
         writer = csv.writer(out, delimiter = ',')
@@ -149,4 +198,4 @@ if __name__ == '__main__':
             # Write the size and elapsed time to the csv. 
             writer.writerow([n, avg])
         
-        print("Program 2 test complete. Check for output2.csv in program2.py directory.")
+        print("Program 2 test complete. Check for output2.csv in program2.py parent directory.")
