@@ -24,7 +24,7 @@ $cost = 12 + 7 + 11 = 30$
 - Let $h_i$ represent the height of a painting $p_i$.
 - Let $h(r_j)$ represent the height of a row.
 - Keep track of the paintings in the current row $r_j$.
-- Keep track of "top rows" $T$ and "bottom rows" $B$, both initialized to $\empty$.
+- Keep track of "top rows" $T$ and "bottom rows" $B$, both initialized as empty sets.
 
 Beginning with $j, i = 0$, repeat the following for each painting $p_i$ until $minimumFound$ is $true$: 
 - If $w(r_j) + w_i \leq W$:
@@ -80,7 +80,7 @@ Using correctness of Algorithm 1, we can say that Algorithm 2 is also correct.
 
 Algorithm 2 follows the same logic as Algorithm 1, whose correctness we have already proved, but is designed to handle the now deconstructed Problem S2 structure. For the set of paintings $R$, A2 follows the same steps as A1, just performing an extra check to determine if, for painting $p_i$, whether $h_{i+1} > h_i$. If this is the case, the minimum value has been found, and its index is stored as $minIndex$. Along the way, paintings are added to the *ends* of rows of *decreasing* order in a set of rows $T$.
 
-From there, A2 proceeds in a backwards fashion from the end of the list to $minIndex$, following the same steps as A1, only now in reverse order from the end of the list. In this case, paintings are added to the *beginnings* of rows of *increasing* order in a set of rows $B$. *(NOTE: A2 does not check $p_{minIndex}$ twice.)*
+From there, A2 proceeds in a backwards fashion from the end of the list to $minIndex$, following the same steps as A1, only now in reverse order from the end of the list. In this case, paintings are added to the *beginnings* of rows of *increasing* order in a set of rows $B$. *(NOTE: A2 does not check* $p_{minIndex}$ *twice.)*
 
 However, A2 is not finished after all paintings have been checked. The last row of $T$ and the first row of $B$ are of unknown widths, each with their own tallest paintings, and can be combined to minimize $cost$. A2 checks that their combined widths $w(T_{end}) + w(B_{start})$ are less than or equal to $W$, and merges them if so. It then subtracts the minimum of $T_{end}$'s and $B_{start}$'s tallest paintings from the total cost, meaning only the height of the tallest painting in the new combined row is accounted for. If their combined widths exceed $W$, no further action is taken. 
 
