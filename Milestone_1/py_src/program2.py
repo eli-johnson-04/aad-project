@@ -57,7 +57,7 @@ def program2(n: int, W: int, heights: List[int], widths: List[int]) -> Tuple[int
                 top_rows.append(curr_row[:])
                 curr_row.clear()
                 top_row_width = 0 
-                continue
+                i -= 1
                 
             # Check if the minimum has been found. The next painting should be taller than the current. 
             if heights[i + 1] > heights[i]:
@@ -95,7 +95,7 @@ def program2(n: int, W: int, heights: List[int], widths: List[int]) -> Tuple[int
                 bottom_rows.insert(0, curr_row[:])
                 curr_row.clear()
                 bottom_row_width = 0
-                continue
+                i -= 1
             
             # Proceed to next painting. 
             i += 1

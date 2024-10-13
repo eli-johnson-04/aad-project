@@ -1,4 +1,3 @@
-### Elijah Johnson, Patrick Kallenbach, Nicholas Lindner
 # Algorithm and Analysis 2
 
 ## Problem S2

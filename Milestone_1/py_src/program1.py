@@ -77,9 +77,9 @@ if __name__ == '__main__':
 
     print("Number of paintings to be used for Program 1 run: " + str(sizes))
 
-    # Generate a list from the specified size down to 1
+    # Generate a list from the specified size down to 1.
     for size in sizes:
-        sets.append(sorted([random.randint(1, 1000) for x in range(size, 0, -1)], reverse=True))
+        sets.append(sorted([random.randint(1, 1000 * SIZE_MULTIPLES) for x in range(size, 0, -1)], reverse=True))
     
     # Open the output file.
     with open(outFile, mode = 'w', encoding = 'utf-8', newline = '') as out:

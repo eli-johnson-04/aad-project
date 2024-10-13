@@ -53,7 +53,7 @@ Due to the nature of a sequence $P$ of $n$ paintings, whose heights are monotoni
 ### Problem G (Generic Problem)
 Given the heights $h_1, \cdots, h_n$ and the base widths $w_1, \cdots, w_n$ of $n$ paintings, along with the width $W$ of the display platform, find an arrangement of the paintings on platforms that minimizes the total height. 
 
-### Solution:
+### Solution
 Consider the sequence $P$ of $n$ paintings, with heights $h_i = [2, 3, 1, 4, 3]$ and widths $w_i = [1, 1, 1, 1, 1]$, with $W = 2$. Algorithm 1 chooses as many paintings as can fit in a row while maintaining their original order. So, in this example, Algorithm 1 selects the following:
 - $Platform_1 = [2, 3];$
 - $Platform_2 = [1, 4];$
@@ -84,7 +84,7 @@ Because this permutation adheres to the required monotonically non-decreasing or
 ### Problem S2
 Given the heights $h_1, \cdots, h_n$, where $\exists k$ such that $\forall i < j \leq k, h_i \geq h_j$, and $\forall k \leq i < j, h_i \leq h_j$, and the base widths $w_1, \cdots, w_n$ of $n$ paintings, along with the width $W$ of the display platform, find an arrangement of the paintings on platforms that minimizes the total height.
 
-### Solution: 
+### Solution
 Consider a Problem S2 instance where $h_i = [4, 2, 1, 2, 4]$, and $w_i = [1, 1, 1, 1, 1]$, with $W = 2$. Algorithm 1's output is as follows: 
 - $Platform_1 = [4, 2];$
 - $Platform_2 = [1, 2];$
