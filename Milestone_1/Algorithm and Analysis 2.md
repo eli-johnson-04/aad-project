@@ -65,4 +65,23 @@ Return the number of rows, the total $cost$, and the list containing each platfo
 Algorithm 2 has a time complexity of $O(n)$. Algorithm 2 proceeds through the list of paintings only one time, performing some $O(1)$ conditionals and $O(1)$ additions to auxiliary arrays. When the minimum height painting is found, it then proceeds from the other end toward the $minIndex$. However, each painting must be checked and will be processed only once, terminating only when all paintings have been checked, so the total running time is $O(n)$.
 
 ### Correctness
-[insert analysis here]
+Consider the sequence $P$ of $n$ paintings, whose heights $h_i = [h_1, h_2, \cdots, h_n]$ follow a unimodal function with a single local minimum. We will prove that the above greedy algorithm is correct and satisfies the following conditions:
+- The order of the paintings is not changed. 
+- The combined widths of a row $w(r_j) \leq W$.
+- For $r$ rows, the total cost $\sum_{0}^{j=r} h_j$, where $h_j$ is the tallest painting in a row, is minimized.
+
+An instance of Problem S2 can be understood as two Problem S1 instances, where the latter is reversed in order, and there exists one $p_i$ whose height is the least of all paintings. 
+
+Algorithm 2 is constructed in a manner resembling that of two runs of Algorithm 1 with the latter in reverse order. The former proceeds until a minimum index is found, and the latter proceeds backward from the end until the minimum index is reached. 
+
+Using correctness of Algorithm 1, we can say that Algorithm 2 is also correct. 
+
+*Proof*: Let $R$ represent the set of paintings from $p_0$ to $p_m$ inclusive, where $\exists m$ such that $\forall i < j \leq m, h_i \geq h_j$, and $\forall m \leq i < j, h_i \leq h_j$. In this case, $m$ represents the index of the minimum-height painting in $P$. $R$, then, has heights ordered in a monotonically non-increasing fashion, which can be understood as an instance of Problem S1. Let the remaining paintings $S$ represent the reverse of another instance of Problem S1, since all paintings *after* $R$ are monotonically non-decreasing. Therefore, an instance of Problem S2 can be treated as an instance of Problem S1 directly followed by another reversed instance. 
+
+Algorithm 2 follows the same logic as Algorithm 1, whose correctness we have already proved, but is designed to handle the now deconstructed Problem S2 structure. For the set of paintings $R$, A2 follows the same steps as A1, just performing an extra check to determine if, for painting $p_i$, whether $h_{i+1} > h_i$. If this is the case, the minimum value has been found, and its index is stored as $minIndex$. Along the way, paintings are added to the *ends* of rows of *decreasing* order in a set of rows $T$.
+
+From there, A2 proceeds in a backwards fashion from the end of the list to $minIndex$, following the same steps as A1, only now in reverse order from the end of the list. In this case, paintings are added to the *beginnings* of rows of *increasing* order in a set of rows $B$. *(NOTE: A2 does not check $p_{minIndex}$ twice.)*
+
+However, A2 is not finished after all paintings have been checked. The last row of $T$ and the first row of $B$ are of unknown widths, each with their own tallest paintings, and can be combined to minimize $cost$. A2 checks that their combined widths $w(T_{end}) + w(B_{start})$ are less than or equal to $W$, and merges them if so. It then subtracts the minimum of $T_{end}$'s and $B_{start}$'s tallest paintings from the total cost, meaning only the height of the tallest painting in the new combined row is accounted for. If their combined widths exceed $W$, no further action is taken. 
+
+We have shown that $R$ is assessed by $T$ in A2, and $S$ is assessed by $B$, and their (potential) overlap is addressed accordingly. Therefore, Algorithm 2 produces a correct output for an instance of Problem S2, satisfying the aforementioned conditions. 

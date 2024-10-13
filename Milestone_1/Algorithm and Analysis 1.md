@@ -39,12 +39,13 @@ Algorithm 1 has a time complexity of $O(n)$. Algorithm 1 proceeds through the li
 
 ### Correctness
 Consider the sequence $P$ of $n$ paintings, whose heights $h_i = [h_1, h_2, \cdots, h_n]$ are monotonically non-increasing. We will prove that the above greedy algorithm is correct and satisfies the following conditions:
+- The order of the paintings is not changed. 
 - The combined widths of a row $w(r_j) \leq W$.
 - For $r$ rows, the total cost $\sum_{0}^{j=r} h_j$, where $h_j$ is the first and tallest painting in a row, is minimized.
 
 Due to the nature of a sequence $P$ of $n$ paintings, whose heights are monotonically non-increasing, this problem focuses more precisely on minimizing the number of rows, or maximizing the number of paintings per row, while preserving the original order. This is because the order of the paintings cannot be such that for two paintings $p_i$ and $p_j$, where $\forall ij, i < j, h_i < h_j$. So, a random selection of paintings placed into rows that preserve the original order of the paintings would create an arrangement such that the first painting in any row is at least the tallest. The goal is that the number of rows must be minimized, or the number of paintings per row must be maximized, to minimize the total cost. 
 
-*Pf:* If paintings are selected in such a way that they maximize the number of paintings per row, then the height of the tallest painting in each row will be minimized. If there exists space in a row for a painting $p_i$ in a row $r_j$, meaning $w(r_j) + w_i \leq W$, then placing it in the row will minimize the cost of the next row, since $h_{i-1} \geq h_i$. If $p_i$ must be placed in a new row, then it will be the shortest possible painting that can be placed there. Therefore, since the greedy algorithm chooses at least the tallest painting that fits in a row, it will maximize the number of paintings per row, minimize the total number of rows, and therefore minimize the total cost. The shortest possible painting will be chosen to be placed first in each row. 
+*Proof:* If paintings are selected in such a way that they maximize the number of paintings per row, then the height of the tallest painting in each row will be minimized. If there exists space in a row for a painting $p_i$ in a row $r_j$, meaning $w(r_j) + w_i \leq W$, then placing it in the row will minimize the cost of the next row, since $\forall pq, p < q, h_{p} \geq h_q$, as per the Problem S1 definition. If $p_i$ must be placed in a new row, then it will be the shortest possible painting that can be placed there. The shortest possible painting will be chosen to be placed first in each row, so Algorithm 1 will maximize the number of paintings per row, minimizes the total number of rows, and therefore minimizes the total cost. 
 
 ## Question 1
 ### Give an input example showing that Algorithm 1 does not always solve Problem G. 
