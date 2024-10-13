@@ -1,3 +1,4 @@
+### Elijah Johnson, Patrick Kallenbach, Nicholas Lindner
 # Algorithm and Analysis 2
 
 ## Problem S2
@@ -17,47 +18,51 @@ $cost = 12 + 7 + 11 = 30$
 
 ## Algorithm 2
 - Let $W$ represent max row width. 
+- Let $w_i$ represent the width of painting $p_i$.
+- Let $w(r_j)$ represent the width of a row, where each $r_j$ is initialized with $w(r_j) = 0$. 
 - Let $cost$ represent the total height of the platforms, initialized to $cost = 0$.
-- Let $w(r_j)$ represent the width of the current row, initialized to $w(r) = 0$. 
-- Let $h(r_j)$ represent the height of the desired row
-- Keep track of the paintings in the current row $r_j$
-- Keep track of "top rows" $T$ and "botom rows" $B$, both initialized to $\empty$
+- Let $h_i$ represent the height of a painting $p_i$.
+- Let $h(r_j)$ represent the height of a row.
+- Keep track of the paintings in the current row $r_j$.
+- Keep track of "top rows" $T$ and "bottom rows" $B$, both initialized to $\empty$.
 
-In the list of paintings, Repeat the following for each painting $p_i$ until $minimumFound$ is $true$:
-- If $w(r_j) + w(p_i) \leq W$:
-    - Add $p_i$ to end of $r_j$
-    - Add $w(p_i)$ to $w(r_j)$
-    - If $p_i$ is the first of $r_j$, add its height to $cost$
-- Otherwise:
-    - Add $r_j$ to the end of $T$
-    - Test $p_i$ again on the next iteration
-- If the height of $p_{i+1} >$ the height of $p_i$
-    - Add $r_j$ to the end of $T$
-    - Store the current index $i$ as $minIndex$
-    - Set $minimumFound$ to $true$
+Beginning with $j, i = 0$, repeat the following for each painting $p_i$ until $minimumFound$ is $true$: 
+- If $w(r_j) + w_i \leq W$:
+    - Append $p_i$ to the *end* of $r_j$.
+    - Update the current row's width by adding $w_i$ to $w(r_j)$.
+    - If $p_i$ is the first painting in $r_j$, add $h_i$ to $cost$.
+- Otherwise if the row $r_j$ is full:
+    - Append $r_j$ to the *end* of $T$.
+    - Continue; return to the beginning of $p_i$'s iteration. 
+- If the $h_{i+1} > h_i$:
+    - Append $r_j$ to the end of $T$.
+    - Store the current index $i$ as $minIndex$.
+    - Set $minimumFound$ to $true$.
 - Proceed to the next painting. 
 
-For each of the remaining paintings, repeat for each painting $p_i$ starting from the end and working inward:
-- If $w(r_j) + w(p_i) \leq W$:
-    - Add $p_i$ to beginning of $r_j$
-    - Add $w(p_i)$ to $w(r_j)$
-    - If $p_i$ is the first added to $r_j$, add its height to $cost$
-- Otherwise:
-    - Add $r_j$ to the beginning of $B$
-    - Test $p_i$ again on the next iteration
-Upon completion, add what remains of $r_j$ to the beginning of $B$
+Now that $minimumFound$ is $true$, repeat the following for the remaining paintings, starting from $p_n$ and working inward to, but not including, $p_{minIndex}$: 
+- If $w(r_j) + w_i \leq W$:
+    - Append $p_i$ to the *beginning* of $r_j$.
+    - Add $w_i$ to $w(r_j)$.
+    - If $p_i$ is the first painting added to $r_j$, add $h_i$ to $cost$.
+- Otherwise if there are no more paintings or if $r_j$ is full:
+    - Append $r_j$ to the *beginning* of $B$.
+    - Continue; return to the beginning of $p_i$'s iteration. 
 
-If $w(T_{end}) + w(B_{start}) \leq W$
-- Merge $T$ and $B$, combining $T_{end}$ and $B_{start}$ into one element
-- Subtract $min(h(T_{end}), h(B_{start}))$ from $cost$
+When no paintings are left, add what remains of $r_j$ to the *beginning* of $B$. Then:
+
+If $w(T_{end}) + w(B_{start}) \leq W$:
+- Merge $T$ and $B$, combining $T_{end}$ and $B_{start}$ into one row. 
+- Subtract $min(h(T_{end}), h(B_{start}))$ from $cost$.
 
 Otherwise:
-- Merge $T$ and $B$, leaving $T_{end}$ and $B_{start}$ as separate elements
+- Merge $T$ and $B$, leaving $T_{end}$ and $B_{start}$ as separate rows.
 
 Return the number of rows, the total $cost$, and the list containing each platform's lengths. 
 
-## Time Complexity Analysis 2
-Algorithm 2 has a time coplexity of O(n). This is because algorithm 2 completes only one pass through the list of paintings, meaning that if the list contains n items, the algorithm will execute n operations. So as the input size increases, the time required to process the list grows proportionally. This means that the growth is linear.
+## Analysis
+### Time Complexity
+Algorithm 2 has a time complexity of $O(n)$. Algorithm 2 proceeds through the list of paintings only one time, performing some $O(1)$ conditionals and $O(1)$ additions to auxiliary arrays. When the minimum height painting is found, it then proceeds from the other end toward the $minIndex$. However, each painting must be checked and will be processed only once, terminating only when all paintings have been checked, so the total running time is $O(n)$.
 
-## Correctness Analysis 2
+### Correctness
 [insert analysis here]
