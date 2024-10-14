@@ -1,4 +1,4 @@
-# Group 3: COP4233 - Algorithms Abstraction and Design Fall '24 
+# Programming Project Group 3, Milestone 1: COP4533 - Algorithms Abstraction and Design Fall '24
 
 ## Elijah Johnson
 - Repository, Code Standards, Report Structure and Documentation
