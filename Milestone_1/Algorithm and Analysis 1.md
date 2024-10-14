@@ -1,4 +1,3 @@
-### Elijah Johnson, Patrick Kallenbach, Nicholas Lindner
 # Algorithm and Analysis 1
 
 ## Problem S1 
@@ -16,7 +15,7 @@ $Platform_2 = [s_4 \cdots s_5];$\
 $Platform_3 = [s_6 \cdots s_7];$\
 $cost = 21 + 16 + 5 = 42$
 
-## Algorithm 1: Greedy Solution
+## Algorithm 1: Greedy Left-Right Solution
 - Let $W$ represent max row width. 
 - Let $w_i$ represent the width of painting $p_i$.
 - Let $w(r_j)$ represent the width of a row, where each $r_j$ is initialized with $w(r_j) = 0$. 

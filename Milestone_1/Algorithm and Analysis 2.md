@@ -1,4 +1,3 @@
-### Elijah Johnson, Patrick Kallenbach, Nicholas Lindner
 # Algorithm and Analysis 2
 
 ## Problem S2
@@ -16,7 +15,7 @@ $Platform_2 = [s_4];$\
 $Platform_3 = [s_5 \cdots s_7];$\
 $cost = 12 + 7 + 11 = 30$
 
-## Algorithm 2
+## Algorithm 2: Greedy Split Solution
 - Let $W$ represent max row width. 
 - Let $w_i$ represent the width of painting $p_i$.
 - Let $w(r_j)$ represent the width of a row, where each $r_j$ is initialized with $w(r_j) = 0$. 
@@ -62,7 +61,7 @@ Return the number of rows, the total $cost$, and the list containing each platfo
 
 ## Analysis
 ### Time Complexity
-Algorithm 2 has a time complexity of $O(n)$. Algorithm 2 proceeds through the list of paintings only one time, performing some $O(1)$ conditionals and $O(1)$ additions to auxiliary arrays. When the minimum height painting is found, it then proceeds from the other end toward the $minIndex$. However, each painting must be checked and will be processed only once, terminating only when all paintings have been checked, so the total running time is $O(n)$.
+Algorithm 2 has a time complexity of $\theta(n)$. Algorithm 2 proceeds through the list of paintings only one time, performing some $O(1)$ conditionals and $O(1)$ additions to auxiliary arrays. When the minimum height painting is found, it then proceeds from the other end toward the $minIndex$. Each painting must be checked and will be processed only once, terminating only when all paintings have been checked. At the end, two rows may be merged. If this is the case, it may take a maximum of $n$ accesses to merge the rows into one, and then a $O(1)$ operation to get the minimum between their heights, but this still results in a $\theta(n)$ total complexity, as every painting must be checked, but none will be checked more than twice. 
 
 ### Correctness
 Consider the sequence $P$ of $n$ paintings, whose heights $h_i = [h_1, h_2, \cdots, h_n]$ follow a unimodal function with a single local minimum. We will prove that the above greedy algorithm is correct and satisfies the following conditions:
