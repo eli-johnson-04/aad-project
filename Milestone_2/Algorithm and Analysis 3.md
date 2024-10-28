@@ -17,28 +17,32 @@ $OPT(n, W) =$ the minimum cost of arranging $n$ paintings into rows of width no 
     - $OPT(i, M) = \max_{h_k}r_j + OPT(i-1, M-w_i)$, where $\max_{h_k}{r_j}$ is calculated using a linear search. 
 
 #### Bellman Equation
-$OPT(i, M) = 
+```math
+OPT(i, M) = 
 \begin{cases}
     0 & \text{if } i=0 \\
     OPT(i-1, M-w_i) & \text{if } w_i \leq M \\
     \max_{h_k}r_{j} + OPT(i-1, M-w_i) & \text{if } w_i > M
-\end{cases}$
+\end{cases}
+```
 
 ### Implementation
-$\text{Minimum-Cost}(n, W, p_1, \cdots, p_n, w_1, \cdots, w_n, h_1, \cdots, h_n): \\
-\quad j = 0 \\
-\quad \text{return OPT-Compute}(n, W) \\
-\quad \\
-\text{OPT-Compute}(i, M): \\
-\quad \text{if } i=0: \\
-\qquad \text{return }0 \\
-\quad \text{else if } w_i \leq M: \\
-\qquad \text{return OPT-Compute}(i-1, M-w_i) \\
-\quad \text{else if } w_i > M: \\
-\qquad h_{r_j} \leftarrow \max_{h_k}r_j \\ 
-\qquad j \leftarrow j + 1 \\
-\qquad \text{return } h_{r_{j-1}} + OPT(i-1,M-w_i)
-$
+$$
+\begin{aligned}
+&\text{Minimum-Cost}(n, W, p_1, \cdots, p_n, w_1, \cdots, w_n, h_1, \cdots, h_n): \\
+&\quad j = 0 \\
+&\quad \text{return OPT-Compute}(n, W) \\ \\
+&\text{OPT-Compute}(i, M): \\
+&\quad \text{if } i=0: \\
+&\qquad \text{return } 0 \\
+&\quad \text{else if } w_i \leq M: \\
+&\qquad \text{return OPT-Compute}(i-1, M-w_i) \\
+&\quad \text{else if } w_i > M: \\
+&\qquad h_{r_j} \leftarrow \max_{h_k}r_j \\ 
+&\qquad j \leftarrow j + 1 \\
+&\qquad \text{return } h_{r_{j-1}} + OPT(i-1, M-w_i)
+\end{aligned}
+$$
 
 ## Analysis
 ### Time Complexity
