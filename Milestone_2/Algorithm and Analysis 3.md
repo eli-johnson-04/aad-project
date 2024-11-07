@@ -29,6 +29,8 @@ OPT(j) =
 \end{cases}
 $$
 
+<!-- NEED TO EXPLAIN BACKTRACKING TO FIND WHICH SCULPTURES ARE IN WHICH ROWS-->
+
 ## Analysis
 ### Time Complexity
 

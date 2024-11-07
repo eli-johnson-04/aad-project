@@ -1,5 +1,8 @@
 from typing import List, Tuple
 
+def calc_C(first: int, last: int):
+    return 0
+
     
 def program3(n: int, W: int, heights: List[int], widths: List[int]) -> Tuple[int, int, List[int]]:
     """
@@ -17,8 +20,13 @@ def program3(n: int, W: int, heights: List[int], widths: List[int]) -> Tuple[int
     List[int]: number of paintings on each platform
     """
     ############################
-    # Add you code here
+    if n < 1:
+        return 0, 0, []
+    return min(
+        
+    )
     ############################
+
 
     return 0, 0, [] # replace with your code
 
