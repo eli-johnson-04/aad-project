@@ -4,6 +4,6 @@
 - Repository, Code Standards, Report Structure and Documentation
 
 ## Patrick Kallenbach
-
+- Algorithm 3 Design
 
 ## Nicholas Lindner
