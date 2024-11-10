@@ -4,6 +4,7 @@
 #include <limits>
 #include <numeric>
 #include <algorithm>
+#define WIDTH_EXCEEDED -1
 using namespace std;
 /* Solution to program 3
 * @param n the number of paintings
@@ -14,8 +15,9 @@ using namespace std;
 */
 tuple<int, int, vector<int>> program3(int n, vector<int> heights, vector<int> widths, const vector<vector<int>> C){
     // Check for invalid input. 
-    if (n < 1) {
-        return make_tuple(0, 0, heights);
+    bool n_small = n < 1;
+    if (n_small) {
+        return make_tuple(0, 0, vector<int>({}));
     }
 
     // Base case.
@@ -25,10 +27,14 @@ tuple<int, int, vector<int>> program3(int n, vector<int> heights, vector<int> wi
     
     // Create a list of all possible return options over i, for 0 <= i < n. 
     // Python could do this with a list comprehension but recursion limits are a dumb and stupid (safe, smart, responsible) idea. Let me write exponential algorithms!!!!!!
-    vector<tuple<int, int, vector<int>>> options(n - 1);
+    vector<tuple<int, int, vector<int>>> options;
+    auto& c_row = C[n - 1];
     for (int i = 0; i < n - 1; ++i) {
         // Get the value of C for the current i and n values. 
-        int c_val = C[n - 1][i];
+        int c_val = c_row[i];
+        if (c_val == WIDTH_EXCEEDED) {
+            continue;
+        }
 
         // Use the remaining heights and widths. 
         vector<int> tmpHeights(i);
@@ -39,14 +45,22 @@ tuple<int, int, vector<int>> program3(int n, vector<int> heights, vector<int> wi
         }
 
         // Get the return value.
-        auto ret = program3(i - 1, tmpHeights, tmpWidths, C);
+        auto ret = program3(i, tmpHeights, tmpWidths, C);
 
         // Create a temporary vector to be used in the tuple at the front, and add the length of its row. We add to the front because we construct our solution "backwards".
         vector<int> retvec = get<2>(ret);
-        retvec.insert(retvec.begin(), n - i);
+
+        // Bounds check.
+        if (!n_small) {
+            // Insert length of row. 
+            retvec.push_back(n - i);
+        }
+
+        // Only add a row if we are not in the n < 1 case. 
+        int rows = !n_small + get<0>(ret);
 
         // Add the tuple to the list. 
-        options[i] = make_tuple(1 + get<0>(ret), c_val + get<1>(ret), retvec);
+        options.push_back(make_tuple(rows, c_val + get<1>(ret), retvec));
     }
 
     // Construct final return value. 
@@ -57,36 +71,6 @@ tuple<int, int, vector<int>> program3(int n, vector<int> heights, vector<int> wi
         });
     return result;
 }
-
-// tuple<int, int, vector<int>> program3(int n, vector<int> heights, vector<int> widths, const vector<vector<int>> C){
-//     // Check for invalid input. 
-//     if (n < 1) {
-//         return make_tuple(0, 0, heights);
-//     }
-
-//     // Base case.
-//     else if (n == 1) {
-//         return make_tuple(1, heights[0], vector<int>({1}));
-//     }
-    
-//     // Get the minimum value of C_ij.
-//     auto it = min_element(C[n - 1].begin(), C[n - 1].end());
-//     int max_C = *it;
-
-//     // Calculate the index of the best value of i, and get the preceding index (subtract 1). 
-//     int next_n = distance(C[n - 1].begin(), it) - 1;
-
-//     vector<int> tmpHeights(next_n);
-//     vector<int> tmpWidths(next_n);
-//     for (int i = 0; i < next_n; ++i) {
-//         tmpHeights[i] = heights[i];
-//         tmpWidths[i] = widths[i];
-//     }
-
-//     // Construct return value. 
-//     auto val = program3(next_n, tmpHeights, tmpWidths, C);
-//     return make_tuple(1 + get<0>(val), max_C + get<1>(val), vector<int>{0});
-// }
 
 
 int main() {
@@ -118,25 +102,15 @@ int main() {
             if (sum <= W) {
                 c[j - 1][i] = *max_element(heights.begin() + i, heights.begin() + j); 
             }
+            else {
+                c[j - 1][i] = WIDTH_EXCEEDED;
+            }
         }
     }
 
-    // // Create a vector of results. I am going to vomit. This is so ugly and terrible. 
-    // vector<tuple<int, int, vector<int>>> results;
-    // for (int i = 0; i < n - 1; ++i) {
-    //     results.push_back(program3(i, heights, widths, c));
-    // }
-
-    // // Ugly lambda comparator because I just need something to work. 
-    // // Gets the smallest tuple based on the cost (value at index 1). 
-    // auto result = *min_element(results.begin(), results.end(), 
-    //     [](const auto& a, const auto& b) {
-    //         return get<1>(a) < get<1>(b);
-    //     });
-
+    // Print the smelly result.
     auto result = program3(n, heights, widths, c);
 
-    // Print the smelly results. 
     cout << get<0>(result) << endl;
     cout << get<1>(result) << endl;
     for(int i = 0; i < get<0>(result); i++){
