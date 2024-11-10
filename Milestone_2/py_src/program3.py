@@ -40,7 +40,8 @@ def program3(n: int, heights: List[int], widths: List[int], C: List[List[int]]) 
     
     min_C = min(C[n - 1])
     next_n = C[n - 1].index(min_C) + 1
-    return (min_C + program3(next_n, heights[:next_n], widths[:next_n], C), 0, [])
+    ret = program3(next_n, heights[:next_n], widths[:next_n], C)
+    return 1 + ret[0], min_C + ret[1], ret[2]
 
     #return 0, 0, [] # replace with your code
 
