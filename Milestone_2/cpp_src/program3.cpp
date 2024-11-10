@@ -27,7 +27,7 @@ tuple<int, int, vector<int>> program3(int n, vector<int> heights, vector<int> wi
     }
     
     /*
-    * Create a list of all possible return options over i, for 0 <= i <= n. 
+    * Create a list of all possible return options over i, for 0 <= i <= n - 1. 
     * Python could do this with a list comprehension but recursion limits are a dumb and stupid (safe, smart, responsible) idea. Let me write exponential algorithms!!!!!!
     */
     vector<tuple<int, int, vector<int>>> options;
