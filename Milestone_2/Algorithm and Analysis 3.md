@@ -11,7 +11,7 @@ $OPT(j) =$ The minimized $cost$ of arranging $j$ sculptures into rows, where $j$
 $OPT(n) =$ the minimized cost of arranging $n$ sculptures into rows.
 
 ### Computing $OPT(j)$
-Let $C_{ij}$, where $1 \leq i < j$ represent the cost of a row consisting of all sculptures between and including distinct sculptures $s_i$ and $s_j$. $C_{ij}$ is represented by:
+Let $C_{ij}$, where $1 \leq i \leq j$ represents the cost of a row consisting of all sculptures between and including sculptures $s_i$ and $s_j$. We allow $i$ and $j$ to be equivalent because it is possible that a row may have only one sculpture. $C_{ij}$ is represented by:
 $$
 C_{ij} = 
 \begin{cases}
@@ -25,7 +25,7 @@ $$
 OPT(j) = 
 \begin{cases}
     0 & \text{if } j < 1 \\
-    \min_{1 \leq i < j}(C_{ij} + OPT(i-1)) & \text{otherwise} \\
+    \min_{1 \leq i \leq j}(C_{ij} + OPT(i-1)) & \text{otherwise} \\
 \end{cases}
 $$
 

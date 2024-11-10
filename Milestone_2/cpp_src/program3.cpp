@@ -4,16 +4,16 @@
 #include <limits>
 #include <numeric>
 #include <algorithm>
-#define WIDTH_EXCEEDED -1
 using namespace std;
+#define WIDTH_EXCEEDED numeric_limits<int>::max()
 /* Solution to program 3
-* @param n the number of paintings
-* @param W the maximum width of the platform
-* @param heights the heights of the paintings
-* @param widths the widths of the paintings
-* @return a tuple containing the number of platforms used, the optimal total height, and the number of paintings on each platform
+* @param n the number of sculptures
+* @param heights the heights of the sculptures
+* @param widths the widths of the sculptures
+* @param &C a reference to the nested vector containing all C_ij values
+* @return a tuple containing the number of platforms used, the optimal total height, and the number of sculptures on each platform
 */
-tuple<int, int, vector<int>> program3(int n, vector<int> heights, vector<int> widths, const vector<vector<int>> C){
+tuple<int, int, vector<int>> program3(int n, vector<int> heights, vector<int> widths, const vector<vector<int>>& C){
     // Check for invalid input. 
     bool n_small = n < 1;
     if (n_small) {
@@ -25,13 +25,17 @@ tuple<int, int, vector<int>> program3(int n, vector<int> heights, vector<int> wi
         return make_tuple(1, heights[0], vector<int>({1}));
     }
     
-    // Create a list of all possible return options over i, for 0 <= i < n. 
-    // Python could do this with a list comprehension but recursion limits are a dumb and stupid (safe, smart, responsible) idea. Let me write exponential algorithms!!!!!!
+    /*
+    * Create a list of all possible return options over i, for 0 <= i <= n. 
+    * Python could do this with a list comprehension but recursion limits are a dumb and stupid (safe, smart, responsible) idea. Let me write exponential algorithms!!!!!!
+    */
     vector<tuple<int, int, vector<int>>> options;
-    auto& c_row = C[n - 1];
-    for (int i = 0; i < n - 1; ++i) {
+    auto& c_n = C[n - 1];
+    for (int i = 0; i < n; ++i) {
         // Get the value of C for the current i and n values. 
-        int c_val = c_row[i];
+        int c_val = c_n[i];
+
+        // Only include values for which the width is valid.
         if (c_val == WIDTH_EXCEEDED) {
             continue;
         }
@@ -47,20 +51,23 @@ tuple<int, int, vector<int>> program3(int n, vector<int> heights, vector<int> wi
         // Get the return value.
         auto ret = program3(i, tmpHeights, tmpWidths, C);
 
+        // Only add a row if we are not in the n < 1 case. 
+        int rows = !n_small + get<0>(ret);
+
+        // Calculate the cost of the now-constructed row. 
+        int cost = c_val + get<1>(ret);
+
         // Create a temporary vector to be used in the tuple at the front, and add the length of its row. We add to the front because we construct our solution "backwards".
-        vector<int> retvec = get<2>(ret);
+        vector<int> row_lengths = get<2>(ret);
 
         // Bounds check.
         if (!n_small) {
             // Insert length of row. 
-            retvec.push_back(n - i);
+            row_lengths.push_back(n - i);
         }
 
-        // Only add a row if we are not in the n < 1 case. 
-        int rows = !n_small + get<0>(ret);
-
         // Add the tuple to the list. 
-        options.push_back(make_tuple(rows, c_val + get<1>(ret), retvec));
+        options.push_back(make_tuple(rows, cost, row_lengths));
     }
 
     // Construct final return value. 
@@ -86,29 +93,29 @@ int main() {
         cin >> widths[i];
     }
 
-    // Create a new vector using the max integer size (in place of infinity).
-    vector<vector<int>> c(n, vector<int>(n, numeric_limits<int>::max()));
+    // Create a new vector for all C_ij values.
+    vector<vector<int>> c(n);
 
     /*
-    * WORKING:
-    * Iterate over all c_ij values to determine the height of the tallest painting in all possible rows of width W. 
+    * Iterate over all c_ij values to determine the height of the tallest sculpture in all possible rows of width W. 
     * This list accessed with the n'th sculpture used as the first index, and the i value used as the second. 
     */
     for (int j = n; j > 0; --j) {
-        for (int i = 0; i < j - 1; ++i) {
+        for (int i = 0; i < j; ++i) {
             vector<int> tmpWidths(widths.begin() + i, widths.begin() + j);
-            int sum = accumulate(tmpWidths.begin(), tmpWidths.end(), 0);
+            int ij_width = accumulate(tmpWidths.begin(), tmpWidths.end(), 0);
             
-            if (sum <= W) {
-                c[j - 1][i] = *max_element(heights.begin() + i, heights.begin() + j); 
+            // Width check. 
+            if (ij_width <= W) {
+                c[j - 1].push_back(*max_element(heights.begin() + i, heights.begin() + j)); 
             }
             else {
-                c[j - 1][i] = WIDTH_EXCEEDED;
+                c[j - 1].push_back(WIDTH_EXCEEDED);
             }
         }
     }
 
-    // Print the smelly result.
+    // Print the result.
     auto result = program3(n, heights, widths, c);
 
     cout << get<0>(result) << endl;
