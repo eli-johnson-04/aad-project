@@ -13,6 +13,7 @@ using namespace std;
 * @param &C a reference to the nested vector containing all C_ij values
 * @return a tuple containing the number of platforms used, the optimal total height, and the number of sculptures on each platform
 */
+// if needed, this could (probably) be modified to include a static variable for C_ij instead of passing in a reference for every call, but that will only be done if we are not allowed to modify the function header. 
 tuple<int, int, vector<int>> program3(int n, vector<int> heights, vector<int> widths, const vector<vector<int>>& C){
     // Check for invalid input. 
     bool n_small = n < 1;
