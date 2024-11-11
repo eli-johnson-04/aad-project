@@ -80,7 +80,11 @@ $
 
 ## Analysis
 ### Time Complexity
-<!-- Write Time Complexity Analysis Here!!!!-->
+#### 5A: Top-Down
+Algorithm 5A precomputes all values of $C_{ij}$, taking $\Theta(n^2)$ time to do so, as all $n$ sculptures are checked no fewer and no more than $n$ times each. Afterward, all $n$ values of the OPT-array $M$ require $n$ comparisons against the rest of the sculpture list to determine the minimum possible value. This takes $O(n^2)$ time. Our total is now $O(n^2 + n^2) = O(2n^2) = \Theta(n^2)$.
+
+#### 5B: Bottom-Up
+Algorithm 5B, just like 5A, precomputes all $C_{ij}$ values in $\Theta(n^2)$ time. The difference is now that we iterate from $1$ to $n$, making $n$ comparisons at each step, traking $O(n^2)$ time. Our total is now $O(n^2 + n^2) = O(2n^2) = \Theta(n^2)$.
 
 ### Correctness
 <!-- Write Correctness Analysis Here!!!!-->
