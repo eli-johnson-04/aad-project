@@ -2,6 +2,7 @@
 
 ## Elijah Johnson
 - Repository, Code Standards, Report Structure and Documentation
+- Algorithm 3 Time Complexity Analysis, Backtracking Determination, Implementation
 
 ## Patrick Kallenbach
 - Algorithm 3 Design
