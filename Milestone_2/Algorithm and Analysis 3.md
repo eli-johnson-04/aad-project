@@ -20,7 +20,7 @@ C_{ij} =
 \end{cases}
 $$
 
-To compute $OPT(j)$, we take the minimum sum of $C_{ij}$ and $OPT(i-1)$, where $OPT(i-1)$ represents the *last* sculpture in the row preceding sculpture $s_i$. The following Bellman Equation describes $OPT(j)$:
+To compute $OPT(j)$, we take the minimum sum of $C_{ij}$ and $OPT(i-1)$, where $i-1$ represents the *last* sculpture in the row preceding sculpture $s_i$. The following Bellman Equation describes $OPT(j)$:
 $$
 OPT(j) = 
 \begin{cases}
@@ -29,7 +29,7 @@ OPT(j) =
 \end{cases}
 $$
 
-#### Backtracking to Determine Sculpture Attendance
+### Backtracking to Determine Sculpture Attendance 
 To determine which sculptures are present in a given row is not complex, but requires careful attention. At each $OPT$ step, one must find the difference $j - i + 1$, which represents the length of the now-calculated row. This row will always be appended to the *end* of a row-tracking list, as in our C++ implementation. This way, as recursive calls return upward, the list is generated from the front of the list of sculptures to the back. Afterward, one can simply examine the list of sculptures, counting the corresponding number for a given row, to determine which sculptures belong in that row. 
 
 ## Analysis
