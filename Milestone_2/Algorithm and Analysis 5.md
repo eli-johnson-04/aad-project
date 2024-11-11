@@ -32,7 +32,7 @@ OPT(j) =
 $$
 
 ### 5A: Top-Down Recursive Implementation
-Algorithm 5A is an implementation of Algorithm 5 that uses memoization to construct optimal solutions to subproblems of $OPT(j)$. 
+Algorithm 5A is an implementation of Algorithm 5 that uses memoization and recursion to construct optimal solutions to subproblems of $OPT(j)$ as needed. 
 
 $
 \text{Top-Down-OPT}(n, W, h_1, \cdots, h_n, w_1, \cdots, w_n) \text{: } \\
@@ -44,9 +44,9 @@ $
 \qquad \qquad \text{else: } \\
 \qquad \qquad \quad C[i][j] \leftarrow \infty. \\
 \quad \\
-\quad \text{Initialize OPT array } M[n] \\
+\quad \text{Initialize OPT array } M[n]. \\
 \quad M[0] \leftarrow 0. \\
-\quad M[1] \leftarrow h_1. \\
+\quad M[1] \leftarrow C[1][1]. \\
 \quad \text{TD-OPT}(n). \\
 \quad \\
 \text{TD-OPT}(j) \text{: } \\
@@ -55,9 +55,27 @@ $
 \quad \text{Return } M[j].
 $
 
-
-
 ### 5B: Bottom-Up Iterative Implementation
+Algorithm 5B is an implementation of Algorithm 5 that uses memoization and iteration to construct optimal solutions to subproblems of $OPT(j)$, starting at $OPT(1)$ and working up to $OPT(j)$. 
+
+$
+\text{Bottom-Up-OPT}(n, W, h_1, \cdots, h_n, w_1, \cdots, w_n) \text{: } \\
+\quad \text{Precompute all } C_{ij} \text{ for } C[n][n] \text{ (one-based indexing): } \\
+\qquad \text{For } j=n \text{ to } 1 \text{: } \\
+\qquad \quad \text{For } i=1 \text{ to } j \text{: } \\
+\qquad \qquad \text{if (} \sum_{k=i}^{j} w_k <= W \text{): } \\
+\qquad \qquad \quad C[i][j] \leftarrow \max_{i \leq k \leq j}(h_k). \\
+\qquad \qquad \text{else: } \\
+\qquad \qquad \quad C[i][j] \leftarrow \infty. \\
+\quad \\
+\quad \text{Initialize OPT array} M[n]. \\
+\quad M[0] \leftarrow 0. \\
+\quad M[1] \leftarrow C[1][1]. \\
+\quad \text{For } k=1 \text{ to } n \text{: } \\
+\qquad M[k] = \min_{1 \leq i \leq j}(C_{ij} + M[i-1]). \\
+\quad \\
+\quad \text{Return } M[n]. \\
+$
 
 
 ## Analysis
