@@ -3,6 +3,10 @@
 ## Elijah Johnson
 - Repository, Code Standards, Report Structure and Documentation
 
+- Algorithm 5 Design
+    - 5A Pseudocode
+    - 5B Pseudocode
+
 ## Patrick Kallenbach
 
 
