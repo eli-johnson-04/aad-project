@@ -5,7 +5,7 @@
 
 ## Algorithm 5: Efficient Dynamic Programming Solution
 ### Definition
-This algorithm follows Algorithm 3 closely. To design a $\Theta(n^2)$ algorithm, we can employ memoization to avoid recomputing solutions to subproblems. 
+This algorithm follows Algorithm 3 closely. To design a $\Theta(n^2)$ algorithm, we can employ memoization to avoid recomputing optimal solutions to subproblems. 
 
 $OPT(j) =$ The minimized $cost$ of arranging $j$ sculptures into rows, where $j$ is the *rightmost* sculpture being examined. In this formulation, $cost = \sum_{1}^{j}(\max_{h_k}r_j)$, and $h_k$ is the height of a sculpture $s_k \in r_j$.
 
@@ -13,7 +13,7 @@ $OPT(j) =$ The minimized $cost$ of arranging $j$ sculptures into rows, where $j$
 $OPT(n) =$ the minimized $cost$ of arranging $n$ sculptures into rows. 
 
 ### Computing $OPT(j)$
-Let $C_ij$, where $1 \leq \leq j$ represents the cost of a row consisting of all sculptures between and including sculptures $s_i$ and $s_j$. We allow $i$ and $j$ to be equivalent because it is possible that a row may have only one sculpture in an optimum solution. $C_ij$ is represented by: 
+Let $C_{ij}$, where $1 \leq i \leq j$ represents the cost of a row consisting of all sculptures between and including sculptures $s_i$ and $s_j$. We allow $i$ and $j$ to be equivalent because it is possible that a row may have only one sculpture in an optimum solution. $C_{ij}$ is represented by: 
 $$
 C_{ij} = 
 \begin{cases}
@@ -31,10 +31,33 @@ OPT(j) =
 \end{cases}
 $$
 
-### Top-Down Recursive Implementation
+### 5A: Top-Down Recursive Implementation
+Algorithm 5A is an implementation of Algorithm 5 that uses memoization to construct optimal solutions to subproblems of $OPT(j)$. 
+
+$
+\text{Top-Down-OPT}(n, W, h_1, \cdots, h_n, w_1, \cdots, w_n) \text{: } \\
+\quad \text{Precompute all } C_{ij} \text{ for } C[n][n] \text{ (one-based indexing): } \\
+\qquad \text{For } j=n \text{ to } j=1 \text{: } \\
+\qquad \quad \text{For } i=1 \text{ to } i=j \text{: } \\
+\qquad \qquad \text{if (} \sum_{k=i}^{j} w_k <= W \text{): } \\
+\qquad \qquad \quad C[i][j] \leftarrow \max_{i \leq k \leq j}(h_k). \\
+\qquad \qquad \text{else: } \\
+\qquad \qquad \quad C[i][j] \leftarrow \infty. \\
+\quad \\
+\quad \text{Initialize OPT array } M[n] \\
+\quad M[0] \leftarrow 0. \\
+\quad M[1] \leftarrow h_1. \\
+\quad \text{TD-OPT}(n). \\
+\quad \\
+\text{TD-OPT}(j) \text{: } \\
+\quad \text{if (}M[j] \text{ is uninitialized} \text{): } \\
+\qquad M[j] \leftarrow \min_{1 \leq i \leq j}(C[i][j] + \text{TD-OPT}(i-1)).  \\
+\quad \text{Return } M[j].
+$
 
 
-### Bottom-Up Iterative Implementation
+
+### 5B: Bottom-Up Iterative Implementation
 
 
 ## Analysis
