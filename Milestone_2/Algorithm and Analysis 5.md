@@ -80,8 +80,6 @@ $\begin{aligned}
 \end{aligned}$
 
 
-<!-- need to explain backtracking...-->
-
 ## Analysis
 ### Time Complexity
 #### 5A: Top-Down
@@ -98,7 +96,7 @@ $$
 
 We will now examine the construction of $C_{ij}$ values. These values represent, at index $C[i][j]$, the cost of a row containing sculptures $[s_i, \cdots, s_j]$ for $1 \leq i \leq j$, calculated as the height of the tallest sculpture on the platform. Thus, any value of $C_{ij}$ can be used to determine the relative *worth* of row $[s_i, \cdots, s_j]$. These values are used to determine the best combination of rows, since rows that cannot exist are marked as $C_{ij} = \infty$ and will therefore never be chosen over a smaller value. We now establish the following invariant:
 
-__$\text{I1}$: at the end of each iteration of the inner loop of $C_{ij}$ computation, $C[i][j]$ correctly stores the maximum height of a row containing sculptures $s_i$ to $s_j$, as long as the combined widths of the sculptures do not exceed $W$.__
+__$\text{I1}$: at the end of each iteration of the inner loop of $C_{ij}$ computation, $C[i][j]$ correctly stores the maximum height of a row containing sculptures $s_i$ to $s_j$, as long as the combined widths of the sculptures do not exceed $W$.__ 
 
 From our initial assumption, we also establish the second invariant:
 
