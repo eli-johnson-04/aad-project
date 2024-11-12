@@ -37,21 +37,40 @@ def program5B(n: int, W: int, heights: List[int], widths: List[int]) -> Tuple[in
             else:
                 c[j - 1].append(WIDTH_EXCEEDED)
 
+    # initialize opt array to store optimal values (opt(0) through opt(n))
     opt = [None for _ in range(n + 1)]
 
+    # set initial opt value to empty set
     opt[0] = (0, 0, [])
+
+    # for k from 1 to n inclusive
     for k in range(1, n + 1):
+
+        # initialize final options vector
         options = []
+
+        # for i from 1 to k inclusive
         for i in range(1,k+1):
+            # count rows from previous opt value
             rows = (k >= 1) + opt[i - 1][0]
+
+            # calculate cost as sum of current row C and total height of previous rows
             cost = c[k - 1][i - 1] + opt[i - 1][1]
+
+            # create row_lengths from copy of previous optimum row lengths
             row_lengths = opt[i - 1][2][:]
+
+            # add current row length to list
             row_lengths.append(k - i + 1)
+
+            # add full option for current i-k row to list of options
             options.append((rows, cost, row_lengths))
 
+        # compare all i-k options and store combination with minimum row height
         opt[k] = min(options, key=lambda x: x[1])
 
-    return opt[n] # replace with your code
+    # return final value in opt array
+    return opt[n]
 
 
 if __name__ == '__main__':
