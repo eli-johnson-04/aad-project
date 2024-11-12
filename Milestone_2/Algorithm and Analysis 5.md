@@ -98,17 +98,17 @@ __$\text{I1}$: at the end of each iteration of the inner loop of $C_{ij}$ comput
 
 From our initial assumption, we also establish the second invariant:
 
-__$\text{I2}$: There always exists an arrangement of $n$ sculptures $s_1, \cdots, s_n$, as every sculpture is permitted to sit on its own row, whose cost will be $C[k][k] = h_k, \forall 1 \leq k \leq n$.__
+__$\text{I2}$: There always exists an arrangement of $n$ sculptures $s_1, \cdots, s_n$ into rows, as every sculpture is permitted to sit on its own row, whose cost will be $C[k][k] = h_k, \forall 1 \leq k \leq n$.__ 
 
-#### 5A: Top-Down
+### 5A: Top-Down
 Following the computation of all $C_{ij}$, $\text{TD-OPT}(n)$ is called. This is a recursive, top-down formulation of the generic form of Algorithm 5. We will use induction to prove the correctness of Algorithm 5A. 
 
-*Proof:* For $\text{TD-OPT}(j)$ where $j=1$, the case is simple. A set of one sculpture has only itself to be placed in a row, and if its width does not exceed maximum row width, then the minimum height of the row is $h_1$, that of the singular sculpture. 
+*Proof:* For $\text{TD-OPT}(j)$ where $j=1$, the case is simple. A set of one sculpture has only itself to be placed in a row, so the minimum height of the row is $M[1]=C[1][1]+0=h_1$, that of the singular sculpture, upholding $\text{I2}$.
 
-Moving forward, if for $\text{TD-OPT}(j), M[j] = \varnothing$, then it is set equal to the value of the minimum cost over $i$ for $C_{ij} + \text{TD-OPT}(i-1)$. This step will recursively calculate and store the minimum possible cost of a row being created whose rightmost sculpture is $s_j$, and calculate the cost of the next row that begins at $s_{i-1}$. The value of $M[j]$ is minimized at every recursive step, whose solution is calculated upon the existence of optimal solutions to previous subproblems. By using the optimal substructure property of Problem G, Algorithm 5A properly constructs a correct solution, outputting the minimized cost of a set of sculptures by finding the minimum cost of a row, over all possible rows. 
+Moving forward, if for $\text{TD-OPT}(j), M[j] = \varnothing$, then it is set equal to the value of the minimum cost over $i$ for $C_{ij} + \text{TD-OPT}(i-1)$. This step will recursively calculate and store the minimum possible cost of a row being created whose rightmost sculpture is $s_j$, and calculate the cost of the next row that begins at $s_{i-1}$. The value of $M[j]$ is minimized at every recursive step, whose solution is calculated upon the existence of optimal solutions to previous subproblems. By using the optimal substructure property of Problem G, Algorithm 5A properly constructs a correct solution, outputting the minimized cost of a set of sculptures by finding the minimum cost of a row, over all possible rows. This completes our proof, and shows that Algorithm 5A correctly computes and stores the minimum-cost arrangement of sculptures in every recursive call from $\text{TD-OPT}(j)$ to $\text{TD-OPT}(1)$.
 
-#### 5B: Bottom-Up
-Following the computation of all $C_{ij}$, optimal solutions to subproblems of $\text{Bottom-Up-OPT}(n)$ are tabulated, beginning at $1$ and working up to $n$. Given $\text{I1}$, we establish that 5B employs an effective strategy to determine the minimum, optimized cost of a row, by building upward. At each step, every possible option over $i$ is considered, from $1 \leq i \leq j \leq n$, and $i$ values for which $\sum_{k=i}^{j} w_k > W$ will never be chosen if any other option exists, which is always true. Since $i \leq j$, the possibility of sculpture $s_j$ sitting alone in a row is also considered, which is always a possibility, and always preferred to $\infty$. We now establish the second invariant:
+### 5B: Bottom-Up
+Following the computation of all $C_{ij}$, optimal solutions to subproblems of $\text{Bottom-Up-OPT}(n)$ are tabulated, beginning at $1$ and working up to $n$. Given $\text{I1}$, we establish that 5B employs an effective strategy to determine the minimum optimized cost of a row, by building upward. At each step, every possible option over $i$ is considered, from $1 \leq i \leq j \leq n$, and $i$ values for which $\sum_{k=i}^{j} w_k > W$ will never be chosen if any other option exists in accordance with $\text{I1}$. Since $i \leq j$, the possibility of sculpture $s_j$ sitting alone in a row is also considered, which is always a possibility and always preferred to $\infty$, as per $\text{I2}$. We now establish the third invariant:
 
 __$\text{I3}$: at the end of each iteration from $k=1$ to $n$, $M[k]$ correctly stores the minimum combined cost of all valid arrangements of k sculptures.__
 
@@ -116,4 +116,4 @@ Using $\text{I2}$ and $\text{I3}$, we claim that Algorithm 5B correctly tabulate
 
 *Proof:* Beginning with the case $k=1$, a set of sculptures containing only $s_1$ has only one arrangement where $s_1$ is by itself. Since $1 \leq i \leq k$, it must be the case that $i=k=1$, so $M[1]=C[1][1] + 0 = h_1$, and $\text{I3}$ is maintained. 
 
-For all following cases, 
+For all cases $k>1$, solutions to subproblems are computed using previous subproblem solutions, maintaining $\text{I3}$ by choosing the minimum possible $C_{ik}$ and the solution at $M[i-1]$, which we have already computed. This completes our proof, and shows that Algorithm 5B computes and stores the minimum-cost arrangement of sculptures in every iteration from $k=1$ to $n$.
