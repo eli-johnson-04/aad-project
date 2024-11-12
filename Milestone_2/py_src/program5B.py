@@ -1,4 +1,6 @@
 from typing import List, Tuple
+import sys
+WIDTH_EXCEEDED = sys.maxsize
 
     
 def program5B(n: int, W: int, heights: List[int], widths: List[int]) -> Tuple[int, int, List[int]]:
@@ -16,11 +18,40 @@ def program5B(n: int, W: int, heights: List[int], widths: List[int]) -> Tuple[in
     int: optimal total height
     List[int]: number of paintings on each platform
     """
-    ############################
-    # Add you code here
-    ############################
 
-    return 0, 0, [] # replace with your code
+    # Create a new vector for all C_ij values.
+    c = [[] for _ in range(n) ]
+
+    '''
+    Iterate over all c_ij values to determine the height of the tallest sculpture in all possible rows of width W. 
+    This list accessed with the n'th sculpture used as the first index, and the i value used as the second. 
+    '''
+    for j in range(n, 0, -1):
+        for i in range(j):
+            tmpWidths = widths[i:j]
+            ij_width = sum(tmpWidths)
+            
+            # Width check.
+            if ij_width <= W:
+                c[j - 1].append(max(heights[i:j]))
+            else:
+                c[j - 1].append(WIDTH_EXCEEDED)
+
+    opt = [None for _ in range(n + 1)]
+
+    opt[0] = (0, 0, [])
+    for k in range(1, n + 1):
+        options = []
+        for i in range(1,k+1):
+            rows = (k >= 1) + opt[i - 1][0]
+            cost = c[k - 1][i - 1] + opt[i - 1][1]
+            row_lengths = opt[i - 1][2][:]
+            row_lengths.append(k - i + 1)
+            options.append((rows, cost, row_lengths))
+
+        opt[k] = min(options, key=lambda x: x[1])
+
+    return opt[n] # replace with your code
 
 
 if __name__ == '__main__':

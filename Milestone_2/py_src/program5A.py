@@ -101,7 +101,6 @@ if __name__ == '__main__':
 
     m, total_height, num_paintings = program5A(n, W, heights, widths, c, opt)
 
-
     print(m)
     print(total_height)
     for i in num_paintings:
