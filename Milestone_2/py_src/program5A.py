@@ -3,7 +3,7 @@ import sys
 WIDTH_EXCEEDED = sys.maxsize
 
     
-def program5A(n: int, W: int, heights: List[int], widths: List[int], C: List[int]) -> Tuple[int, int, List[int]]:
+def program5A(n: int, W: int, heights: List[int], widths: List[int], C: List[int], opt: List[int]) -> Tuple[int, int, List[int]]:
     """
     Solution to Program 5A
     
@@ -44,8 +44,12 @@ def program5A(n: int, W: int, heights: List[int], widths: List[int], C: List[int
         tmpHeights = heights[:i]
         tmpWidths = widths[:i]
 
-        # Get the return value.
-        ret = program5A(i, W, tmpHeights, tmpWidths, C)
+        # Get the return value from opt array if it exists, otherwise calculate recursive value.
+        ret = None
+        if opt[i] != None:
+            ret = opt[i]
+        else:
+            ret = program5A(i, W, tmpHeights, tmpWidths, C, opt)
 
         # Only add a row if we are not in the n < 1 case.
         rows = (n >= 1) + ret[0]
@@ -62,10 +66,11 @@ def program5A(n: int, W: int, heights: List[int], widths: List[int], C: List[int
             row_lengths.append(n - i)
 
             # Add the tuple to the list.
-            options.append((rows, cost, row_lengths))
+            options.append((rows, cost, row_lengths[:]))
 
     # Construct final return value.
     result = min(options, key=lambda x: x[1])
+    opt[n - 1] = result
     return result
 
 
@@ -76,6 +81,7 @@ if __name__ == '__main__':
 
     # Create a new vector for all C_ij values.
     c = [[] for _ in range(n) ]
+    opt = [None for _ in range(n)]
 
     '''
     Iterate over all c_ij values to determine the height of the tallest sculpture in all possible rows of width W. 
@@ -93,7 +99,7 @@ if __name__ == '__main__':
                 c[j - 1].append(WIDTH_EXCEEDED)
 
 
-    m, total_height, num_paintings = program5A(n, W, heights, widths, c)
+    m, total_height, num_paintings = program5A(n, W, heights, widths, c, opt)
 
 
     print(m)
