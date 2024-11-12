@@ -31,6 +31,10 @@ OPT(j) =
 \end{cases}
 $$
 
+### Backtracking to Determine Sculpture Attendance 
+Determining sculpture attendance in rows follows the exact strategy present in Algorithm 3.
+At each $OPT$ step, one must find the difference $j - i + 1$, which represents the length of the now-calculated row. This length should be added to the end of a list of row lengths, so that recursive calls create the row list in the correct order as they return upward. Afterward, one can simply examine the list of sculptures from left to right, counting the corresponding number for a given row to determine which sculptures belong in that row. 
+
 ### 5A: Top-Down Recursive Implementation
 Algorithm 5A is an implementation of Algorithm 5 that uses memoization and recursion to construct optimal solutions to subproblems of $OPT(j)$ as needed. 
 
