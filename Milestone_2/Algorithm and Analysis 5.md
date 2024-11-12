@@ -5,7 +5,7 @@
 
 ## Algorithm 5: Efficient Dynamic Programming Solution
 ### Definition
-This algorithm follows Algorithm 3 closely. To design a $\Theta(n^2)$ algorithm, we can employ memoization to avoid recomputing optimal solutions to subproblems. 
+This algorithm closely follows Algorithm 3. To design a $\Theta(n^2)$ algorithm, we can employ memoization to avoid recomputing optimal solutions to subproblems. 
 
 $OPT(j) =$ The minimized $cost$ of arranging $j$ sculptures into rows, where $j$ is the *rightmost* sculpture being examined. In this formulation, $cost = \sum_{1}^{j}(\max_{h_k}r_j)$, and $h_k$ is the height of a sculpture $s_k \in r_j$.
 
@@ -77,6 +77,9 @@ $\begin{aligned}
 & \quad \text{Return } M[n].
 \end{aligned}$
 
+
+<!-- need to explain backtracking...-->
+
 ## Analysis
 ### Time Complexity
 #### 5A: Top-Down
@@ -86,4 +89,14 @@ Algorithm 5A precomputes all values of $C_{ij}$, taking $\Theta(n^2)$ time to do
 Algorithm 5B, just like 5A, precomputes all $C_{ij}$ values in $\Theta(n^2)$ time. The difference is now that we iterate from $1$ to $n$, making $n$ comparisons at each step, traking $O(n^2)$ time. Our total is now $O(n^2 + n^2) = O(2n^2) = \Theta(n^2)$.
 
 ### Correctness
-<!-- Write Correctness Analysis Here!!!!-->
+We begin by examining the construction of $C_{ij}$ values. These values represent, at index $C[i][j]$, the cost of a row containing sculptures $[s_i, \cdots, s_j]$ for $1 \leq i \leq j$, calculated as the height of the tallest sculpture on the platform. Thus, any value of $C_{ij}$ can be used to determine the relative *worth* of row $[s_i, \cdots, s_j]$. These values are used to determine the best combination of rows, since rows that cannot exist are marked as $cost = \infty$ and will therefore not be chosen over a smaller value. 
+
+#### 5A: Top-Down
+Following the computation of all $C_{ij}$, $\text{TD-OPT}(n)$ is called. This is a recursive, top-down formulation of the generic form of Algorithm 5. We will use induction to prove correct output of Algorithm 5A. 
+
+*Proof:* For $\text{TD-OPT}(j)$ where $j=1$, the case is simple. A set of one sculpture has only itself to be placed in a row, and if its width does not exceed maximum row width, then the minimum height of the row is $h_1$, that of the singular sculpture. 
+
+Moving forward, if for $\text{TD-OPT}(j), M[j] = \varnothing$, then it is set equal to the value of the minimum cost over $i$ for $C_{ij} + \text{TD-OPT}(i-1)$. This step will recursively calculate and store the minimum possible cost of a row being created whose rightmost sculpture is $s_j$, and calculate the cost of the next row that begins at $s_{i-1}$. The value of $M[j]$ is minimized at every recursive step, whose solution is calculated upon the existence of optimal solutions to previous subproblems. By using the optimal substructure property of Problem G, Algorithm 5A properly constructs a correct solution, outputting the minimized cost of a set of sculptures by finding the minimum cost of a row, over all possible rows. 
+
+#### 5B: Bottom-Up
+Following the computation of all $C_{ij}$, optimal solutions to subproblems of $\text{Bottom-Up-OPT}(n)$ are tabulated, beginning at $1$ and working up to $n$. We will use induction to prove the correctness 
