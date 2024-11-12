@@ -13,7 +13,7 @@ $OPT(j) =$ The minimized $cost$ of arranging $j$ sculptures into rows, where $j$
 $OPT(n) =$ the minimized $cost$ of arranging $n$ sculptures into rows. 
 
 ### Computing $OPT(j)$
-Let $C_{ij}$, where $1 \leq i \leq j$ represents the cost of a row consisting of all sculptures between and including sculptures $s_i$ and $s_j$. We allow $i$ and $j$ to be equivalent because it is possible that a row may have only one sculpture in an optimum solution. $C_{ij}$ is represented by: 
+Let $C_{ij}$, where $1 \leq i \leq j$, represent the cost of a row consisting of all sculptures between and including sculptures $s_i$ and $s_j$. We allow $i$ and $j$ to be equivalent because it is possible that a row may have only one sculpture in an optimum solution. $C_{ij}$ is represented by: 
 $$
 C_{ij} = 
 \begin{cases}
@@ -22,7 +22,7 @@ C_{ij} =
 \end{cases}
 $$
 
-To compute $OPT(j)$, we take the minimum sum of $C_{ij}$ and $OPT(i-1)$, where $i-1$ represents the *last* sculpture in the row preceding sculpture $s_i$. The following Bellman Equation describes $OPT(j)$:
+To compute $OPT(j)$, we take the minimum sum over $i$ for $1 \leq i \leq j$ of $C_{ij}$ and $OPT(i-1)$. In this case, $i-1$ represents the *last* sculpture in the row preceding sculpture $s_i$. The following Bellman Equation describes $OPT(j)$:
 $$
 OPT(j) =
 \begin{cases}
@@ -34,49 +34,48 @@ $$
 ### 5A: Top-Down Recursive Implementation
 Algorithm 5A is an implementation of Algorithm 5 that uses memoization and recursion to construct optimal solutions to subproblems of $OPT(j)$ as needed. 
 
-$
-\text{Top-Down-OPT}(n, W, h_1, \cdots, h_n, w_1, \cdots, w_n) \text{: } \\
-\quad \text{Precompute all } C_{ij} \text{ for } C[n][n] \text{ (one-based indexing): } \\
-\qquad \text{For } j=n \text{ to } j=1 \text{: } \\
-\qquad \quad \text{For } i=1 \text{ to } i=j \text{: } \\
-\qquad \qquad \text{if (} \sum_{k=i}^{j} w_k <= W \text{): } \\
-\qquad \qquad \quad C[i][j] \leftarrow \max_{i \leq k \leq j}(h_k). \\
-\qquad \qquad \text{else: } \\
-\qquad \qquad \quad C[i][j] \leftarrow \infty. \\
-\quad \\
-\quad \text{Initialize OPT array } M[n]. \\
-\quad M[0] \leftarrow 0. \\
-\quad M[1] \leftarrow C[1][1]. \\
-\quad \text{TD-OPT}(n). \\
-\quad \\
-\text{TD-OPT}(j) \text{: } \\
-\quad \text{if (}M[j] \text{ is uninitialized} \text{): } \\
-\qquad M[j] \leftarrow \min_{1 \leq i \leq j}(C[i][j] + \text{TD-OPT}(i-1)).  \\
-\quad \text{Return } M[j].
-$
+$\begin{aligned}
+& \text{Top-Down-OPT}(n, W, h_1, \cdots, h_n, w_1, \cdots, w_n) \text{: } \\
+& \quad \text{Precompute all } C_{ij} \text{ for } C[n][n] \text{ (one-based indexing): } \\
+& \qquad \text{For } j=n \text{ to } j=1 \text{: } \\
+& \qquad \quad \text{For } i=1 \text{ to } i=j \text{: } \\
+& \qquad \qquad \text{if (} \sum_{k=i}^{j} w_k \leq W \text{): } \\
+& \qquad \qquad \quad C[i][j] \leftarrow \max_{i \leq k \leq j}(h_k). \\
+& \qquad \qquad \text{else: } \\
+& \qquad \qquad \quad C[i][j] \leftarrow \infty. \\
+& \\
+& \quad \text{Initialize OPT array } M[n]. \\
+& \quad M[0] \leftarrow 0. \\
+& \quad M[1] \leftarrow C[1][1]. \\
+& \quad \text{Return TD-OPT}(n). \\
+& \\
+& \text{TD-OPT}(j) \text{: } \\
+& \quad \text{if (}M[j] \text{ is uninitialized} \text{): } \\
+& \qquad M[j] \leftarrow \min_{1 \leq i \leq j}(C[i][j] + \text{TD-OPT}(i-1)).  \\
+& \quad \text{Return } M[j].
+\end{aligned}$
 
 ### 5B: Bottom-Up Iterative Implementation
 Algorithm 5B is an implementation of Algorithm 5 that uses memoization and iteration to construct optimal solutions to subproblems of $OPT(j)$, starting at $OPT(1)$ and working up to $OPT(j)$. 
 
-$
-\text{Bottom-Up-OPT}(n, W, h_1, \cdots, h_n, w_1, \cdots, w_n) \text{: } \\
-\quad \text{Precompute all } C_{ij} \text{ for } C[n][n] \text{ (one-based indexing): } \\
-\qquad \text{For } j=n \text{ to } 1 \text{: } \\
-\qquad \quad \text{For } i=1 \text{ to } j \text{: } \\
-\qquad \qquad \text{if (} \sum_{k=i}^{j} w_k <= W \text{): } \\
-\qquad \qquad \quad C[i][j] \leftarrow \max_{i \leq k \leq j}(h_k). \\
-\qquad \qquad \text{else: } \\
-\qquad \qquad \quad C[i][j] \leftarrow \infty. \\
-\quad \\
-\quad \text{Initialize OPT array} M[n]. \\
-\quad M[0] \leftarrow 0. \\
-\quad M[1] \leftarrow C[1][1]. \\
-\quad \text{For } k=1 \text{ to } n \text{: } \\
-\qquad M[k] = \min_{1 \leq i \leq j}(C_{ij} + M[i-1]). \\
-\quad \\
-\quad \text{Return } M[n]. \\
-$
-
+$\begin{aligned}
+& \text{Bottom-Up-OPT}(n, W, h_1, \cdots, h_n, w_1, \cdots, w_n) \text{: } \\
+& \quad \text{Precompute all } C_{ij} \text{ for } C[n][n] \text{ (one-based indexing): } \\
+& \qquad \text{For } j=n \text{ to } 1 \text{: } \\
+& \qquad \quad \text{For } i=1 \text{ to } j \text{: } \\
+& \qquad \qquad \text{if (} \sum_{k=i}^{j} w_k \leq W \text{): } \\
+& \qquad \qquad \quad C[i][j] \leftarrow \max_{i \leq k \leq j}(h_k). \\
+& \qquad \qquad \text{else: } \\
+& \qquad \qquad \quad C[i][j] \leftarrow \infty. \\
+& \\
+& \quad \text{Initialize OPT array } M[n]. \\
+& \quad M[0] \leftarrow 0. \\
+& \quad M[1] \leftarrow C[1][1]. \\
+& \quad \text{For } k=1 \text{ to } n \text{: } \\
+& \qquad M[k] = \min_{1 \leq i \leq j}(C_{ij} + M[i-1]). \\
+& \\
+& \quad \text{Return } M[n].
+\end{aligned}$
 
 ## Analysis
 ### Time Complexity
