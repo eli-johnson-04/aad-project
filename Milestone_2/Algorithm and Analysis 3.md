@@ -11,7 +11,7 @@ $OPT(j) =$ The minimized $cost$ of arranging $j$ sculptures into rows, where $j$
 $OPT(n) =$ the minimized cost of arranging $n$ sculptures into rows.
 
 ### Computing $OPT(j)$
-Let $C_{ij}$, where $1 \leq i \leq j$ represents the cost of a row consisting of all sculptures between and including sculptures $s_i$ and $s_j$. We allow $i$ and $j$ to be equivalent because it is possible that a row may have only one sculpture. $C_{ij}$ is represented by:
+Let $C_{ij}$, where $1 \leq i \leq j$, represent the cost of a row consisting of all sculptures between and including sculptures $s_i$ and $s_j$. We allow $i$ and $j$ to be equivalent because it is possible that a row may have only one sculpture in an optimum solution. $C_{ij}$ is represented by:
 $$
 C_{ij} = 
 \begin{cases}
@@ -20,7 +20,7 @@ C_{ij} =
 \end{cases}
 $$
 
-To compute $OPT(j)$, we take the minimum sum of $C_{ij}$ and $OPT(i-1)$, where $i-1$ represents the *last* sculpture in the row preceding sculpture $s_i$. The following Bellman Equation describes $OPT(j)$:
+To compute $OPT(j)$, we take the minimum sum over $i$ for $1 \leq i \leq j$ of $C_{ij}$ and $OPT(i-1)$. In this case, $i-1$ represents the *last* sculpture in the row preceding sculpture $s_i$. The following Bellman Equation describes $OPT(j)$:
 $$
 OPT(j) = 
 \begin{cases}
