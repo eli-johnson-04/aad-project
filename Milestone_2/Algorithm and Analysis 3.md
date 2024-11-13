@@ -41,4 +41,4 @@ Algorithm 3 recursively chooses the index $i$ for which the sum $C_{ij} + OPT(i 
 This solution does not memoize or store optimal values from previously-computed subproblem solutions, so it can be no slower than the $C_{ij}$ computation time added to the minimum time needed to recursively calculate all possible values. All possible values must be considered and compared in order to compute an optimum solution, so we arrive at a total complexity of $\Theta(n2^{n-1})$.
 
 ### Correctness
-<!-- Write Correctness Analysis Here!!!!-->
+To prove the correctness of this algorithm, we can use Induction to establish that the solution of smaller subproblems will subsequently solve the larger subproblem. The function for C precalculates the height of a hypothetical row of paintings i to j. If the paintings in row ij have a width greater than W, the function will assign a height of $\infin$ to that row of paintings. Otherwise, $C_{ij}$ is set to the maximum height of paintings in the row. These values are precalculated and used during the algorithm to save on time complexity.
