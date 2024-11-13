@@ -28,7 +28,7 @@ tuple<int, int, vector<int>> program3(int n, vector<int> heights, vector<int> wi
     * Python could do this with a list comprehension but recursion limits are a dumb and stupid (safe, smart, responsible) idea. Let me write exponential algorithms!!!!!!
     */
     vector<tuple<int, int, vector<int>>> options;
-    auto& c_n = C[n - 1];
+    const vector<int>& c_n = C[n - 1];
     for (int i = 0; i < n; ++i) {
         // Get the value of C for the current i and n values. 
         int c_val = c_n[i];
@@ -47,7 +47,7 @@ tuple<int, int, vector<int>> program3(int n, vector<int> heights, vector<int> wi
         }
 
         // Get the return value.
-        auto ret = program3(i, tmpHeights, tmpWidths, C);
+        tuple<int, int, vector<int>> ret = program3(i, tmpHeights, tmpWidths, C);
 
         // Only add a row if we are not in the n < 1 case. 
         int rows = !n_small + get<0>(ret);
@@ -94,9 +94,9 @@ int main() {
     int W = 10;
 
     for (int i = 1; i <= SIZE_MULTIPLES; ++i) {
-        sizes.push_back(vector<int>(i * 1000));
-        for (int j = i * 1000; j > 0; --j) {
-            sizes[i - 1][j - 1] = rand() % (1000 * SIZE_MULTIPLES) + 1;
+        sizes.push_back(vector<int>(i * 15));
+        for (int j = i * 15; j > 0; --j) {
+            sizes[i - 1][j - 1] = rand() % (15 * SIZE_MULTIPLES) + 1;
         }
     }
 
@@ -134,11 +134,12 @@ int main() {
 
         vector<double> times(NUM_TEST_AVERAGES, 0.0);
         for (int i = 0; i < NUM_TEST_AVERAGES; ++i) {
+            cout << "Running test " << i + 1 << "...";
             auto start = chrono::high_resolution_clock::now();
             tuple<int, int, vector<int>> result = program3(set.size(), set, widths, C);
             auto end = chrono::high_resolution_clock::now();
             times[i] = chrono::duration<double, milli>(end - start).count();
-            cout << "Run " << i + 1<< " of " << NUM_TEST_AVERAGES << " complete." << endl;
+            cout << "\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\bRun " << i + 1 << " of " << NUM_TEST_AVERAGES << " complete." << endl;
         }
 
         double avg = accumulate(times.begin(), times.end(), 0.0) / NUM_TEST_AVERAGES;
