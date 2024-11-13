@@ -18,28 +18,30 @@ def program4(n: int, heights: List[int], widths: List[int], W: int) -> Tuple[int
     List[int]: number of paintings on each platform
     """
 
-    # Precompute max height subarrays only when total width constraint met
+    WIDTH_EXCEEDED = sys.maxsize
+
+    # Compute the cost matrix C
     C = []
     for i in range(n):
-        row = [WIDTH_EXCEEDED] * n
+        row = []
+        for j in range(n):
+            row.append(WIDTH_EXCEEDED)
         C.append(row)
     for i in range(n):
-        t_w = 0
-        m_h = 0
         for j in range(i, n):
-            t_w += widths[j]
-            m_h = max(m_h, heights[j])
+            t_w = sum(widths[i:j+1])
+            m_h = max(heights[i:j+1])
             if t_w <= W:
                 C[i][j] = m_h
             else:
-                break
+                C[i][j] = WIDTH_EXCEEDED
 
     # Initialize dp array M and backtracking array P
     M = [WIDTH_EXCEEDED] * (n + 1)
     P = [-1] * (n + 1)
     M[0] = 0
 
-    # Calculate min cost for each position with precomputed values in C
+    # Calculate min cost for each position with values in C
     for i in range(1, n + 1):
         for j in range(i):
             if C[j][i - 1] != WIDTH_EXCEEDED:
@@ -61,11 +63,10 @@ def program4(n: int, heights: List[int], widths: List[int], W: int) -> Tuple[int
         i = j
     lens.reverse()
 
-    # Calc the total number of platforms and the optimall cost
+    # Calculate the total number of platforms and the optimal cost
     total_platforms = len(lens)
     total_cost = M[n]
     return total_platforms, total_cost, lens
-
 
 if __name__ == '__main__':
     n, W = map(int, input().split())
