@@ -47,9 +47,9 @@ def program5B(n: int, W: int, heights: List[int], widths: List[int]) -> Tuple[in
         # Contains all possible options, formatted the same as the return tuple. 
         options = [
             (
-            (k >= 1) + M[i - 1][0],         # the number of rows from the previous subproblem solution
-            c[k - 1][i - 1] + M[i - 1][1],  # cost, as the sum of C_ik and the combined height of previous rows
-            M[i - 1][2][:] + [k - i + 1]    # the length of the new row we are constructing
+            (k >= 1) + M[i - 1][0],         # [0] - the number of rows from the previous subproblem solution
+            c[k - 1][i - 1] + M[i - 1][1],  # [1] - cost, as the sum of C_ik and the combined height of previous rows
+            M[i - 1][2][:] + [k - i + 1]    # [2] - the length of the new row we are constructing
             ) 
             for i in range(1, k + 1)        # over all possible options from 1 to k inclusive
         ]
