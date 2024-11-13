@@ -16,7 +16,7 @@ Again, heights are randomly generated for a list whose length is equal to each o
 
 Executions of programs 4, 5A, and 5B must occur separately since one test file was written for modularity, and so operate on the same list sizes, but not the same list contents. 
 
-#### NOTE: Plot 3 is logarithmic in base 10 for Execution Time. Plot 7 is logarithmic in base 10 for Input Size. 
+#### NOTE: Plot 3 is logarithmic in base $10$ for Execution Time. Plot 7 is logarithmic in base $10$ for Input Size. 
 
 ### Data
 ![Algorithm 3 Test Data](Test_Data_A3.png)
@@ -46,7 +46,9 @@ Executions of programs 4, 5A, and 5B must occur separately since one test file w
 | 5000                       | 0.196439                  | 5000                       | 268.2222                  |
 
 ### Analysis
-<!-- Analyze Performance Here!-->
+There are a few major points of interest. To begin, Program3 is set on a logarithmic curve in base $10$ to better illustrate how its performance scales with input size. It climbs extremely rapidly, even for a C++ implementation, as compared to the Python versions for the others. Nonetheless, program3 obviously ahs the worst performance of all the algorithms, as made evident by its exponential time complexity. This was to be expected, and it was quite difficult to test the algorithm and determine realistic values for input sizes. 
+
+Programs 5A and 5B do follow relatively the same rate of growth against input size, but when placed next to each other, it becomes evident that 5A, the top-down implementation of Algorithm 5, performs substantially better than 5B. We believe this is because iteratively computing all possible values $\text{OPT}(1)$ to $\text{OPT}(n)$ is likely to be slower than recursively computing them *as-needed*. 5A also has the best performance of all the programs, which was the rationale for its use in the following comparison. 
 
 ### Program 1 vs. Program 5A Accuracy Comparison
 To test how wrong program1 is compared to an optimal algorithm, we used the same testing strategies as before, except the data being examined is $\frac{(h_g - h_o)}{h_o}$, where $h_o$ is the optimal height of program5A, and $h_g$ is the greedy height of program1. We used randomly generated heights in lists of size $[1000, 2000, 3000, 4000, 5000]$, with a constant max width of $10$ and randomly generated painting widths from $1$ to $10$. 
