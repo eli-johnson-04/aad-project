@@ -1,8 +1,5 @@
 # Algorithm and Analysis 4
 
-## Problem G
-### Given the heights $h_1, \cdots, h_n$ and the base widths $w_1, \cdots, w_n$ of $n$ sculptures, along with the width $W$ of the display platform, find an arrangement of the sculptures on platforms that minimizes the total height. 
-
 ## Algorithm 4: Inefficient Dynamic Programming Solution
 ### Definition
 This algorithm closely follows Algorithm 3. Algorithm 4 uses a dynamic programming approach to solve Problem G. It iteratively determines the optimal arrangement of sculptures on platforms to minimize the total height. However, this solution employs an approach that recomputes the maximum height in each partition from scratch, leading to an inefficient, Θ(n³) algorithm.
