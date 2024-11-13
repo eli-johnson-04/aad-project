@@ -3,14 +3,13 @@
 ## Elijah Johnson
 - Repository, Code Standards, Report Structure and Documentation
 
-- Algorithm 5 Design
-    - 5A, 5B Pseudocode, Time Complexity Analysis, Correctness Analysis
+- Algorithm 5 Design, Pseudocode, Time Complexity Analysis, Correctness Analysis
 - Testing Implementations, Graphs, Experimental Study Report
 - Gradescope Submissions
 
 ## Patrick Kallenbach
 
-- Algorithm 5A, 5B Programs
+- Algorithm 5A, 5B Implementations
 
 
 ## Nicholas Lindner
