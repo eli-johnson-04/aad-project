@@ -66,7 +66,7 @@ if __name__ == '__main__':
     heights = list(map(int, input().split()))
     widths = list(map(int, input().split()))
 
-    m, total_height, num_paintings = program4(n, W, heights, widths)
+    m, total_height, num_paintings = program4(n, heights, widths, W)
 
     print(m)
     print(total_height)
