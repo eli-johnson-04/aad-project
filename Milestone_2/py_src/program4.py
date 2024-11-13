@@ -29,8 +29,11 @@ def program4(n: int, heights: List[int], widths: List[int], W: int) -> Tuple[int
         C.append(row)
     for i in range(n):
         for j in range(i, n):
-            t_w = sum(widths[i:j+1])
-            m_h = max(heights[i:j+1])
+            t_w = 0
+            m_h = 0
+            for s in range(i, j + 1):
+                t_w += widths[s]
+                m_h = max(m_h, heights[s])
             if t_w <= W:
                 C[i][j] = m_h
             else:
@@ -45,7 +48,12 @@ def program4(n: int, heights: List[int], widths: List[int], W: int) -> Tuple[int
     for i in range(1, n + 1):
         for j in range(i):
             if C[j][i - 1] != WIDTH_EXCEEDED:
-                cost = M[j] + C[j][i - 1]
+                if M[j] != WIDTH_EXCEEDED:
+                    cost = M[j] + C[j][i - 1]
+                elif j == i - 1:
+                    cost = C[j][i - 1]
+                else:
+                    continue
                 if cost < M[i]:
                     M[i] = cost
                     P[i] = j
@@ -67,6 +75,7 @@ def program4(n: int, heights: List[int], widths: List[int], W: int) -> Tuple[int
     total_platforms = len(lens)
     total_cost = M[n]
     return total_platforms, total_cost, lens
+    
 
 if __name__ == '__main__':
     n, W = map(int, input().split())
