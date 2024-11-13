@@ -41,4 +41,21 @@ Algorithm 3 recursively chooses the index $i$ for which the sum $C_{ij} + OPT(i 
 This solution does not memoize or store optimal values from previously-computed subproblem solutions, so it can be no slower than the $C_{ij}$ computation time added to the minimum time needed to recursively calculate all possible values. All possible values must be considered and compared in order to compute an optimum solution, so we arrive at a total complexity of $\Theta(n2^{n-1})$.
 
 ### Correctness
-To prove the correctness of this algorithm, we can use Induction to establish that the solution of smaller subproblems will subsequently solve the larger subproblem. The function for C precalculates the height of a hypothetical row of paintings i to j. If the paintings in row ij have a width greater than W, the function will assign a height of $\infin$ to that row of paintings. Otherwise, $C_{ij}$ is set to the maximum height of paintings in the row. These values are precalculated and used during the algorithm to save on time complexity.
+We begin by establishing the following assumption: 
+$$
+\forall 1 \leq k \leq n, \nexists p_k \text{ where } w_k > W.
+$$
+
+We will now examine the construction of $C_{ij}$ values. These values represent, at index $C[i][j]$, the cost of a row containing paintings $[p_i, \cdots, p_j]$ for $1 \leq i \leq j$, calculated as the height of the tallest painting on the platform. Thus, any value of $C_{ij}$ can be used to determine the relative *worth* of row $[p_i, \cdots, p_j]$. These values are used to determine the best combination of rows, since rows that cannot exist are marked as $C_{ij} = \infty$ and will therefore never be chosen over a smaller value. We now establish the following invariant:
+
+$\text{I1}$: __at the end of each iteration of the inner loop of $C_{ij}$ computation, $C[i][j]$ correctly stores the maximum height of a row containing paintings $p_i$ to $p_j$, as long as the combined widths of the paintings do not exceed $W$.__ 
+
+From our initial assumption, we also establish the second invariant:
+
+$\text{I2}$: __There always exists an arrangement of $n$ paintings $p_1, \cdots, p_n$ into rows, as every painting is permitted to sit on its own row, whose cost will be $C[k][k] = h_k, \forall 1 \leq k \leq n$.__ 
+
+Following the computation of all $C_{ij}$, $\text{OPT(n)}$ is called. This algorithm is recursive, solving smaller subproblems of the original input without storing computed values. We will use induction to prove the correctness of Algorithm 3. 
+
+*Proof:* For $\text{OPT}(j)$ where $j=1$, the case is simple. A set of one painting has only itself to be placed in a row, so the maximum height of the row is $C[1][1]+0=h_1$, that of the singular painting, upholding $\text{I2}$.
+
+Moving forward, when $j \not= 1$,  $\text{OPT}(j)$ computes the value of the minimum cost over $i$ for $C_{ij} + \text{OPT}(i-1)$. This step will recursively calculate the minimum possible cost of a row being created whose rightmost painting is $p_j$, and calculate the cost of the next row that begins at $p_{i-1}$. The value of $\text{OPT}(j)$ is minimized at every recursive step, whose solution is calculated upon the existence of optimal solutions to previous subproblems. By using the optimal substructure property of Problem G, Algorithm 3 properly constructs a correct solution, outputting the minimized cost of a set of paintings by finding the minimum cost of a row, over all possible rows. This completes our proof, and shows that Algorithm 3 correctly computes the minimum-cost arrangement of paintings in every recursive call from $\text{OPT}(j)$ to $\text{OPT}(1)$.
