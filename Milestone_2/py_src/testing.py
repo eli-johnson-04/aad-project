@@ -58,6 +58,7 @@ def run_test(filename, W, sets, program, fctn):
                     end_time = time.perf_counter()
                     
                 times.append(end_time - start_time)
+                print("Run " + str(i + 1) + " of " + str(NUM_TEST_AVERAGES) + " complete.")
 
             # Get the average running time. 
             avg = sum(times) / NUM_TEST_AVERAGES
@@ -73,7 +74,7 @@ if __name__ == '__main__':
     prgm = str(input("Input the program to be tested (4, 5A, 5B): "))
 
     # Change SIZE_MULTIPLES for the number of multiples of 1000 to be used in sizes.
-    SIZE_MULTIPLES = 12
+    SIZE_MULTIPLES = 5
     # Change TEST_AVERAGING to get the average time of n tests
     NUM_TEST_AVERAGES = 5
 
