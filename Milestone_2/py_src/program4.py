@@ -1,4 +1,4 @@
-from typing import List, Tuple
+from typing import List, Tuple, Optional
 import sys
 
 WIDTH_EXCEEDED = sys.maxsize
@@ -18,47 +18,53 @@ def program4(n: int, heights: List[int], widths: List[int], W: int) -> Tuple[int
     List[int]: number of paintings on each platform
     """
 
-    # Precompute C[i][j] (the max height of placing paintings from i to j on a platform)
+    # Precompute max height subarrays only when total width constraint met
     C = []
     for i in range(n):
         row = [WIDTH_EXCEEDED] * n
         C.append(row)
     for i in range(n):
+        t_w = 0
+        m_h = 0
         for j in range(i, n):
-            t_w = sum(widths[i:j + 1])
-            m_h = max(heights[i:j + 1])
+            t_w += widths[j]
+            m_h = max(m_h, heights[j])
             if t_w <= W:
                 C[i][j] = m_h
+            else:
+                break
 
-    # Initialize the dytnamic programming array M as well as backtracking array P
+    # Initialize dp array M and backtracking array P
     M = [WIDTH_EXCEEDED] * (n + 1)
     P = [-1] * (n + 1)
     M[0] = 0
 
-    # Calc min cost for each position using prev computed values
+    # Calculate min cost for each position with precomputed values in C
     for i in range(1, n + 1):
-        cuts = []
         for j in range(i):
-            c_val = C[j][i - 1]
-            if c_val != WIDTH_EXCEEDED:
-                cost = M[j] + c_val
-                cuts.append((cost, j))
+            if C[j][i - 1] != WIDTH_EXCEEDED:
+                cost = M[j] + C[j][i - 1]
+                if cost < M[i]:
+                    M[i] = cost
+                    P[i] = j
 
-        M[i], P[i] = min(cuts, key=lambda x: x[0])
+    # Check if valid solution actually exists for M[n]
+    if M[n] == WIDTH_EXCEEDED:
+        return -1, -1, []
 
-    # Reconstruct the platform solution using backtracking with P array
-    row_lens = []
+    # Reconstruct platform solution with backtracking with P
+    lens = []
     i = n
     while i > 0:
         j = P[i]
-        row_lens.append(i - j)
+        lens.append(i - j)
         i = j
-    row_lens.reverse()
+    lens.reverse()
 
-    # Calculate the total number of platforms and the optimal total cost
-    total_platforms = len(row_lens)
+    # Calc the total number of platforms and the optimall cost
+    total_platforms = len(lens)
     total_cost = M[n]
-    return total_platforms, total_cost, row_lens
+    return total_platforms, total_cost, lens
 
 
 if __name__ == '__main__':
