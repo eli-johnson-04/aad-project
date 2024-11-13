@@ -2,23 +2,36 @@
 
 ## Algorithm 4: Inefficient Dynamic Programming Solution
 ### Definition
-This algorithm closely follows Algorithm 3. Algorithm 4 uses a dynamic programming approach to solve Problem G. It iteratively determines the optimal arrangement of sculptures on platforms to minimize the total height. However, this solution employs an approach that recomputes the maximum height in each partition from scratch, leading to an inefficient, Θ(n³) algorithm.
+Let n be the number of paintings that must be arranged on platforms. Each painting, si, has a height hi and a width wi. Furthermore, each platform has the same maximum width W, and the paintings must be displayed in the order they are provided. The cost of placing a group of paintings on a platform is defined by the height of the tallest painting on that platform.
 
-Let $OPT(j)$ denote the minimized cost of arranging the first $j$ paintings into rows, where $j$ is the rightmost painting in the arrangement.
+To design this $\Theta(n^3)$ algorithm algorithm, we can use the approach of utilizing a cost matrix and dynamic programming to calculate the minimum height arrangement.
 
-OPT(j) = minimum total height required to arrange paintings up to j.
+OPT(j): The minimized total height cost of arranging the first j paintings on platforms, where j is the rightmost painting being considered. In this formulation, the cost is calculated as
 
-The sum of the maximum heights of all rows is calculated as "Total Cost":
-$$
-\text{cost} = \sum_{r=1}^{m} \left( \max_{h_k} \text{ in } r_j \right)
-$$
-Here, $h_k$ is the height of painting $p_k$ in row $r_j$.
+\[
+\text{cost} = \sum_{i=1}^{m} \left( \max_{k \in r_i} h_k \right)
+\]
+
+where \( h_k \) is the height of a painting \( p_k \) assigned to platform \( r_i \).
+The sum iterates over all platforms \( r_1, r_2, \ldots, r_m \). Every platform cost is decided by the height of the tallest painting on that platform.
 
 ### Goal
-The goal of the algorithm is to compute:
-$$
-OPT(n) = \text{the minimized total height for arranging all } n \text{ paintings into rows, subject to the width constraint } W.
-$$
+The goal of the algorithm is to make the total cost (height) of the structure minimal. There are two main components to accomplish this goal. First, no platform can have a width that is larger than W, the maximum allowed platform width. And second, the sum of the heights of the tallest painting on each platform is minimized.
+
+OPT(n) = the minimized cost of arranging n paintings into rows.
+
+### Computing $OPT(j)$
+Let $OPT(j)$ be the minimum height cost for placing the first j paintings onto platforms. To compute $OPT(j)$ we must look at the a starting point, i, where i <= j, for the last platform holding paintings si to sj.
+
+C[i][j] is the cost matrix, and it provides the height of the tallest painting for a range si to sj, as long as it is a valid height (W >= width). We can express OPT(j) as:
+
+\[
+OPT(j) = \min_{0 \leq i < j} \left( OPT(i) + C[i][j - 1] \right)
+\]
+
+where OPT(i) is the minimum cost of arranging the first i paintings, and C[i][j−1] provides the cost of placing the paintings from i to j − 1 on the last platform. Iterating over all starting points for each platform confirms that OPT(j) is the minimal possible height for the first j paintings.
+
+
 
 ## Analysis
 ### Time Complexity
@@ -43,5 +56,4 @@ $$
 
 ### Correctness
 <!-- Write Correctness Analysis Here!!!!-->
-
 
