@@ -7,11 +7,11 @@
 using namespace std;
 #define WIDTH_EXCEEDED numeric_limits<int>::max()
 /* Solution to program 3
-* @param n the number of sculptures
-* @param heights the heights of the sculptures
-* @param widths the widths of the sculptures
+* @param n the number of paintings
+* @param heights the heights of the paintings
+* @param widths the widths of the paintings
 * @param &C a reference to the nested vector containing all C_ij values
-* @return a tuple containing the number of platforms used, the optimal total height, and the number of sculptures on each platform
+* @return a tuple containing the number of platforms used, the optimal total height, and the number of paintings on each platform
 */
 // if needed, this could (probably) be modified to include a static variable for C_ij instead of passing in a reference for every call, but that will only be done if we are not allowed to modify the function header. 
 tuple<int, int, vector<int>> program3(int n, vector<int> heights, vector<int> widths, const vector<vector<int>>& C){
@@ -98,8 +98,8 @@ int main() {
     vector<vector<int>> c(n);
 
     /*
-    * Iterate over all c_ij values to determine the height of the tallest sculpture in all possible rows of width W. 
-    * This list accessed with the n'th sculpture used as the first index, and the i value used as the second. 
+    * Iterate over all c_ij values to determine the height of the tallest painting in all possible rows of width W. 
+    * This list accessed with the n'th painting used as the first index, and the i value used as the second. 
     */
     for (int j = n; j > 0; --j) {
         for (int i = 0; i < j; ++i) {
