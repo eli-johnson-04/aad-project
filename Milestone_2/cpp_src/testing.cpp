@@ -11,7 +11,20 @@ using namespace std;
 
 #define WIDTH_EXCEEDED numeric_limits<int>::max()
 
+struct program3_resetter {
+    static int& get_count() {
+        static int count = 0;
+        return count;
+    }
+};
+
+void reset_program3_counter() {
+    program3_resetter::get_count() = 0;
+}
+
 tuple<int, int, vector<int>> program3(int n, vector<int> heights, vector<int> widths, const vector<vector<int>>& C){
+    static int& count = program3_resetter::get_count();
+    ++count;
     // Check for invalid input. 
     bool n_small = n < 1;
     if (n_small) {
@@ -65,12 +78,12 @@ tuple<int, int, vector<int>> program3(int n, vector<int> heights, vector<int> wi
         }
 
         // Add the tuple to the list. 
-        options.push_back(make_tuple(rows, cost, row_lengths));
+        options.push_back(make_tuple(count, cost, row_lengths));
     }
 
     // Construct final return value. 
     // Ugly lambda comparator because I just need something to work; gets the smallest tuple based on the cost (value at index 1). 
-    auto result = *min_element(options.begin(), options.end(), 
+    tuple<int, int, vector<int>> result = *min_element(options.begin(), options.end(), 
         [](const auto& a, const auto& b) {
             return get<1>(a) < get<1>(b);
         });
@@ -79,6 +92,7 @@ tuple<int, int, vector<int>> program3(int n, vector<int> heights, vector<int> wi
 
 const int NUM_TEST_AVERAGES = 5;
 const int SIZE_MULTIPLES = 5;
+const int SIZE_FACTOR = 15;
 
 int main() {
     string outFile = "../test3.csv";
@@ -94,9 +108,9 @@ int main() {
     int W = 10;
 
     for (int i = 1; i <= SIZE_MULTIPLES; ++i) {
-        sizes.push_back(vector<int>(i * 15));
-        for (int j = i * 15; j > 0; --j) {
-            sizes[i - 1][j - 1] = rand() % (15 * SIZE_MULTIPLES) + 1;
+        sizes.push_back(vector<int>(i * SIZE_FACTOR));
+        for (int j = i * SIZE_FACTOR; j > 0; --j) {
+            sizes[i - 1][j - 1] = rand() % (SIZE_FACTOR * SIZE_MULTIPLES) + 1;
         }
     }
 
@@ -106,8 +120,8 @@ int main() {
     }
     cout << endl;
 
-    for (const auto& set : sizes) {
-        cout << "Testing " << set.size() << " elements..." << endl;
+    for (const auto set : sizes) {
+        cout << "Testing " << set.size() << " paintings..." << endl;
         vector<int> widths(set.size());
         random_device rd;
         mt19937 gen(rd());
@@ -135,11 +149,12 @@ int main() {
         vector<double> times(NUM_TEST_AVERAGES, 0.0);
         for (int i = 0; i < NUM_TEST_AVERAGES; ++i) {
             cout << "Running test " << i + 1 << "...";
+            reset_program3_counter();
             auto start = chrono::high_resolution_clock::now();
             tuple<int, int, vector<int>> result = program3(set.size(), set, widths, C);
             auto end = chrono::high_resolution_clock::now();
-            times[i] = chrono::duration<double, milli>(end - start).count();
-            cout << "\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\bRun " << i + 1 << " of " << NUM_TEST_AVERAGES << " complete." << endl;
+            times[i] = chrono::duration<double>(end - start).count();
+            cout << "\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\bRun " << i + 1 << " of " << NUM_TEST_AVERAGES << " complete with " << get<0>(result) << " recursive calls." << endl;
         }
 
         double avg = accumulate(times.begin(), times.end(), 0.0) / NUM_TEST_AVERAGES;
