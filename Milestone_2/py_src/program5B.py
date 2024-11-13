@@ -37,40 +37,27 @@ def program5B(n: int, W: int, heights: List[int], widths: List[int]) -> Tuple[in
             else:
                 c[j - 1].append(WIDTH_EXCEEDED)
 
-    # initialize opt array to store optimal values (opt(0) through opt(n))
-    opt = [None for _ in range(n + 1)]
+    # Initialize M array of tuples to store optimal values (opt(0) to opt(n)).
+    M = [None for _ in range(n + 1)]
+    M[0] = (0, 0, [])
 
-    # set initial opt value to empty set
-    opt[0] = (0, 0, [])
-
-    # for k from 1 to n inclusive
+    # Generate all values of options from 1 to n inclusive. 
     for k in range(1, n + 1):
 
-        # initialize final options vector
-        options = []
+        # Contains all possible options, formatted the same as the return tuple. 
+        options = [
+            (
+            (k >= 1) + M[i - 1][0],         # the number of rows from the previous subproblem solution
+            c[k - 1][i - 1] + M[i - 1][1],  # cost, as the sum of C_ik and the combined height of previous rows
+            M[i - 1][2][:] + [k - i + 1]    # the length of the new row we are constructing
+            ) 
+            for i in range(1, k + 1)        # over all possible options from 1 to k inclusive
+        ]
 
-        # for i from 1 to k inclusive
-        for i in range(1,k+1):
-            # count rows from previous opt value
-            rows = (k >= 1) + opt[i - 1][0]
+        # Compare all i to k options, and store the arrangement with minimum cost. 
+        M[k] = min(options, key=lambda x: x[1])
 
-            # calculate cost as sum of current row C and total height of previous rows
-            cost = c[k - 1][i - 1] + opt[i - 1][1]
-
-            # create row_lengths from copy of previous optimum row lengths
-            row_lengths = opt[i - 1][2][:]
-
-            # add current row length to list
-            row_lengths.append(k - i + 1)
-
-            # add full option for current i-k row to list of options
-            options.append((rows, cost, row_lengths))
-
-        # compare all i-k options and store combination with minimum row height
-        opt[k] = min(options, key=lambda x: x[1])
-
-    # return final value in opt array
-    return opt[n]
+    return M[n]
 
 
 if __name__ == '__main__':
