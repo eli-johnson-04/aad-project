@@ -3,11 +3,12 @@ import csv, random, time
 from program4 import program4
 from program5A import program5A
 from program5B import program5B
+import sys
+WIDTH_EXCEEDED = sys.maxsize
 
-def run_test(filename, W, sets, fctn):
+def run_test(filename, W, sets, program, fctn):
     # Open the output file.
-    with open(filename, mode = 'w', encoding = 'utf-8', newline = '') as out:
-        
+    with open(filename, mode = 'w', encoding = 'utf-8', newline = '') as out:        
         # Create the writer object.
         writer = csv.writer(out, delimiter = ',')
 
@@ -21,13 +22,41 @@ def run_test(filename, W, sets, fctn):
             # Get the length, and generate a corresponding list of random integers, 1-10. 
             n = len(set_)
             widths = [random.randint(1, 10) for _ in range(n)]
+            # Program 5A has a different signature, so we account for it. 
+
+            if (program == "5A"):    
+                # Create a new list for all C_ij values.
+                c = [[] for _ in range(n) ]
+                optimum = [None for _ in range(n)] 
+
+                '''
+                Iterate over all c_ij values to determine the height of the tallest painting in all possible rows of width W. 
+                This list accessed with the n'th painting used as the first index, and the i value used as the second. 
+                '''
+                for j in range(n, 0, -1):
+                    for i in range(j):
+                        tmpWidths = widths[i:j]
+                        ij_width = sum(tmpWidths)
+                        
+                        # Width check.
+                        if ij_width <= W:
+                            c[j - 1].append(max(set_[i:j]))
+                        else:
+                            c[j - 1].append(WIDTH_EXCEEDED) 
 
             # Time the run.
             times = []
             for i in range(NUM_TEST_AVERAGES):
-                start_time = time.perf_counter()
-                output = fctn(n, W, set_, widths)
-                end_time = time.perf_counter()
+                # Account for variance in 5A's signature. 
+                if (program == "5A"): 
+                    start_time = time.perf_counter()
+                    output = program5A(n, set_, widths, c, optimum)
+                    end_time = time.perf_counter()
+                else: 
+                    start_time = time.perf_counter()
+                    output = fctn(n, W, set_, widths)
+                    end_time = time.perf_counter()
+                    
                 times.append(end_time - start_time)
 
             # Get the average running time. 
@@ -64,6 +93,9 @@ if __name__ == '__main__':
         case _:
             print("Incorrect program")
             exit
+    
+    # Change the max recursion limit so we can test.
+    sys.setrecursionlimit(10000)
 
     # Generate the list of sizes, set the default width. 
     sizes = [number * 1000 for number in range(1, SIZE_MULTIPLES + 1, 1)]
@@ -74,7 +106,6 @@ if __name__ == '__main__':
 
     # Generate a list from the specified size down to 1.
     for size in sizes:
-        height_sets.append(sorted([random.randint(1, 1000 * SIZE_MULTIPLES) for x in range(size, 0, -1)], reverse=True))
-
+        height_sets.append([random.randint(1, 1000 * SIZE_MULTIPLES) for x in range(size, 0, -1)])
     
-    run_test(outFile, W, sets, fctn)
+    run_test(outFile, W, height_sets, prgm, fctn)
