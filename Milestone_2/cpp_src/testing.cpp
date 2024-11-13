@@ -78,7 +78,7 @@ tuple<int, int, vector<int>> program3(int n, vector<int> heights, vector<int> wi
 }
 
 const int NUM_TEST_AVERAGES = 5;
-const int SIZE_MULTIPLES = 12;
+const int SIZE_MULTIPLES = 5;
 
 int main() {
     string outFile = "../test3.csv";
@@ -93,10 +93,10 @@ int main() {
     vector<vector<int>> sizes;
     int W = 10;
 
-    for (int i = 1; i <= SIZE_MULTIPLES; i++) {
-        sizes.emplace_back(i * 1000);
-        for (int j = i * 1000; j > 0; j--) {
-            sizes.back().push_back(rand() % (1000 * SIZE_MULTIPLES) + 1);
+    for (int i = 1; i <= SIZE_MULTIPLES; ++i) {
+        sizes.push_back(vector<int>(i * 1000));
+        for (int j = i * 1000; j > 0; --j) {
+            sizes[i - 1][j - 1] = rand() % (1000 * SIZE_MULTIPLES) + 1;
         }
     }
 
@@ -118,10 +118,10 @@ int main() {
         }
 
         vector<vector<int>> C(set.size(), vector<int>(set.size(), 0));
-        for (int j = set.size(); j > 0; j--) {
-            for (int i = 0; i < j; i++) {
+        for (int j = set.size(); j > 0; --j) {
+            for (int i = 0; i < j; ++i) {
                 int ij_width = 0;
-                for (int k = i; k < j; k++) {
+                for (int k = i; k < j; ++k) {
                     ij_width += widths[k];
                 }
                 if (ij_width <= W) {
@@ -133,11 +133,12 @@ int main() {
         }
 
         vector<double> times(NUM_TEST_AVERAGES, 0.0);
-        for (int i = 0; i < NUM_TEST_AVERAGES; i++) {
+        for (int i = 0; i < NUM_TEST_AVERAGES; ++i) {
             auto start = chrono::high_resolution_clock::now();
             tuple<int, int, vector<int>> result = program3(set.size(), set, widths, C);
             auto end = chrono::high_resolution_clock::now();
             times[i] = chrono::duration<double, milli>(end - start).count();
+            cout << "Run " << i + 1<< " of " << NUM_TEST_AVERAGES << " complete." << endl;
         }
 
         double avg = accumulate(times.begin(), times.end(), 0.0) / NUM_TEST_AVERAGES;
