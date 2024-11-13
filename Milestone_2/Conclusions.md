@@ -7,7 +7,11 @@ The first algorithm solves the problem using a "Brute Force" algorithm, which us
 
 ## Implementation Challenges
 ### Program 3
-<!-- Write about challenges here!-->
+Program3 was difficult because an exponential-time algorithm is basically guaranteed to hit Python's recursion limit, and attempting to find an upper limit that can handle the recursion is difficult. C++ was chosen instead, as it would (hopefully) be faster, at the expense of being harder to write. C++ is pickier with typing, and mutability and indexing between the two languages can feel like a guessing game. 
+
+Aside from language challenges, Algorithm 3 was not exceedingly difficult to implement into code, it just required some hack-y solutions and careful, thorough debugging to resolve rampant indexing issues. Given that the description of Algorithm 3 is relatively generic and lacks pseudocode, program3 required mental acrobatics for designing a recursive solution. For example, it would have been asinine to attempt to create needed values on the fly when determining the minimum solution in the __options__ vector, and devising a lambda function to compare the second values of all the tuples was not expected to show up on the to-do list. 
+
+There was also some confusion related to determining what value of $C_{ij}$ to use in the case that a row could not exist, as well as a redefinition of bounds in the original algorithm that was not initially accounted for, that would allow individual paintings to sit on their own rows. Algorithm 3 was the first and possibly most difficult algorithm we completed for this Milestone, and it was just as difficult to implement correctly. 
 
 ### Program 4
 <!-- Write about challenges here!-->
