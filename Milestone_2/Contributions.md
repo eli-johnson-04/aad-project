@@ -5,6 +5,7 @@
 
 - Algorithm 5 Design
     - 5A, 5B Pseudocode, Time Complexity Analysis, Correctness Analysis
+- Testing Implementations, Graphs, Experimental Study Report
 
 ## Patrick Kallenbach
 
