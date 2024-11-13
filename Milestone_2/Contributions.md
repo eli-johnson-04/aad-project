@@ -7,3 +7,4 @@
 
 
 ## Nicholas Lindner
+- Algorithm 4 Design, Time Complexity Analysis, Correctness Analysis, Implementation
