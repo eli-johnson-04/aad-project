@@ -8,5 +8,7 @@
 
 ## Patrick Kallenbach
 
+- Algorithm 5A, 5B Programs
+
 
 ## Nicholas Lindner
