@@ -5,6 +5,6 @@
 - Algorithm 3 Time Complexity Analysis, Backtracking Determination, Implementation
 
 ## Patrick Kallenbach
-- Algorithm 3 Design, Correctness
+- Algorithm 3 Design, Correctness Analysis
 
 ## Nicholas Lindner
