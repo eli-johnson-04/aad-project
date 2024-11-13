@@ -47,3 +47,21 @@ Executions of programs 4, 5A, and 5B must occur separately since one test file w
 
 ### Analysis
 <!-- Analyze Performance Here!-->
+
+### Program 1 vs. Program 5A Accuracy Comparison
+To test how wrong program1 is compared to an optimal algorithm, we used the same testing strategies as before, except the data being examined is $\frac{(h_g - h_o)}{h_o}$, where $h_o$ is the optimal height of program5A, and $h_g$ is the greedy height of program1. We used randomly generated heights in lists of size $[1000, 2000, 3000, 4000, 5000]$, with a constant max width of $10$ and randomly generated painting widths from $1$ to $10$. 
+
+#### Data
+![Program 1 Accuracy](A1_vs_A5.png)
+
+| Program 1 Accuracy         |                           |
+|----------------------------|---------------------------|
+| **Input Size**             | **Optimum Cost Error**    |
+| 1000                       | -0.11125                  |
+| 2000                       | -0.12302                  |
+| 3000                       | -0.13005                  |
+| 4000                       | -0.11291                  |
+| 5000                       | -0.11472                  |
+
+#### Analysis
+Examining the data, it is evident that the greedy algorithm 
