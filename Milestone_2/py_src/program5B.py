@@ -19,12 +19,12 @@ def program5B(n: int, W: int, heights: List[int], widths: List[int]) -> Tuple[in
     List[int]: number of paintings on each platform
     """
 
-    # Create a new vector for all C_ij values.
+    # Create a new list for all C_ij values.
     c = [[] for _ in range(n) ]
 
     '''
-    Iterate over all c_ij values to determine the height of the tallest sculpture in all possible rows of width W. 
-    This list accessed with the n'th sculpture used as the first index, and the i value used as the second. 
+    Iterate over all c_ij values to determine the height of the tallest painting in all possible rows of width W. 
+    This list accessed with the n'th painting used as the first index, and the i value used as the second. 
     '''
     for j in range(n, 0, -1):
         for i in range(j):
