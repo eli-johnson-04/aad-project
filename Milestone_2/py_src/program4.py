@@ -1,57 +1,76 @@
 from typing import List, Tuple
-
-############################
+import sys
 
 def program4(n: int, W: int, heights: List[int], widths: List[int]) -> Tuple[int, int, List[int]]:
-    # find max height in passed-in range
-    def find_max(start, end):
-        m_h = 0  # max height var
-        for p in range(start, end + 1):
-            m_h = max(m_h, heights[p - 1])
-        return m_h
+    '''
+    Solution to Program 4
 
-    dp = [float('inf')] * (n + 1)
+    Parameters:
+    n (int): number of paintings
+    W (int): maximum row width
+    heights (List[int]): heights of the paintings
+    widths (List[int]): widths of the paintings
+
+    Returns: 
+    int: number of platforms used
+    int: optimal total height
+    List[int]: number of paintings on each platform
+    '''
+    # Find the cost of the row from painting_start to painting_end.
+    def row_cost(start, end):
+        max_h = 0  # max height
+
+        # Iterate over all paintings in the row.
+        for p in range(start, end + 1):
+            max_h = heights[p - 1] if (heights[p - 1] > max_h) else max_h
+            
+        return max_h
+    
+    # Set up dynamic programming array of size n + 1. 
+    infinity = sys.maxsize
+    dp = [infinity] * (n + 1)
     dp[0] = 0
 
-    partition_points = [0] * (n + 1)
+    # For any x where painting x is the end of a row, p[x] contains that row's starting index. 
+    p = [0] * (n + 1)
 
-    # loop through each number of paintings up to n
-    for cur in range(1, n + 1):
-        total_w = 0
-        # loop (backwards) to check all possible partitions ending at cur
-        for partition in range(cur, 0, -1):
-            # add width of current painting to total width
-            total_w += widths[partition - 1]
-            if total_w > W:  # skip this partition if over max width
+    # Iterate over all paintings 1 to n inclusive. 
+    for j in range(1, n + 1):
+        total_w = 0 # combined with of all paintings in a row
+
+        # Beginning at cur, iterate backward to zero to check all possible rows ending at j.
+        for i in range(j, 0, -1):
+            # Add width of current painting to total width.
+            total_w += widths[i - 1]
+
+            # Check row validity. 
+            if total_w > W:
                 break
 
-            # find max height in the current partition
-            max_h = find_max(partition, cur)
-            temp = dp[partition - 1] + max_h  # compute height if partition ends at cur
+            # Calculate the cost of row starting at i and ending at j. 
+            max_h = row_cost(i, j)
 
-            # update dp[cur] if this partition gives a smaller total height
-            if temp < dp[cur]:
-                dp[cur] = temp
-                partition_points[cur] = partition  # Record partition start
+            # The total cost is the sum of the optimal cost of the newly constructed row and of the preceding row, which ends at i - 1.
+            total_cost = dp[i - 1] + max_h
 
-    # backtrack to find the numbver of paintings on each platform
-    platforms = []
-    cur = n
-    while cur > 0:
-        start = partition_points[cur]
-        # number of paintings in this platform
-        platforms.append(cur - start + 1)
-        # move to the previous partition
-        cur = start - 1
+            # Update dp[j] if the new height is better. 
+            if total_cost < dp[j]:
+                dp[j] = total_cost
+                p[j] = i
 
-    # reverse to get the platforms in the original order
-    platforms.reverse()
-    number_of_platforms = len(platforms)
-    optimal_total_height = dp[n]
+    # This list contains the length of all rows, and its length = the total number of rows. 
+    row_lengths = []
+    
+    # Backtrack to find the number of paintings on each platform. 
+    j = n
+    while j > 0:
+        start = p[j]
+        row_lengths.insert(0, j - start + 1)
+        
+        # Move to the preceding row. 
+        j = start - 1
 
-    return number_of_platforms, optimal_total_height, platforms
-
-############################
+    return len(row_lengths), dp[n], row_lengths
 
 
 if __name__ == '__main__':
@@ -65,4 +84,3 @@ if __name__ == '__main__':
     print(total_height)
     for i in num_paintings:
         print(i)
-    
