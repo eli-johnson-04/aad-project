@@ -3,7 +3,7 @@
 ## Summary
 For this milestone, we were tasked with creating three new algorithms for solving the General form of our original problem definition. In our first milestone, we designed a greedy algorithm to solve special cases of the problem, in which the paintings were arranged in decending order of height, or were organized with heights descending toward one central painting. However, for this milestone we were tasked with solving the general case where paintings can be arranged in any height. We achieved this by designing three different Dynamic Programming algorithms that solve the problem with three different time complexities.
 
-The first algorithm solves the problem using a "Brute Force" algorithm, which uses a running recursion tree to solve every subproblem manually, without storing the output of each iteration. The second variation of the algorithm ____________. Lastly, the third variation performs the same process as the first algorithm, storing the result of each call to save on computation. This algorithm was implemented using both a top-down and bottom-up approach.
+The first algorithm solves the problem using a "Brute Force" algorithm, which uses a running recursion tree to solve every subproblem manually, without storing the output of each iteration. The second variation of the algorithm creates a cost matrix and precomputes the costs associated with every possible painting. Lastly, the third variation performs the same process as the first algorithm, storing the result of each call to save on computation. This algorithm was implemented using both a top-down and bottom-up approach.
 
 ## Implementation Challenges
 ### Program 3
