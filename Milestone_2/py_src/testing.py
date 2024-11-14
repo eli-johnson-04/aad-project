@@ -52,9 +52,13 @@ def run_test(filename, W, sets, program, fctn):
                     start_time = time.perf_counter()
                     output = program5A(n, set_, widths, c, optimum)
                     end_time = time.perf_counter()
-                else: 
+                elif (program == "5B"): 
                     start_time = time.perf_counter()
                     output = fctn(n, W, set_, widths)
+                    end_time = time.perf_counter()
+                elif (program == "4"):
+                    start_time = time.perf_counter()
+                    output = fctn(n, set_, widths, W)
                     end_time = time.perf_counter()
                     
                 times.append(end_time - start_time)
