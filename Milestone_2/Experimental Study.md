@@ -53,17 +53,24 @@ Programs 5A and 5B do follow relatively the same rate of growth against input si
 ### Program 1 vs. Program 5A Accuracy Comparison
 To test how wrong program1 is compared to an optimal algorithm, we used the same testing strategies as before, except the data being examined is $\frac{(h_g - h_o)}{h_o}$, where $h_o$ is the optimal height of program5A, and $h_g$ is the greedy height of program1. We used randomly generated heights in lists of size $[1000, 2000, 3000, 4000, 5000]$, with a constant max width of $10$ and randomly generated painting widths from $1$ to $10$. 
 
+
 #### Data
 ![Program 1 Accuracy](A1_vs_A5.png)
 
-| Program 1 Accuracy         |                           |
-|----------------------------|---------------------------|
-| **Input Size**             | **Optimum Cost Error**    |
-| 1000                       | -0.11125                  |
-| 2000                       | -0.12302                  |
-| 3000                       | -0.13005                  |
-| 4000                       | -0.11291                  |
-| 5000                       | -0.11472                  |
+#### NOTE: $\frac{(h_g - h_o)}{h_o}$ is represented as $\frac{(\text{Output - Actual})}{Actual}$. 
+
+| **Input Size** | **Program 1 Optimum Cost Error** | **Program 1 Optimum Cost Error %** |
+|----------------|----------------------------------|------------------------------------|
+| 1000           | 0.088251                         | 8.8251                             |
+| 2000           | 0.075175                         | 7.5175                             |
+| 3000           | 0.078565                         | 7.8565                             |
+| 4000           | 0.086573                         | 8.6573                             |
+| 5000           | 0.082669                         | 8.2669                             |
+
 
 #### Analysis
-Examining the data, it is evident that the greedy algorithm 
+Examining the data, it is evident that the greedy algorithm overshoots the minimum every time. Its output *must* be a greater cost than that of the optimum solution, obtained from program5A, our top-down implementation of Algorithm 5. Program1, and therefore Algorithm 1, is not sufficient to solve Problem G, as it does not cover all possible solutions. It does not have an "undo" mechanism to allow for decisions, it simply takes the best possible option at every step. 
+
+To determine exactly how far off Program 1 is, we can multiply its error values by $100$ to convert them into percents, as seen in the table. 
+
+We observe that, on average, Program 1 is off by $\approx8.2\%$ from the actual value. The actual value of its inaccuracy tends to vary, but in all five cases it did not correctly determine the optimal minimum cost arrangement of paintings. 
