@@ -135,14 +135,14 @@ def program1(n: int, W: int, heights: List[int], widths: List[int]) -> Tuple[int
 if __name__ == '__main__':
     sys.setrecursionlimit(5000)
     # Change SIZE_FACTOR to use multiples of SIZE_FACTOR for generating input instances. 
-    SIZE_FACTOR = 100
+    SIZE_FACTOR = 1000
     # Change SIZE_MULTIPLES for the number of multiples of 1000 to be used in sizes.
     SIZE_MULTIPLES = 5
     # Change TEST_AVERAGING to get the average time of n tests
     NUM_TEST_AVERAGES = 5
 
     # Name of output file.
-    outFile = "test1v5A.csv"
+    outFile = "./test1v5A.csv"
     
     # Generate the list of sizes, set the default width. 
     sizes = [number * SIZE_FACTOR for number in range(1, SIZE_MULTIPLES + 1, 1)]
