@@ -29,7 +29,7 @@ OPT(j) =
 \end{cases}
 $$
 
-### Backtracking to Determine painting Attendance 
+### Backtracking to Determine Painting Attendance 
 To determine which paintings are present in a given row is not complex, but requires careful attention. At each $OPT$ step, one must find the difference $j - i + 1$, which represents the length of the now-calculated row. This length will  be appended to the end of a row-tracking list, as in our C++ implementation. This way, as recursive calls return upward, the list is generated from the front of the list of paintings to the back. Afterward, one can simply examine the list of paintings, counting the corresponding number for a given row to determine which paintings belong in that row. 
 
 ## Analysis
@@ -48,7 +48,7 @@ $$
 
 We will now examine the construction of $C_{ij}$ values. These values represent, at index $C[i][j]$, the cost of a row containing paintings $[p_i, \cdots, p_j]$ for $1 \leq i \leq j$, calculated as the height of the tallest painting on the platform. Thus, any value of $C_{ij}$ can be used to determine the relative *worth* of row $[p_i, \cdots, p_j]$. These values are used to determine the best combination of rows, since rows that cannot exist are marked as $C_{ij} = \infty$ and will therefore never be chosen over a smaller value. We now establish the following invariant:
 
-__$\text{I1}$: at the end of each iteration of the inner loop of $C_{ij}$ computation, $C[i][j]$ correctly stores the maximum height of a row containing paintings $p_i$ to $p_j$, as long as the combined widths of the paintings do not exceed $W$.__ 
+__$\text{I1}$: At the end of each iteration of the inner loop of $C_{ij}$ computation, $C[i][j]$ correctly stores the maximum height of a row containing paintings $p_i$ to $p_j$, as long as the combined widths of the paintings do not exceed $W$.__ 
 
 From our initial assumption, we also establish the second invariant:
 
@@ -56,6 +56,6 @@ __$\text{I2}$: There always exists an arrangement of $n$ paintings $p_1, \cdots,
 
 Following the computation of all $C_{ij}$, $\text{OPT(n)}$ is called. This algorithm is recursive, solving smaller subproblems of the original input. We will use induction to prove the correctness of Algorithm 3. 
 
-*Proof:* For $\text{OPT}(j)$ where $j=1$, the case is simple. A set of one painting has only itself to be placed in a row, so the maximum height of the row is $C[1][1]+0=h_1$, that of the singular painting, upholding $\text{I2}$.
+*Proof:* For $\text{OPT}(j)$ where $j=1$, the case is simple. A set of one painting has only itself to be placed in a row, so the maximum height of the row is $C[1][1]+0=h_1$, that of the singular painting, following and upholding $\text{I2}$.
 
 Moving forward, when $j > 1$,  $\text{OPT}(j)$ computes the value of the minimum cost over $i$ for $C_{ij} + \text{OPT}(i-1)$. This step will recursively calculate the minimum possible cost of a row being created whose rightmost painting is $p_j$, and calculate the cost of the next row that begins at $p_{i-1}$. The value of $\text{OPT}(j)$ is minimized at every recursive step using solutions to smaller subproblems, each of which is calculated without changing any $C$ values and therefore upholding $\text{I1}$. By using the optimal substructure property of Problem G, Algorithm 3 properly constructs a correct solution, outputting the minimized cost of a set of paintings by finding the minimum cost of a row, over all possible rows. This completes our proof, and shows that Algorithm 3 correctly computes the minimum-cost arrangement of paintings in every recursive call from $\text{OPT}(j)$ to $\text{OPT}(1)$.
