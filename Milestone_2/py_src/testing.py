@@ -34,15 +34,16 @@ def run_test(filename, W, sets, program, fctn):
                 This list accessed with the n'th painting used as the first index, and the i value used as the second. 
                 '''
                 for j in range(n, 0, -1):
-                    for i in range(j):
-                        tmpWidths = widths[i:j]
-                        ij_width = sum(tmpWidths)
-                        
-                        # Width check.
-                        if ij_width <= W:
-                            c[j - 1].append(max(set_[i:j]))
-                        else:
-                            c[j - 1].append(WIDTH_EXCEEDED) 
+                    max_height = 0
+                    curr_width = 0
+
+                    for i in range(j, 0, -1):
+                        curr_width += widths[i-1]
+
+                        if curr_width > W: max_height = WIDTH_EXCEEDED
+                        elif max_height < heights[i-1]: max_height = heights[i-1]
+                                
+                        c[j - 1].insert(0, max_height)
 
             # Time the run.
             times = []

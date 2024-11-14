@@ -181,15 +181,16 @@ if __name__ == '__main__':
             '''
 
             for j in range(n, 0, -1):
-                for i in range(j):
-                    tmpWidths = widths[i:j]
-                    ij_width = sum(tmpWidths)
+                max_height = 0
+                curr_width = 0
+
+                for i in range(j, 0, -1):
+                    curr_width += widths[i-1]
+
+                    if curr_width > W: max_height = WIDTH_EXCEEDED
+                    elif max_height < set_[i-1]: max_height = set_[i-1]
                     
-                    # Width check.
-                    if ij_width <= W:
-                        c[j - 1].append(max(set_[i:j]))
-                    else:
-                        c[j - 1].append(WIDTH_EXCEEDED)
+                    c[j - 1].insert(0, max_height)
 
             # Get the optimized cost of each algorithm's output and calculate program1's error.
             h_g = program1(n, W, set_[:], widths)[1]

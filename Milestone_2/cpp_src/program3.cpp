@@ -101,18 +101,24 @@ int main() {
     * Iterate over all c_ij values to determine the height of the tallest painting in all possible rows of width W. 
     * This list accessed with the n'th painting used as the first index, and the i value used as the second. 
     */
+
     for (int j = n; j > 0; --j) {
-        for (int i = 0; i < j; ++i) {
-            vector<int> tmpWidths(widths.begin() + i, widths.begin() + j);
-            int ij_width = accumulate(tmpWidths.begin(), tmpWidths.end(), 0);
-            
-            // Width check. 
-            if (ij_width <= W) {
-                c[j - 1].push_back(*max_element(heights.begin() + i, heights.begin() + j)); 
+        c[j - 1].reserve(j);
+
+        int max_height = 0;
+        int curr_width = 0;
+
+        for (int i = j; i > 0; --i) {
+            curr_width += widths[i - 1];
+
+            if (curr_width > W) {
+                max_height = WIDTH_EXCEEDED;
             }
-            else {
-                c[j - 1].push_back(WIDTH_EXCEEDED);
+            else if (max_height < heights[i - 1]) {
+                max_height = heights[i - 1];
             }
+
+            c[j - 1][i - 1] = max_height;
         }
     }
 
