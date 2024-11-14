@@ -46,6 +46,10 @@ Finally, reconstructing the solution requries backtracking, and the loop to back
 
 Because $\Theta(n^3)$ is the time complexity for the matrix computation, this dominates the algorithm, giving it an overall time complexity of $\Theta(n^3)$.
 
+\[
+\Theta(n + (n - 1) + (n - 2) + \dots + 1) = \Theta\left(\frac{n(n+1)}{2}\right) = \Theta(n^3)
+\]
+
 ### Correctness
 <!-- Write Correctness Analysis Here!!!!-->
 
