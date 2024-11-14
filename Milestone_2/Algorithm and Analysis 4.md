@@ -36,12 +36,15 @@ In order to find the best arragment of paintings on platforms, backtracking is u
 
 
 
-
-
-
 ## Analysis
 ### Time Complexity
-<!-- Write Time Complexity Analysis Here!!!!-->
+To computer the Cost Matrix, the outer loop over i runs n times, the inner loop over j runs from i to n-1 for each i, requiring around n iterations, and the innermost loop over s executes $\Theta(n)$ times in the worst case for each (i, j) pair. This means that the total time complexity for computing the cost matrix is $\Theta(n^3).
+
+Calculating the minimum cost for every position using the C Matrix requires dynamic programming. To fill the M and P arrays, the outer loop over i runs n times, and the inner loop over j runs 0 to i - 1 times. Thus, the time complexity for this segment of the code involved in dynamic programming is $\Theta(n^2)).
+
+Finally, reconstructing the solution requries backtracking, and the loop to backtrack runs once from i = n to i = 0, giving it $\Theta(n) time complexity.
+
+Because $\Theta(n^3) is the time complexity for the matrix computation, this dominates the algorithm, giving it an overall time complexity of $\Theta(n^3).
 
 ### Correctness
 <!-- Write Correctness Analysis Here!!!!-->
