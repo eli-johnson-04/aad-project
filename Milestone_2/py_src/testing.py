@@ -104,7 +104,7 @@ if __name__ == '__main__':
     sys.setrecursionlimit(10000)
 
     # Generate the list of sizes, set the default width. 
-    sizes = [number * 1000 for number in range(1, SIZE_MULTIPLES + 1, 1)]
+    sizes = [number * 600 for number in range(1, SIZE_MULTIPLES + 1, 1)]
     W = 10
     height_sets = []
 
@@ -112,6 +112,6 @@ if __name__ == '__main__':
 
     # Generate a list from the specified size down to 1.
     for size in sizes:
-        height_sets.append([random.randint(1, 1000 * SIZE_MULTIPLES) for x in range(size, 0, -1)])
+        height_sets.append([random.randint(1, 600 * SIZE_MULTIPLES) for x in range(size, 0, -1)])
     
     run_test(outFile, W, height_sets, prgm, fctn)
