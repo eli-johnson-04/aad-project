@@ -71,3 +71,14 @@ This guarentees feasibility.
 
 So, thanks to these invariants, the algorithm's correctness is shown, since it verifies that each subproblem will make a contribution to the optimal arrangment.
 
+Proof: 
+With the invariants established, we will create an inductive proof that shows that M[i] stores the minimum height cost for the first i paintings on platforms correctly and validly. 
+
+The base case occurs when i = 0, meaning that there are no paintings available to arrange. So, M[0] = 0 is trivially correct.
+
+Now, assume that for i = k, M[k] is the minimum cost for arranging the first k paintings and is correct. The algorithm looks at all starting points j <= k for the last platform with s_k+1. For every j the cost is M[j] + C[j][k], where M[j] is the minimum cost for the first j paintings (inductive hypothesis), and C[j][k] is the height of the tallest painting from sj to s_k+1.
+
+Only valid solutions can be considered (since otherwise C[j][k] would be set to infinity). The algorithm then updates M[k + 1] to the smalllest value of M[j] + C[j][k] for all valid j. This means that M[k + 1] must hold the minimum cost for arranging first k + 1 paintings.
+
+So, using induction, this proves that the algorithm finds the minimum cost for i = 0, 1, ..., n and stores it in M[i]. Therefore M[n] gives the best solution to the ptoblem and proves that algorithm 4 provides the optimal solution.
+
