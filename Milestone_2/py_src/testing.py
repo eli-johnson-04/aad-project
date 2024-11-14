@@ -69,7 +69,10 @@ def run_test(filename, W, sets, program, fctn):
             avg = sum(times) / NUM_TEST_AVERAGES
 
             # Write the size and elapsed time to the csv. 
+            print(str(n) + " " + str(avg))
             writer.writerow([n, avg])
+
+            out.flush()
         
         print(f"Program test complete. Check for {filename} in parent directory.")
 
@@ -88,13 +91,13 @@ if __name__ == '__main__':
     fctn = None
     match prgm:
         case "4": 
-            outFile = "../test4.csv"
+            outFile = "test4.csv"
             fctn = program4
         case "5A": 
-            outFile = "../test5A.csv"
+            outFile = "test5A.csv"
             fctn = program5A
         case "5B": 
-            outFile = "../test5B.csv"
+            outFile = "test5B.csv"
             fctn = program5B
         case _:
             print("Incorrect program")
@@ -104,7 +107,7 @@ if __name__ == '__main__':
     sys.setrecursionlimit(10000)
 
     # Generate the list of sizes, set the default width. 
-    sizes = [number * 600 for number in range(1, SIZE_MULTIPLES + 1, 1)]
+    sizes = [number * 200 for number in range(1, SIZE_MULTIPLES + 1, 1)]
     W = 10
     height_sets = []
 
@@ -112,6 +115,6 @@ if __name__ == '__main__':
 
     # Generate a list from the specified size down to 1.
     for size in sizes:
-        height_sets.append([random.randint(1, 600 * SIZE_MULTIPLES) for x in range(size, 0, -1)])
+        height_sets.append([random.randint(1, 200 * SIZE_MULTIPLES) for x in range(size, 0, -1)])
     
     run_test(outFile, W, height_sets, prgm, fctn)
