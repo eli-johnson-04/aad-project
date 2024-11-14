@@ -31,6 +31,12 @@ OPT(j) = \min_{0 \leq i < j} \left( OPT(i) + C[i][j - 1] \right)
 
 where OPT(i) is the minimum cost of arranging the first i paintings, and C[i][j−1] provides the cost of placing the paintings from i to j − 1 on the last platform. Iterating over all starting points for each platform confirms that OPT(j) is the minimal possible height for the first j paintings.
 
+### Backtracking Strategy
+In order to find the best arragment of paintings on platforms, backtracking is used to reconstruct the specific grouping of paintings on every platform. This is found by the minimum-cost path, which is calculated using the dynamic programming arrays M and P. At each OPT(i) step we trace back using P[i]. This gives us the starting index of the platform that has the smallest cost for arranging the first i paintings. i - P[i] is the number of paintings on this platform, so by tracing i = n to 0 in P, we get the lengths of the platforms, but in reversed order. To correct this, we simply reverse the sequence. This finally provies the correct optimal sequence.
+
+
+
+
 
 
 ## Analysis
