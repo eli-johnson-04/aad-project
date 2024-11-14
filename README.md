@@ -6,6 +6,8 @@ This project tackles the problem of ordering paintings at an art exhibition, wit
 ## Milestone 1 - [Report](https://github.com/eli-johnson-04/aad-project/blob/main/Milestone_1/Milestone1_Report.pdf)
 We designed, implemented, and proved the correctness and time complexity of two $\theta(n)$ greedy algorithms for different versions of the painting-platform problem. We also answered two questions related to applications of Algorithm 1 and tested the performance of our algorithms using Python's CSV library. 
 
+## Milestone 2 - [Report](https://github.com/eli-johnson-04/aad-project/blob/main/Milestone_2/Milestone2_Report.pdf)
+We designed, implemented, and proved the correctness and time complexity of three dynamic programming algorithms. A naive $\Theta(n2^{n-1})$ solution, a $\Theta(n^3)$ solution, and an efficient $\Theta(n^2)$ solution. We explored memoization, recursion, and the impacts of efficient algorithm design. 
 
 
 ## UNIVERSITY OF FLORIDA HONOR CODE NOTICE
