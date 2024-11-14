@@ -44,28 +44,30 @@ Calculating the minimum cost for every position using the C Matrix requires dyna
 
 Finally, reconstructing the solution requries backtracking, and the loop to backtrack runs once from i = n to i = 0, giving it $\Theta(n)$ time complexity.
 
-Because $\Theta(n^3)$ is the time complexity for the matrix computation, this dominates the algorithm, giving it an overall time complexity of $\Theta(n^3)$.
-
 \Theta(n + (n - 1) + (n - 2) + \dots + 1) = \Theta\left(\frac{n(n+1)}{2}\right) = \Theta(n^3)
 
+Because $\Theta(n^3)$ is the time complexity for the matrix computation, this dominates the algorithm, giving it an overall time complexity of $\Theta(n^3)$.
+
+
 
 ### Correctness
-<!-- Write Correctness Analysis Here!!!!-->
 
-### Code
+Algorithm 4 uses dynamic programmingt to find the minimum height cost for arrancing n paintings on a structure of platforms, where the paintings but stay in the order they are provided and the width of any platform cannot be greater than W. 
 
-# Algorithm and Analysis 4
+We can establish:
+\forall \, 1 \leq k \leq n, \, \nexists \, p_k \text{ where } w_k > W.
 
-## Problem G
-### Given the heights $h_1, \cdots, h_n$ and the base widths $w_1, \cdots, w_n$ of $n$ sculptures, along with the width $W$ of the display platform, find an arrangement of the sculptures on platforms that minimizes the total height. 
+Doing so guarantees that the width of any given painting is less W and can fit on a playform.
 
-## Algorithm 4: Dynamic Programming Solution
-<!-- Write Algorithm Details Here!!!!-->
+Next, the values at any C[i][j] in the Cost Matrix are the minimum height cost for puting paintings si to sj on one platform (the height of the tallest painting there). For each pair (i, j), if the total widths from si to sj is less than W, C[i][j] is set to this max height. If not, then it is set to WIDTH_EXCEEDED (infinity). Doing so guarantees that all platform setups are actually possible. We establish the folliwng invariant: 
 
-## Analysis
-### Time Complexity
-<!-- Write Time Complexity Analysis Here!!!!-->
+Invariant I1: At the end of each iteration of the innermost loop in the C[i][j] computation, C[i][j] cirrectly stores the max height for a valid setup of paintings si to sj, as long as their total widths are less than W.
 
-### Correctness
-<!-- Write Correctness Analysis Here!!!!-->
+Our initial assumption also allows us to establish the folliwing invariant:
+
+Invariant I2: Since each painting can be given a platform of its own, there will always be a possible arrangment of n s1, ....., sn. If so, the cost of each painting sk with its own platform is C[k][k] = hk, where 1 <= k <= n.
+
+This guarentees feasibility.
+
+So, thanks to these invariants, the algorithm's correctness is shown, since it verifies that each subproblem will make a contribution to the optimal arrangment.
 
