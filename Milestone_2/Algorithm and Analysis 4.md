@@ -44,7 +44,7 @@ Calculating the minimum cost for every position using the C Matrix requires dyna
 
 Finally, reconstructing the solution requries backtracking, and the loop to backtrack runs once from i = n to i = 0, giving it $\Theta(n) time complexity.
 
-Because $\Theta(n^3) is the time complexity for the matrix computation, this dominates the algorithm, giving it an overall time complexity of $\Theta(n^3).
+Because $\Theta(n^3) is the time complexity for the matrix computation, this dominates the algorithm, giving it an overall time complexity of $\Theta(n^3)).
 
 ### Correctness
 <!-- Write Correctness Analysis Here!!!!-->
