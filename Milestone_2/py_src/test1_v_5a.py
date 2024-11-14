@@ -25,7 +25,8 @@ def program5A(n: int, heights: List[int], widths: List[int], C: List[int], M: Li
 
     # Base case.
     elif n == 1:
-        return (1, heights[0], [1])
+        M[0] = (1, heights[0], [1])
+        return M[0]
     
     # Create a list of all possible return options over i, for 0 <= i <= n - 1.
     options = []
@@ -44,8 +45,8 @@ def program5A(n: int, heights: List[int], widths: List[int], C: List[int], M: Li
 
         # Get the return value from opt array if it exists, and calculate it recursively if not. 
         ret = None
-        if M[i] != None:
-            ret = M[i]
+        if M[i - 1] != None:
+            ret = M[i - 1]
         else:
             ret = program5A(i, tmpHeights, tmpWidths, C, M)
 
@@ -56,7 +57,7 @@ def program5A(n: int, heights: List[int], widths: List[int], C: List[int], M: Li
         cost = c_val + ret[1]
         
         # Create a temporary list to be used in the tuple at the front, and add the length of its row.
-        row_lengths = ret[2]
+        row_lengths = ret[2][:]
         
         # Bounds check.
         if n >= 1:
@@ -64,13 +65,12 @@ def program5A(n: int, heights: List[int], widths: List[int], C: List[int], M: Li
             row_lengths.append(n - i)
 
             # Add the tuple to the list.
-            options.append((rows, cost, row_lengths[:]))
+            options.append((rows, cost, row_lengths))
 
     # Construct final return value.
     result = min(options, key=lambda x: x[1])
     M[n - 1] = result
     return result
-
 
 def program1(n: int, W: int, heights: List[int], widths: List[int]) -> Tuple[int, int, List[int]]:
     """
@@ -117,7 +117,7 @@ def program1(n: int, W: int, heights: List[int], widths: List[int]) -> Tuple[int
         else: 
 
             # The first painting in every row is the tallest. 
-            total_height += curr_row[0]
+            total_height += max(curr_row)
 
             # Document the current row length, clear it and reset its width, and continue. 
             rows.append(len(curr_row))
@@ -126,7 +126,7 @@ def program1(n: int, W: int, heights: List[int], widths: List[int]) -> Tuple[int
             continue
 
     # Once all paintings have been checked, add the last row and its height. 
-    total_height += curr_row[0]
+    total_height += max(curr_row)
     rows.append(len(curr_row))
 
     return len(rows), total_height, rows # replace with your code
@@ -169,7 +169,7 @@ if __name__ == '__main__':
             print("Testing " + str(n) + " paintings...")
 
             # Generate a corresponding list of random widths, 1-10.
-            widths = [random.randint(1, 10) for _ in range(n)]
+            widths = [random.randint(1, 5) for _ in range(n)]
 
             # Create a new list for all C_ij values.
             c = [[] for _ in range(n) ]
@@ -179,6 +179,7 @@ if __name__ == '__main__':
             Iterate over all c_ij values to determine the height of the tallest painting in all possible rows of width W. 
             This list accessed with the n'th painting used as the first index, and the i value used as the second. 
             '''
+
             for j in range(n, 0, -1):
                 for i in range(j):
                     tmpWidths = widths[i:j]
@@ -191,10 +192,13 @@ if __name__ == '__main__':
                         c[j - 1].append(WIDTH_EXCEEDED)
 
             # Get the optimized cost of each algorithm's output and calculate program1's error.
-            p1 = set_
-            p5 = set_       
-            h_g = program1(n, W, p1, widths)[1]
-            h_o = program5A(n, p5, widths, c, optimum)[1]
+            h_g = program1(n, W, set_[:], widths)[1]
+            h_o = program5A(n, set_[:], widths, c, optimum)[1]
+
+            # NOTE: program1 oiginally calculated row heights properly only if input was in necessary structure.
+            # To account for calculating the cost of the general case, there has been a slight modification to
+            # count the row height from the max element in the row rather than the first element.
+
             error = (h_g - h_o) / h_o
 
             # Write the error to the csv as a function of input size. 
