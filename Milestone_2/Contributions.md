@@ -12,4 +12,3 @@
 
 
 ## Nicholas Lindner
-- Algorithm 4 Design, Algorithm 4 Analysis and Time Complexity, Algorithm 4 Program, Conclusion help
