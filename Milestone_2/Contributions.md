@@ -10,5 +10,9 @@
 ## Patrick Kallenbach
 - Algorithm 3 Design, Correctness Analysis
 - Algorithm 5A, 5B Implementations
+- Conclusion
 
 ## Nicholas Lindner
+- Algorithm 4 Design and Correctness Analysis
+- Algorithm 4 Implementation
+- Conclusion
