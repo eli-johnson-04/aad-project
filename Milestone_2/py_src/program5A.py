@@ -24,7 +24,8 @@ def program5A(n: int, heights: List[int], widths: List[int], C: List[int], M: Li
 
     # Base case.
     elif n == 1:
-        return (1, heights[0], [1])
+        M[0] = (1, heights[0], [1])
+        return M[0]
     
     # Create a list of all possible return options over i, for 0 <= i <= n - 1.
     options = []
@@ -43,8 +44,8 @@ def program5A(n: int, heights: List[int], widths: List[int], C: List[int], M: Li
 
         # Get the return value from opt array if it exists, and calculate it recursively if not. 
         ret = None
-        if M[i] != None:
-            ret = M[i]
+        if M[i - 1] != None:
+            ret = M[i - 1]
         else:
             ret = program5A(i, tmpHeights, tmpWidths, C, M)
 
@@ -55,7 +56,7 @@ def program5A(n: int, heights: List[int], widths: List[int], C: List[int], M: Li
         cost = c_val + ret[1]
         
         # Create a temporary list to be used in the tuple at the front, and add the length of its row.
-        row_lengths = ret[2]
+        row_lengths = ret[2][:]
         
         # Bounds check.
         if n >= 1:
@@ -63,7 +64,7 @@ def program5A(n: int, heights: List[int], widths: List[int], C: List[int], M: Li
             row_lengths.append(n - i)
 
             # Add the tuple to the list.
-            options.append((rows, cost, row_lengths[:]))
+            options.append((rows, cost, row_lengths))
 
     # Construct final return value.
     result = min(options, key=lambda x: x[1])
