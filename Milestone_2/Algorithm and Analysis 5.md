@@ -1,8 +1,5 @@
 # Algorithm and Analysis 5
 
-## Problem G
-### Given the heights $h_1, \cdots, h_n$ and the base widths $w_1, \cdots, w_n$ of $n$ paintings, along with the width $W$ of the display platform, find an arrangement of the paintings on platforms that minimizes the total height. 
-
 ## Algorithm 5: Efficient Dynamic Programming Solution
 ### Definition
 This algorithm closely follows Algorithm 3. To design a $\Theta(n^2)$ algorithm, we can employ memoization to avoid recomputing optimal solutions to subproblems. 
@@ -89,7 +86,7 @@ Algorithm 5A precomputes all values of $C_{ij}$, taking $\Theta(n^2)$ time to do
 Algorithm 5B, just like 5A, precomputes all $C_{ij}$ values in $\Theta(n^2)$ time. The difference is now that we iterate from $1$ to $n$, making $n$ comparisons at each step, traking $O(n^2)$ time. Our total is now $O(n^2 + n^2) = O(2n^2) = \Theta(n^2)$.
 
 ### Correctness
-We begin by establishing the following assumption: 
+We begin by establishing the following assumption, that no painting is, by itself, too wide to fit on a platform: 
 $$
 \forall 1 \leq k \leq n, \nexists p_k \text{ where } w_k > W.
 $$
@@ -102,20 +99,8 @@ From our initial assumption, we also establish the second invariant:
 
 __$\text{I2}$: There always exists an arrangement of $n$ paintings $p_1, \cdots, p_n$ into rows, as every painting is permitted to sit on its own row, whose cost will be $C[k][k] = h_k, \forall 1 \leq k \leq n$.__ 
 
-### 5A: Top-Down
-Following the computation of all $C_{ij}$, $\text{TD-OPT}(n)$ is called. This is a recursive, top-down formulation of the generic form of Algorithm 5. We will use induction to prove the correctness of Algorithm 5A. 
+The proof of Algorithm 5 strongly resembles that of Algorithm 3, and the use of memoization dramatically reduces the running time. We will now prove using induction that Algorithm 5 produces the correct, optimal, minimized cost of organizing the paintings into rows. 
 
-*Proof:* For $\text{TD-OPT}(j)$ where $j=1$, the case is simple. A set of one painting has only itself to be placed in a row, so the minimum height of the row is $M[1]=C[1][1]+0=h_1$, that of the singular painting, upholding $\text{I2}$.
+*Proof:* For $\text{OPT}(j)$ where $j=1$, the case is simple. A set of one painting has only itself to be placed in a row, so the maximum height of the row is $C[1][1]+ 0=h_1$, that of the singular painting, upholding $\text{I2}$.
 
-Moving forward, if for $\text{TD-OPT}(j), M[j] = \varnothing$, then it is set equal to the value of the minimum cost over $i$ for $C_{ij} + \text{TD-OPT}(i-1)$. This step will recursively calculate and store the minimum possible cost of a row being created whose rightmost painting is $p_j$, and calculate the cost of the next row that begins at $p_{i-1}$. The value of $M[j]$ is minimized at every recursive step, whose solution is calculated upon the existence of optimal solutions to previous subproblems. By using the optimal substructure property of Problem G, Algorithm 5A properly constructs a correct solution, outputting the minimized cost of a set of paintings by finding the minimum cost of a row, over all possible rows. This completes our proof, and shows that Algorithm 5A correctly computes and stores the minimum-cost arrangement of paintings in every recursive call from $\text{TD-OPT}(j)$ to $\text{TD-OPT}(1)$.
-
-### 5B: Bottom-Up
-Following the computation of all $C_{ij}$, optimal solutions to subproblems of $\text{Bottom-Up-OPT}(n)$ are tabulated, beginning at $1$ and working up to $n$. Given $\text{I1}$, we establish that 5B employs an effective strategy to determine the minimum optimized cost of a row, by building upward. At each step, every possible option over $i$ is considered, from $1 \leq i \leq j \leq n$, and $i$ values for which $\sum_{k=i}^{j} w_k > W$ will never be chosen if any other option exists in accordance with $\text{I1}$. Since $i \leq j$, the possibility of painting $p_j$ sitting alone in a row is also considered, which is always a possibility and always preferred to $\infty$, as per $\text{I2}$. We now establish the third invariant:
-
-__$\text{I3}$: at the end of each iteration from $k=1$ to $n$, $M[k]$ correctly stores the minimum combined cost of all valid arrangements of k paintings.__
-
-Using $\text{I2}$ and $\text{I3}$, we claim that Algorithm 5B correctly tabulates the cost iteratively by considering the cost of all rows ending at $p_j$ as it approaches $p_n$. We will prove this claim via induction. 
-
-*Proof:* Beginning with the case $k=1$, a set of paintings containing only $p_1$ has only one arrangement where $p_1$ is by itself. Since $1 \leq i \leq k$, it must be the case that $i=k=1$, so $M[1]=C[1][1] + 0 = h_1$, and $\text{I3}$ is maintained. 
-
-For all cases $k>1$, solutions to subproblems are computed using previous subproblem solutions, maintaining $\text{I3}$ by choosing the minimum possible $C_{ik}$ and the solution at $M[i-1]$, which we have already computed. This completes our proof, and shows that Algorithm 5B computes and stores the minimum-cost arrangement of paintings in every iteration from $k=1$ to $n$.
+Moving forward, when $j > 1$, Algorithm 5 checks for the existence of $M[j]$, the minimum cost of placing $j$ paintings into rows. If $M[j]$ has not been initialized, then $\text{OPT}(j)$ computes the value of the minimum cost over $i$ for $C_{ij} + \text{OPT}(i-1)$, recursively calculating the minimum possible cost of a row being created whose rightmost painting is $p_j$. For $\text{OPT}(i-1)$, Algorithm 5 follows the check-and-recurse pattern for returning the cost of the next row that ends at $p_{i-1}$. Because we do not modify values in $C$, $\text{I1}$ is upheld, and we are guaranteed to compute the minimum cost for all $M[k]$ for $1 \leq k \leq j$. The value of $\text{OPT}(j)$ is minimized at every recursive step, whose solution is calculated upon the existence of optimal solutions to previous subproblems. By using the optimal substructure property of Problem G, Algorithm 5 properly constructs a correct solution, outputting the minimized cost of a set of paintings by finding the minimum cost of a row, over all possible rows ending on a painting $p_j$, over all $1 \leq j \leq n$. This completes our proof, and shows that Algorithm 5 correctly computes the minimum-cost arrangement of paintings in every recursive call from $\text{OPT}(j)$ to $\text{OPT}(1)$.
