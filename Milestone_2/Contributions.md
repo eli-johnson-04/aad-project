@@ -13,6 +13,5 @@
 - Conclusion
 
 ## Nicholas Lindner
-- Algorithm 4 Design and Correctness Analysis
-- Algorithm 4 Implementation
+- Algorithm 4 Design, Backtracking, Time Complexity Analysis, Correctness Analysis, Implementation
 - Conclusion
