@@ -2,9 +2,9 @@
 
 ## Algorithm 4: Inefficient Dynamic Programming Solution
 ### Definition
-Let n be the number of paintings that must be arranged on platforms. Each painting, si, has a height hi and a width wi. Furthermore, each platform has the same maximum width W, and the paintings must be displayed in the order they are provided. The cost of placing a group of paintings on a platform is defined by the height of the tallest painting on that platform.
+Let n be the number of paintings to be arrranged on platforms. Each painting, s_i, has a height h_i and a width w_i. Also, each platform has the same maximum width W, and the paintings must be displayed in the order they are provided. The cost of placing a group of paintings on a platform is defined by the height of the tallest painting on that platform.
 
-To design this $\Theta(n^3)$ algorithm algorithm, we can use the approach of utilizing a cost matrix and dynamic programming to calculate the minimum height arrangement.
+To design this $\Theta(n^3)$ algorithm algorithm, we can utilize a cost matrix and dynamic programming to calculate the minimum height arrangement.
 
 OPT(j): The minimized total height cost of arranging the first j paintings on platforms, where j is the rightmost painting being considered. In this formulation, the cost is calculated as
 
@@ -59,20 +59,20 @@ We can establish:
 
 Doing so guarantees that the width of any given painting is less W and can fit on a playform.
 
-Next, the values at any C[i][j] in the Cost Matrix are the minimum height cost for puting paintings si to sj on one platform (the height of the tallest painting there). For each pair (i, j), if the total widths from si to sj is less than W, C[i][j] is set to this max height. If not, then it is set to WIDTH_EXCEEDED (infinity). Doing so guarantees that all platform setups are actually possible. We establish the folliwng invariant: 
+Next, the values at any C[i][j] in the Cost Matrix are the minimum height cost for puting paintings si to sj on one platform (the height of the tallest painting there). For each pair (i, j), if the total widths from si to sj is less than W, C[i][j] is set to this max height. If not, its set to WIDTH_EXCEEDED (infinity) which guarantees all platform setups are actually possible. 
 
-Invariant I1: At the end of each iteration of the innermost loop in the C[i][j] computation, C[i][j] cirrectly stores the max height for a valid setup of paintings si to sj, as long as their total widths are less than W.
+Invariant I1: At the end of each iteration of the innermost loop in the C[i][j] computation, C[i][j] stores correctly the max height for a setup of paintings s_i to s_j (as long as their total widths are less than W).
 
-Our initial assumption also allows us to establish the folliwing invariant:
+With our initial assumption we can also create this invariant:
 
-Invariant I2: Since each painting can be given a platform of its own, there will always be a possible arrangment of n s1, ....., sn. If so, the cost of each painting sk with its own platform is C[k][k] = hk, where 1 <= k <= n.
+Invariant I2: Since a platform can have one painting, and each painting is allowed to have its own platform, there will always be a possible arrangment of n s1, ....., sn. If so, the cost of each painting sk with its own platform is C[k][k] = h_k, where 1 <= k <= n.
 
 This guarentees feasibility.
 
 So, thanks to these invariants, the algorithm's correctness is shown, since it verifies that each subproblem will make a contribution to the optimal arrangment.
 
 Proof: 
-With the invariants established, we will create an inductive proof that shows that M[i] stores the minimum height cost for the first i paintings on platforms correctly and validly. 
+With these invariants, we'll create an inductive proof showing  M[i] stores the minimum height cost for the first i paintings on platforms, both correctly and validly. 
 
 The base case occurs when i = 0, meaning that there are no paintings available to arrange. So, M[0] = 0 is trivially correct.
 
